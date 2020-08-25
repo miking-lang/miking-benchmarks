@@ -13,17 +13,17 @@ The goal of this repository is to provide:
 #### File Structure
 
 Benchmarks are located in the `benchmarks` directory. Classes of benchmarks are
-grouped into subdirectories `benchmarks/<benchmark-class>`. Such a subdirectory
-may in turn contain several benchmarks, and we refer to it as the `root` of a
-class of benchmarks. For example, a suite of sorting benchmarks may have
-`benchmarks/sort` as its `root`.
+grouped together into subdirectories `benchmarks/<benchmark-class>`. Such a
+subdirectory may in turn contain several benchmarks, and we refer to it as the
+`root` of a class of benchmarks. For example, a suite of sorting benchmarks may
+have `benchmarks/sort` as its `root`.
 
 If the `root` contains several benchmarks, then they are each located in its
 separate directory `root/<benchmark-name>` (further nesting is possible),
 otherwise they may be placed directly in `root`. The `root` directory typically
 contains a directory `root/datasets` containing datasets for the benchmarks in
-`root`. If the benchmark class does not have datasets, this directory can be
-left out.
+`root`. If the class of benchmarks does not have any datasets, this directory
+can be left out.
 
 ##### Example File Structure
 
@@ -58,7 +58,7 @@ sort
 #### Benchmark Configuration Files
 
 Each benchmark needs to specify:
-* `runtime`, e.g. programming language,
+* `runtime`, e.g. what programming language the benchmark is written in,
 * `argument` for specifying how to run the benchmark in its runtime,
 * how `timing` of the benchmark is done, and
 * optionally: a list of directories with `dataset`s for the benchmark.
@@ -67,11 +67,11 @@ The information is specified via `.toml` files. The `runtime` and `argument`
 fields must match a runtime specification in the `runtimes` directory (see
 [Runtimes](#Runtimes)).
 
-##### Example Benchmark Configuation File
+##### Example Benchmark Configuration File
 
 The following may be a specification for the
-`sort/mcore/insertion-sort/insertion-sort.mc` benchmark in the
-[example](#example-file-structure) above:
+`sort/mcore/insertion-sort/insertion-sort.mc` benchmark in the [example file
+structure](#example-file-structure) above:
 
 ```[toml]
 runtime = "MCore"
@@ -80,20 +80,20 @@ timing = "simple"    # Only supported option right now
 dataset = ["datasets"]    # Relative path from 'root' of benchmark
 ```
 
-##### Flat vs. Nested Configurations
+##### Flat vs. Hierarchical Configurations
 
 Since many of the benchmarks in the same `root` directory may be configured in
 similar ways (e.g. use the same datasets), it is possible to "inherit"
 configurations via the directory structure. That is, the configuration of a
-benchmark is the union of the configurations of the `.toml` files present in the
-file path from the `root` directory to the benchmark directory. The "union"
+benchmark is the union of all the configurations of the `.toml` files present in
+the file path from the `root` directory to the benchmark directory. The "union"
 operator does *not* allow overwriting of configurations and any implementation
 of the configuration protocol should return an error if `runtime`, `argument`,
 or `timing` is specified twice. In contrast, the `dataset` configuration *is*
-allowed to be specified several times, the resulting set of datasets being the
-*union* of all the specified datasets.
+allowed to be specified several times, the resulting list of datasets being the
+*concatenation* of all the specified datasets.
 
-##### Example of a Nested Benchmarking Configuration
+##### Example of a Hierarchical Benchmarking Configuration
 
 The [example file structure](#example-file-structure) may have a common `.toml`
 file `sort/datasets.toml` for specifying that all benchmarks in the `sort`
@@ -118,7 +118,7 @@ specific benchmark:
 argument = "insertion-sort"
 ```
 
-This nested way of configuring the benchmark
+This hierarchical way of configuring the benchmark
 `sort/mcore/insertion-sort/insertion-sort.mc` is equivalent to, but less
 redundant than, the flat version in [the previous
 example](#example-benchmark-configuration-file).
@@ -126,9 +126,9 @@ example](#example-benchmark-configuration-file).
 ### Datasets
 
 A dataset, typically placed in a `benchmarks/<benchmark-class>/datasets`
-directory, is a program that will be run before the benchmark using the
-dataset is run. The standard output of the dataset program will be piped into
-the benchmark command after the dataset program has terminated.
+directory, is a program that is to be run before the benchmark using the dataset
+is run. The standard output of the dataset program will be piped into the
+benchmark command after the dataset program has terminated.
 
 #### Dataset Configuration Files
 
@@ -140,7 +140,8 @@ A dataset configuration file specifies:
   Files](#benchmark-configuration-files)) and, optionally, a list of `tags`
   describing the dataset entry.
 
-Unlike for benchmark configuration, dataset configuration may not be nested.
+Unlike for benchmark configuration, dataset configuration may not be
+split hierarchically.
 
 ##### Example of a Dataset Configuration File
 
@@ -180,9 +181,12 @@ A runtime configuration file specifies:
 * A sequence of possible `command` entries for specifying how to run programs in
   the runtime. A `command` entry specifies:
   - A list of `required-executables` (optional).
-  - A template `command`, where any occurrence of the string "{argument}" is
-    replaced by what was specified in a benchmark of dataset configuration file.
-  - A template `build-command` (optional), again where "{argument}" is to be replaced.
+  - A template `command`, where any occurrence of the string "{argument}" is to
+    be replaced by the `argument` entry from in a benchmark or dataset
+    configuration file.
+  - A template `build-command` (optional): how to compile the benchmark. Again
+  where "{argument}" is to be replaced.
+  
   The first command entry that has all required executables will be chosen.
 
 The `runtime` directory contains several examples of runtime configuration
