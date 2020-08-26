@@ -27,32 +27,46 @@ can be left out.
 
 ##### Example File Structure
 
-The following shows an example directory structure for a suite of
-four sorting benchmarks; merge sort and insertion sort in `Java` and `MCore`,
-respectively (for now, the `.toml` configuration  files may be ignored):
+The following shows an example directory structure for a suite of sorting
+benchmarks; merge sort, insertion sort, and bucketsort implemented in `Java` and
+`MCore`, respectively. The `.toml` files specify options for the benchmarks and
+datasets, and are explained in [Benchmark Configuration
+Files](#benchmark-configuration-files) and [Dataset Configuration
+Files](dataset-configuration-files), respectively.
+
 ```
 sort
-├── datasets.toml
 ├── datasets
-│   ├── config.toml
+│   ├── datasets.toml
 │   ├── random1.txt
 │   ├── reversed1.txt
 │   └── sorted1.txt
-├── java
-│   ├── config.toml
-│   ├── insertion-sort
-│   │   ├── config.toml
-│   │   └── insertion-sort.java
-│   └── merge-sort
+├── insertsort
+│   ├── java
+│   ├── ├── config.toml
+│   ├── └── insertsort.java
+│   └── mcore
 │       ├── config.toml
-│       └── merge-sort.java
-└── mcore
-    ├── insertion-sort
-    │   ├── config.toml
-    │   └── insertion-sort.mc
-    └── merge-sort
+│       └── insertsort.mc
+├── mergesort
+│   ├── java
+│   ├── ├── config.toml
+│   ├── └── mergesort.java
+│   └── mcore
+│       ├── config.toml
+│       └── mergesort.mc
+└── bucketsort
+    ├── datasets
+    ├── ├── datasets.toml
+    ├── ├── uniform1.txt
+    ├── └── nonuniform1.txt
+    ├── java
+    ├── ├── config.toml
+    ├── └── bucketsort.java
+    └── mcore
         ├── config.toml
-        └── merge-sort.mc
+        └── bucketsort.mc
+
 ```
 
 #### Benchmark Configuration Files
@@ -61,7 +75,9 @@ Each benchmark needs to specify:
 * `runtime`, e.g. what programming language the benchmark is written in,
 * `argument` for specifying how to run the benchmark in its runtime,
 * how `timing` of the benchmark is done, and
-* optionally: a list of directories with `dataset`s for the benchmark.
+* optionally: a list `additional-datasets` of directories of datasets to use in
+  addition to the implicit ones. Implicit datasets are placed in `datasets`
+  directories, see [Implicit Datasets](#implicit-datasets) for more information.
 
 The information is specified via `.toml` files. The `runtime` and `argument`
 fields must match a runtime specification in the `runtimes` directory (see
@@ -69,66 +85,59 @@ fields must match a runtime specification in the `runtimes` directory (see
 
 ##### Example Benchmark Configuration File
 
-The following may be a specification for the
-`sort/mcore/insertion-sort/insertion-sort.mc` benchmark in the [example file
-structure](#example-file-structure) above:
+The following may be a specification for the `sort/insertsort/insertsort.mc`
+benchmark in the [example file structure](#example-file-structure) above:
 
-```[toml]
+```toml
 runtime = "MCore"
-argument = "insertion-sort"    # Runs via 'mi insertion-sort.mc'
-timing = "simple"    # Only supported option right now
-dataset = ["datasets"]    # Relative path from 'root' of benchmark
+argument = "insertsort"    # Runs via 'mi insertsort.mc'
+timing = "complete"    # Time the complete invocation of the benchmark (only supported option right now)
 ```
 
-##### Flat vs. Hierarchical Configurations
+This benchmark uses no datasets except the ones in `sort/datasets`, and there is
+therefore no need to use the `additional-dataset` option. If there had been some
+other directory with datasets, for example in `../shared-data/lists`, then the
+following specifies that `insertsort.mc` should additionally use that dataset:
 
-Since many of the benchmarks in the same `root` directory may be configured in
-similar ways (e.g. use the same datasets), it is possible to "inherit"
-configurations via the directory structure. That is, the configuration of a
-benchmark is the union of all the configurations of the `.toml` files present in
-the file path from the `root` directory to the benchmark directory. The "union"
-operator does *not* allow overwriting of configurations and any implementation
-of the configuration protocol should return an error if `runtime`, `argument`,
-or `timing` is specified twice. In contrast, the `dataset` configuration *is*
-allowed to be specified several times, the resulting list of datasets being the
-*concatenation* of all the specified datasets.
-
-##### Example of a Hierarchical Benchmarking Configuration
-
-The [example file structure](#example-file-structure) may have a common `.toml`
-file `sort/datasets.toml` for specifying that all benchmarks in the `sort`
-directory may use data from the `sort/datasets` directory:
-
-```[toml]
-dataset = ["datasets"]
+```toml
+additional-datasets = ['../shared-data/lists']    # Relative path from the config file
 ```
 
-Next, the configuration file `sort/mcore/config.toml` specifies the runtime and
-timing option common for all the benchmarks in the `sort/mcore` directory:
+##### Hierarchical Dataset Specification
 
-```[toml]
-runtime = "Java"
-timing = "simple"
-```
+Datasets can be specified hierarchically via the directory structure. A
+benchmark will include all datasets from all folders named `datasets` present in
+its current file path (starting in the benchmark's `root`). This is useful, for
+example, when some benchmarks require specialized datasets.
+ 
+##### Example Hierarchical Dataset Specification
 
-Last, the `sort/mcore/insertion-sort/config.toml` file specifies how to run a
-specific benchmark:
+In the [example file structure](#example-file-structure), the `bucketsort`
+directory includes a `datasets` directory. This means that `bucketsort.java` and
+`bucketsort.mc` will use datasets from both `sort/datasets` and
+`sort/bucketsort/datasets`.
 
-```[toml]
-argument = "insertion-sort"
-```
-
-This hierarchical way of configuring the benchmark
-`sort/mcore/insertion-sort/insertion-sort.mc` is equivalent to, but less
-redundant than, the flat version in [the previous
-example](#example-benchmark-configuration-file).
 
 ### Datasets
 
-A dataset, typically placed in a `benchmarks/<benchmark-class>/datasets`
-directory, is a program that is to be run before the benchmark using the dataset
-is run. The standard output of the dataset program will be piped into the
-benchmark command after the dataset program has terminated.
+A dataset, typically placed in a `datasets` directory, is a program that is to
+be run before the benchmark using the dataset is run. The standard output of the
+dataset program will be piped into the benchmark command after the dataset
+program has terminated.
+
+#### Implicit Datasets
+
+Datasets specified in a directory named `datasets` become implicit and
+compulsory for all the benchmarks specified at the same level or below in the
+file directory structure. That is, neither do the benchmarks have to specify
+that they use these datasets, nor can they opt out from using them. Therefore,
+such datasets need to be compatible with all its related benchmarks. See
+[Hierarchical Dataset Specification](#hierarchical-dataset-specification) for
+how implicit datasets are collected along the file path.
+
+As described in [Benchmark Configuration Files](#benchmark-configuration-files),
+benchmarks can also explicitly state which datasets to use; such datasets can be
+placed in any directory.
 
 #### Dataset Configuration Files
 
@@ -140,15 +149,12 @@ A dataset configuration file specifies:
   Files](#benchmark-configuration-files)) and, optionally, a list of `tags`
   describing the dataset entry.
 
-Unlike for benchmark configuration, dataset configuration may not be
-split hierarchically.
-
 ##### Example of a Dataset Configuration File
 
 The `sort/datasets/datasets/config.toml` from the [example file
 structure](#example-file-structure) may look like this:
 
-```[toml]
+```toml
 runtime = "text"    # must match 'provides' in a runtime
 
 [[dataset]]
@@ -164,7 +170,7 @@ tags = ["reversed"]
 argument = "reversed1.txt"
 ```
 
-Here we assume `text` is a runtime for printing the content of a file, i.e.
+Here we assume `text` is a runtime for printing the contents of a file, e.g.
 `cat` on a Unix system.
 
 ### Runtimes
