@@ -3,7 +3,7 @@ include "../tsp.mc"
 mexpr
 
 -- Read input data
-let input = parseTSPInput () in
+let input = parseTSPInput in
 let g = input.g in
 let initTour = input.initTour in
 
@@ -11,7 +11,7 @@ let initTour = input.initTour in
 let randSol = lam ns. lam state.
   match ns with [] then None () else
   let nRand = get ns (randIntU 0 (length ns)) in
-  (nRand, cost nRand)
+  Some (nRand, cost nRand)
 in
 
 let decayFunc = lam temp. lam state.

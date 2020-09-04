@@ -1,13 +1,37 @@
 -- Common definitions for TSP benchmarks
 
 include "local-search.mc"
+include "string.mc"
 
-let parseTSPInput = lam _.
-  -- TODO: Read TSP input from stdin
-  -- Would read vs, es and initTour
-  let vs = [] in
-  let es = [] in
-  let initTour = [] in
+-- "[a, b, c]" -> [a, b, c]
+let parseVertices = lam str.
+  -- Remove brackets
+  let noBrackets = get (strSplit "]" (get (strSplit "[" str) 1)) 0 in
+  match noBrackets  with [] then [] else
+  let commaSplit = strSplit "," noBrackets in
+  map strTrim commaSplit
+
+utest parseVertices "[]" with []
+utest parseVertices "  [1] " with ["1"]
+utest parseVertices " [1,  2]  " with ["1", "2"]
+
+-- "[(a,b,1),(c,d,2)]" -> [(a,b,1),(c,d,2)]
+let parseEdges = lam str.
+  let noBrackets = get (strSplit "]" (get (strSplit "[" str) 1)) 0 in
+  match noBrackets with [] then [] else
+  let rawTuples = tail (strSplit "(" noBrackets) in
+  map (lam s. let spl = map strTrim (strSplit "," s)
+              in (get spl 0, get spl 1,
+                  string2int (get (strSplit ")" (get spl 2)) 0)))
+      rawTuples
+
+utest parseEdges " []  " with []
+utest parseEdges " [(a,  b, 1)  , (c,d,  42)] " with [("a","b",1),("c","d",42)]
+
+let parseTSPInput =
+  let vs = parseVertices (readLine ()) in
+  let es = parseEdges (readLine ()) in
+  let initTour = parseEdges (readLine ()) in
 
   {g = digraphAddEdges es (digraphAddVertices vs (digraphEmpty eqstr eqi)),
    initTour = initTour}
@@ -73,4 +97,4 @@ let printIter = lam state. print (strJoin "" ["Iter: ", int2string state.iter, "
                                                               "Best: ", int2string state.inc.1, "\n"])
 
 let minimizeTSP = lam initTour. lam meta.
-  minimize terminate printIter (initSearchState (initTour, cost initTour)) meta
+  minimize terminate printIter (initSearchState (initTour, cost initTour) subi) meta
