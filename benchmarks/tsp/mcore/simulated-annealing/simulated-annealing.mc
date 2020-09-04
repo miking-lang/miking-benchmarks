@@ -3,7 +3,7 @@ include "../tsp.mc"
 mexpr
 
 -- Read input data
-let input = parseTSPInput in
+let input = parseTSPInput () in
 let g = input.g in
 let initTour = input.initTour in
 

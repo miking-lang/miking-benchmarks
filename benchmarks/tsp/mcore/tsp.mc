@@ -22,13 +22,13 @@ let parseEdges = lam str.
   let rawTuples = tail (strSplit "(" noBrackets) in
   map (lam s. let spl = map strTrim (strSplit "," s)
               in (get spl 0, get spl 1,
-                  string2int (get (strSplit ")" (get spl 2)) 0)))
+                  string2int (strTrim (get (strSplit ")" (get spl 2)) 0))))
       rawTuples
 
 utest parseEdges " []  " with []
-utest parseEdges " [(a,  b, 1)  , (c,d,  42)] " with [("a","b",1),("c","d",42)]
+utest parseEdges " [(a,  b, 1 )  , ( c,d,  42)] " with [("a","b",1),("c","d",42)]
 
-let parseTSPInput =
+let parseTSPInput = lam _.
   let vs = parseVertices (readLine ()) in
   let es = parseEdges (readLine ()) in
   let initTour = parseEdges (readLine ()) in
