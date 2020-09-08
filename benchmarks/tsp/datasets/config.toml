@@ -1,0 +1,5 @@
+runtime = "MCore"
+
+[[dataset]]
+tags = ["small"]
+argument = "small1"
