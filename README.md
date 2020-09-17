@@ -210,6 +210,22 @@ the very least, this tool will support:
 * Saving the results in a format (yet to be decided) that can later be processed
   by the analyzing tool.
 
+### Dependencies
+
+The tool is implemented in MCore using Python FFI calls. It therefore requires
+the Miking bootstrap interpreter, including the support of [Python
+intrinsics](https://github.com/miking-lang/miking/tree/develop#python).
+
+Moreover, the tool uses the following Python packages:
+
+* `toml`
+
+which can be installed using `pip`:
+
+```bash
+pip install toml
+```
+
 
 ## Analyzing Benchmark Results
 
