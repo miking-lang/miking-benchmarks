@@ -1,6 +1,7 @@
 include "toml.mc"
 include "char.mc"
 include "string.mc"
+include "map.mc"
 
 type Timing
 -- Measure runtime end-to-end
@@ -14,7 +15,7 @@ type Runtime = { provides : String
                }
 type Benchmark = { description : String
                  , timing : Timing
-                 , runtime : Runtime
+                 , runtime : String
                  , argument : String
                  }
 
@@ -80,23 +81,31 @@ let getBenchmark =
     else None ()
   else None ()
 
+let getTiming = lam str.
+  match str with "complete" then
+    Complete ()
+  else error (concat "Unknown timing option: " str)
 
-type IncompleteBench =
-  { description : String
-  , timing : Timing
-  , runtime : Runtime
-  , argument : String
+type PartialBench =
+  { timing : Option Timing
+  , runtime : Option String
+  , argument : Option String
   }
 
 let isCompleteBench =
-  lam b : IncompleteBench.
+  lam b : PartialBench.
     all (lam o. match o with Some _ then true else false)
         [b.timing, b.runtime, b.argument]
 
-let extractBench : String -> IncompleteBench -> Benchmark = lam desc. lam b.
+let extractBench : Map String RuntimString -> PartialBench -> Benchmark = lam runtimes. lam desc. lam b.
   { description = desc
-  , timing = optionGetOrElse (lam. error "expected timing") b.timing
-  , runtime = optionGetOrElse (lam. error "expected runtime") b.runtime
+  , timing =
+    let raw = optionGetOrElse (lam. error "expected timing") b.timing in
+    getTiming raw
+  , runtime =
+    let r = optionGetOrElse (lam. error "expected runtime") b.runtime in
+    mapLookupOrElse (lam. error (concat "Undefined runtime: " r)) r runtimes;
+    r
   , argument = optionGetOrElse (lam. error "expected argument") b.argument
   }
 
@@ -106,7 +115,7 @@ let findBenchmarks : String -> [String] -> Unknown =
   lam paths : [Path]. -- Subpaths within root in which to look for benchmarks
   lam runtimes : Map String Runtime.
 
-  let buildIncompleteBench = lam b : IncompleteBench. lam configFile : Path.
+  let buildPartialBench = lam b : PartialBench. lam configFile : Path.
     let c = readToml (readFile configFile) in
     { timing =
       match c with {timing = t} then
@@ -140,10 +149,10 @@ let findBenchmarks : String -> [String] -> Unknown =
       (lam acc. lam file.
          if endsWith file ".toml" then
            let b =
-             buildIncompleteBench acc.incompleteBench file
+             buildPartialBench acc.incompleteBench file
            in
            if isCompleteBench b then
-             {acc with benchmarks = cons (extractBench file b) acc.benchmarks}
+             {acc with benchmarks = cons (extractBench runtimes file b) acc.benchmarks}
            else
              {acc with incompleteBench = b}
          else
@@ -156,18 +165,13 @@ let findBenchmarks : String -> [String] -> Unknown =
        })
       root
   in
+  -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
   res.benchmarks
 
 mexpr
 
 let runtimes = findRuntimes "../benchmark-suite/runtimes" in
--- --dprintLn (mapBindings runtimes);
+dprintLn (mapBindings runtimes);
 
 let b = findBenchmarks "../benchmark-suite/benchmarks/ocaml-mcore-ocaml" "" runtimes in
 dprintLn b
-
-
---pathFold (lam. lam f. printLn f) 0 "../benchmark-suite/benchmarks/ocaml-mcore-ocaml"
-
-
-
