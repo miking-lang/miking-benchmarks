@@ -1,0 +1,6 @@
+provides = "OCaml2MCore2OCaml"
+
+[[command]]
+required-executables = ["ocaml2mcore"]
+build-command = ["ocaml2mcore {argument}.ml -o {argument}.mc --to-ocaml"]
+command = ["./prog"]
