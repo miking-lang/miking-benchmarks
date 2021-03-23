@@ -2,6 +2,7 @@ include "toml.mc"
 include "char.mc"
 include "string.mc"
 include "map.mc"
+include "python/python.mc"
 
 type Timing
 -- Measure runtime end-to-end
@@ -28,7 +29,8 @@ let endsWith = lam str. lam suffix.
 
 -- Check if a path exists
 let pathExists : Path -> Bool = lam path.
-  true
+  let oslib = pyimport "os" in
+  pyconvert (pycall (pythonGetAttr oslib "path") "exists" (path,))
 
 let pathConcat : Path -> Path -> Path = lam p1. lam p2.
   join [p1, "/", p2]
