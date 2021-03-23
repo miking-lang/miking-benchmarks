@@ -161,8 +161,4 @@ let findBenchmarks : String -> [String] -> Unknown =
 
 mexpr
 
-let runtimes = findRuntimes "../benchmark-suite/runtimes" in
-dprintLn (mapBindings runtimes);
-
-let b = findBenchmarks "../benchmark-suite/benchmarks/ocaml-mcore-ocaml" "" runtimes in
-dprintLn b
+()
