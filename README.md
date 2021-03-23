@@ -186,12 +186,13 @@ A runtime configuration file specifies:
 * What the runtime `provides` (typically, a programming language).
 * A sequence of possible `command` entries for specifying how to run programs in
   the runtime. A `command` entry specifies:
-  - A list of `required-executables` (optional).
+  - A list of `required_executables` (optional).
   - A template `command`, where any occurrence of the string "{argument}" is to
     be replaced by the `argument` entry from in a benchmark or dataset
     configuration file.
-  - A template `build-command` (optional): how to compile the benchmark. Again
+  - A template `build_command` (optional): how to compile the benchmark. Again
   where "{argument}" is to be replaced.
+ 
   
   The first command entry that has all required executables will be chosen.
 

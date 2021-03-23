@@ -1,5 +1,5 @@
 provides = "MCore"
 
 [[command]]
-required-executables = ["boot.mi"]
+required_executables = ["boot.mi"]
 command = "boot.mi {argument}.mc"

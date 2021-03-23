@@ -4,9 +4,9 @@ provides = "text"
 # dependencies met is the one that will be run. In this case we use it to
 # support windows.
 [[command]]
-required-executables = ["cat"]
+required_executables = ["cat"]
 command = "cat {argument}"
 
 [[command]]
-required-executables = ["type"]
+required_executables = ["type"]
 command = "type {argument}"
