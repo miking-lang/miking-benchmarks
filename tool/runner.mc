@@ -55,11 +55,25 @@ let runCommand : String -> String -> Path -> (ExecResult, Float) =
     let t2 = wallTimeMs () in
     (r, subf t2 t1)
 
--- Like 'runCommand' but throws away the result and only returns the elapsed
--- time.
+-- Like runCommand but fail on exit code different than 0
+let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
+  lam cmd. lam stdin. lam cwd.
+    match runCommand cmd stdin cwd with (r, ms) then
+      if eqi r.returncode 0 then (r, ms)
+      else
+        error (join ["Command ", cmd, "\n"
+                    , " failed with exit code ", int2string r.returncode, "\n"
+                    , "Stdout: ", r.stdout, "\n"
+                    , "Stderr: ", r.stderr, "\n"
+                    ])
+    else never
+
+-- Like 'runCommandFailOnExit' but only returns the elapsed time.
 let runCommandTime : String -> String -> Path -> (ExecResult, Float) =
   lam cmd. lam stdin. lam cwd.
-    match runCommand cmd stdin cwd with (_, ms) then ms else never
+    match runCommandFailOnExit cmd stdin cwd with (_, ms)
+    then ms
+    else never
 
 -- Build and run with a 'runtime' provided with a given 'argument'. Returns both
 -- the time for building and the time for running.
@@ -131,11 +145,22 @@ let toCSV : [Result] -> String =
 
 mexpr
 
-let runtimes = findRuntimes "test/runtimes" in
-let benchmarks = findBenchmarks "test/benchmarks" [] runtimes in
+-- let runtimes = findRuntimes "test/runtimes" in
+-- let benchmarks = findBenchmarks "test/benchmarks" [] runtimes in
+
+-- let rs = runBenchmarks benchmarks runtimes in
+
+-- printLn (toCSV rs);
+
+let runtimes = findRuntimes "../benchmark-suite/runtimes/" in
+let benchmarks = findBenchmarks "../benchmark-suite/benchmarks" [] runtimes in
+
+--dprintLn (mapBindings runtimes);
+--dprintLn benchmarks;
 
 let rs = runBenchmarks benchmarks runtimes in
 
 printLn (toCSV rs);
+
 
 ()

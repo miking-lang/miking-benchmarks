@@ -31,13 +31,25 @@ let startsWith = lam prefix. lam str.
 let endsWith = lam str. lam suffix.
   isSuffix eqChar suffix str
 
-let dirConsider = lam path.
-  not (startsWith "_" path)
+-- Check if 'path' is a valid directory for a benchmark
+let dirBenchmark = lam path.
+  all (lam x. x)
+    [ not (startsWith "_" path)
+    , not (eqString "datasets" path)
+    ]
 
-utest dirConsider "hello" with true
-utest dirConsider "_build" with false
+utest dirBenchmark "hello" with true
+utest dirBenchmark "_build" with false
+utest dirBenchmark "datasets" with false
 
-let pathFoldIgnore = pathFold dirConsider
+-- Check if 'path' is a valid directory for a runtime definition
+let dirRuntime = lam path.
+  all eqBool
+    [ not (startsWith "_" path) ]
+
+let pathFoldBenchmark = pathFoldWD dirBenchmark
+
+let pathFoldRuntime = pathFold dirRuntime
 
 -- Find all the available runtimes defined in the directory 'root'.
 let findRuntimes : Path -> Map String Runtime = lam root.
@@ -52,7 +64,7 @@ let findRuntimes : Path -> Map String Runtime = lam root.
                   r.command}
     in mapInsert r.provides r runtimes
   in
-  pathFoldIgnore
+  pathFoldRuntime
     (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
     (mapEmpty cmpString)
     root
@@ -126,41 +138,25 @@ let findBenchmarks : String -> [String] -> Unknown =
     }
   in
 
-  match pathFoldIgnore
+  match pathFoldBenchmark
     (lam acc. lam file.
-       if endsWith file ".toml" then
-         let cwd = pathGetParent file in
-         let b = updatePartialBench acc.partialBench file in
-         if isCompleteBench b then
-           {acc with benchmarks = cons (extractBench runtimes file cwd b) acc.benchmarks}
+       match acc with (partialBench, benchmarks) then
+         if endsWith file ".toml" then
+           let cwd = pathGetParent file in
+           let b = updatePartialBench partialBench file in
+           if isCompleteBench b then
+             (partialBench, cons (extractBench runtimes file cwd b) benchmarks)
+           else
+             (b, benchmarks)
          else
-           {acc with partialBench = b}
-       else
-         acc
+           acc
+       else never
        )
-    ({ benchmarks = [],
-       partialBench = { timing = None ()
-                      , runtime = None ()
-                      , argument = None ()}})
+    {timing = None (), runtime = None (), argument = None ()}
+    []
     root
-  with {benchmarks = benchmarks} then benchmarks
-  else dprintLn (pathFoldIgnore
-  (lam acc. lam file.
-  if endsWith file ".toml" then
-  let cwd = pathGetParent file in
-  let b = updatePartialBench acc.partialBench file in
-  if isCompleteBench b then
-  {acc with benchmarks = cons (extractBench runtimes file cwd b) acc.benchmarks}
-  else
-  {acc with partialBench = b}
-  else
-  acc
-  )
-  ({ benchmarks = [],
-  partialBench = { timing = None ()
-  , runtime = None ()
-  , argument = None ()}})
-  root); never
+  with (_, benchmarks) then benchmarks
+  else never
   -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
 
 mexpr

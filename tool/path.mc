@@ -41,8 +41,32 @@ recursive let pathFold =
     let files = map (pathConcat root) ls.files in
     let dirs = map (pathConcat root) (filter pDir ls.dirs) in
     let acc = foldl f acc files in
-    foldl (lam acc. lam dir. pathFold pDir f acc dir) acc dirs
+    foldl
+      (lam a. lam dir. pathFold pDir f a dir)
+      acc dirs
 end
+
+-- Traverse through the directory tree, starting at 'root' and with accumulator
+-- 'acc', accumulating a value by applying 'f' on each file in the tree. Only
+-- considers directoriesfor which 'pDir' is true.
+recursive let pathFoldWD =
+  lam pDir : Path -> Bool.
+  lam f : ((a, b) -> Path -> (a, b)).
+  lam accW : a.
+  lam accD : b.
+  lam root : Path.
+    let ls = pathList root in
+    let files = map (pathConcat root) ls.files in
+    let dirs = map (pathConcat root) (filter pDir ls.dirs) in
+    match foldl f (accW, accD) files with (accW, accD) then
+      foldl (lam wd. lam dir.
+        match wd with (_, accD) then
+          pathFoldWD pDir f accW accD dir
+        else never
+      ) (accW, accD) dirs
+    else never
+end
+
 
 -- Get the parent directory in which 'file' resides
 let pathGetParent = lam file.

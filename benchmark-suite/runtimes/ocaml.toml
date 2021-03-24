@@ -2,5 +2,5 @@ provides = "OCaml"
 
 [[command]]
 required_executables = ["dune"]
-build_command = ["dune build"]
-command = ["_build/default/{argument}.exe"]
+build_command = "dune build"
+command = "_build/default/{argument}.exe"
