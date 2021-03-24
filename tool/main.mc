@@ -51,7 +51,7 @@ let verifyOptions = lam ops.
     , (gti ops.iters 0,
        "Number of iterations should be larger than 0")
     , (geqi ops.dryRuns 0,
-       "Number of dry runs should be at least 0")
+       "Number of dry runs cannot be negative")
     ]
 
 let main = lam.

@@ -1,4 +1,3 @@
-include "config-scanner.mc"
 include "ocaml/process-helpers.mc"
 include "string.mc"
 include "path.mc"
@@ -10,12 +9,6 @@ type Result = { benchmark : String
               -- Time for running the benchmark, in ms
               , ms_run : [Float]
               }
-
--- cwd? where argument is defined, should also be possible to specify?
--- build only once?
--- nIters
--- nDryruns
--- ignore dirs: ignore _*, .* and so on, should also be possible to specify
 
 let cmdExists = lam cmd.
   true
@@ -142,25 +135,3 @@ let toCSV : [Result] -> String =
            , join ["{", cs (map float2string r.ms_run), "}"]])
       results
     in strJoin "\n" (cons header body)
-
-mexpr
-
--- let runtimes = findRuntimes "test/runtimes" in
--- let benchmarks = findBenchmarks "test/benchmarks" [] runtimes in
-
--- let rs = runBenchmarks benchmarks runtimes in
-
--- printLn (toCSV rs);
-
-let runtimes = findRuntimes "../benchmark-suite/runtimes/" in
-let benchmarks = findBenchmarks "../benchmark-suite/benchmarks" [] runtimes in
-
---dprintLn (mapBindings runtimes);
---dprintLn benchmarks;
-
-let rs = runBenchmarks benchmarks runtimes in
-
-printLn (toCSV rs);
-
-
-()

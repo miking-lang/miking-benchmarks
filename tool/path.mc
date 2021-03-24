@@ -46,9 +46,8 @@ recursive let pathFold =
       acc dirs
 end
 
--- Traverse through the directory tree, starting at 'root' and with accumulator
--- 'acc', accumulating a value by applying 'f' on each file in the tree. Only
--- considers directoriesfor which 'pDir' is true.
+-- Similar to 'pathFold', but only 'accD' is accumulated for all files, while
+-- 'accW' is accumulated path-wise in the tree.
 recursive let pathFoldWD =
   lam pDir : Path -> Bool.
   lam f : ((a, b) -> Path -> (a, b)).
@@ -66,7 +65,6 @@ recursive let pathFoldWD =
       ) (accW, accD) dirs
     else never
 end
-
 
 -- Get the parent directory in which 'file' resides
 let pathGetParent = lam file.
