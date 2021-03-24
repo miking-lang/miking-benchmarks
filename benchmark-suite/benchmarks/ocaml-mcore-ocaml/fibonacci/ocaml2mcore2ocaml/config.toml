@@ -1,0 +1,2 @@
+runtime = "OCaml2MCore2OCaml"
+argument = "fibonacci"
