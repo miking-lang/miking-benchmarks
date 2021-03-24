@@ -2,14 +2,15 @@ include "toml.mc"
 include "char.mc"
 include "string.mc"
 include "map.mc"
-include "python/python.mc"
+include "path.mc"
+include "bool.mc"
 
 type Timing
 -- Measure runtime end-to-end
 con Complete : () -> Timing
 
 type Command = { required_executables : [String]
-               , build_command : String
+               , build_command : Option String
                , command : String}
 type Runtime = { provides : String
                , command : [Command]
@@ -18,57 +19,40 @@ type Benchmark = { description : String
                  , timing : Timing
                  , runtime : String
                  , argument : String
+                 , cwd : Path
                  -- , data : Unknown -- TODO(Linnea, 2021-03-23): scanning of data sets are not supported yet
                  }
 
-type Path = String
+-- Check if 'str' starts with 'prefix'
+let startsWith = lam prefix. lam str.
+  isPrefix eqChar prefix str
 
 -- Check if 'str' ends with 'suffix'
 let endsWith = lam str. lam suffix.
   isSuffix eqChar suffix str
 
--- Check if a path exists
-let pathExists : Path -> Bool = lam path.
-  let oslib = pyimport "os" in
-  pyconvert (pycall (pythonGetAttr oslib "path") "exists" (path,))
+let dirConsider = lam path.
+  not (startsWith "_" path)
 
-let pathConcat : Path -> Path -> Path = lam p1. lam p2.
-  join [p1, "/", p2]
+utest dirConsider "hello" with true
+utest dirConsider "_build" with false
 
--- Get all the files and sub-directories immediately below a directory
-let listDir : Path -> {dirs : [Path], files : [Path]} = lam dir.
-  if pathExists dir then
-    let blt = pyimport "builtins" in
-    let oslib = pyimport "os" in
-    let walk = pycall blt "list" (pycall oslib "walk" (dir,),) in
-    let lst = pyconvert walk in
-    match lst with [] then
-      {dirs = [], files = []}
-    else match lst with [top] ++ _ then
-      {dirs = top.1, files = top.2}
-    else never
-  else error (concat "No such directory: " dir)
-
--- Traverse through the directory tree, starting at 'root' and with accumulator
--- 'acc', accumulating a value by applying 'f' on each file in the tree.
-recursive let pathFold =
-  lam f : (a -> Path -> a).
-  lam acc : a.
-  lam root : Path.
-    let dirLst = listDir root in
-    let files = map (pathConcat root) dirLst.files in
-    let dirs = map (pathConcat root) dirLst.dirs in
-    let acc = foldl f acc files in
-    foldl (lam acc. lam dir. pathFold f acc dir) acc dirs
-end
+let pathFoldIgnore = pathFold dirConsider
 
 -- Find all the available runtimes defined in the directory 'root'.
 let findRuntimes : Path -> Map String Runtime = lam root.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
-  let r = readToml (readFile configFile) in
-    mapInsert r.provides r runtimes
+    let r = readToml (readFile configFile) in
+    let r = { provides = r.provides
+            , command =
+              map (lam c. { required_executables = c.required_executables
+                          , build_command = match c with {build_command = bc}
+                                            then Some bc else None ()
+                          , command = c.command})
+                  r.command}
+    in mapInsert r.provides r runtimes
   in
-  pathFold
+  pathFoldIgnore
     (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
     (mapEmpty cmpString)
     root
@@ -93,7 +77,7 @@ let isCompleteBench : PartialBench -> Bool = lam b.
 
 -- Convert a partial benchmark into a benchmark, and verify that options are valid.
 let extractBench : Map String RuntimString -> PartialBench -> Benchmark =
-  lam runtimes. lam desc. lam b.
+  lam runtimes. lam desc. lam cwd. lam b.
     { description = desc
     , timing =
       let raw = optionGetOrElse (lam. error "expected timing") b.timing in
@@ -103,6 +87,7 @@ let extractBench : Map String RuntimString -> PartialBench -> Benchmark =
       mapLookupOrElse (lam. error (concat "Undefined runtime: " r)) r runtimes;
       r
     , argument = optionGetOrElse (lam. error "expected argument") b.argument
+    , cwd = cwd
     }
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
@@ -141,12 +126,13 @@ let findBenchmarks : String -> [String] -> Unknown =
     }
   in
 
-  match pathFold
+  match pathFoldIgnore
     (lam acc. lam file.
        if endsWith file ".toml" then
+         let cwd = pathGetParent file in
          let b = updatePartialBench acc.partialBench file in
          if isCompleteBench b then
-           {acc with benchmarks = cons (extractBench runtimes file b) acc.benchmarks}
+           {acc with benchmarks = cons (extractBench runtimes file cwd b) acc.benchmarks}
          else
            {acc with partialBench = b}
        else
@@ -158,7 +144,23 @@ let findBenchmarks : String -> [String] -> Unknown =
                       , argument = None ()}})
     root
   with {benchmarks = benchmarks} then benchmarks
-  else never
+  else dprintLn (pathFoldIgnore
+  (lam acc. lam file.
+  if endsWith file ".toml" then
+  let cwd = pathGetParent file in
+  let b = updatePartialBench acc.partialBench file in
+  if isCompleteBench b then
+  {acc with benchmarks = cons (extractBench runtimes file cwd b) acc.benchmarks}
+  else
+  {acc with partialBench = b}
+  else
+  acc
+  )
+  ({ benchmarks = [],
+  partialBench = { timing = None ()
+  , runtime = None ()
+  , argument = None ()}})
+  root); never
   -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
 
 mexpr
