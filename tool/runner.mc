@@ -8,7 +8,7 @@ type Result = { benchmark : String
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
-              , ms_run : Float
+              , ms_run : [Float]
               }
 
 -- cwd? where argument is defined, should also be possible to specify?
@@ -55,6 +55,12 @@ let runCommand : String -> String -> Path -> (ExecResult, Float) =
     let t2 = wallTimeMs () in
     (r, subf t2 t1)
 
+-- Like 'runCommand' but throws away the result and only returns the elapsed
+-- time.
+let runCommandTime : String -> String -> Path -> (ExecResult, Float) =
+  lam cmd. lam stdin. lam cwd.
+    match runCommand cmd stdin cwd with (_, ms) then ms else never
+
 -- Build and run with a 'runtime' provided with a given 'argument'. Returns both
 -- the time for building and the time for running.
 let runWithRuntime = -- ... -> (Option Float, [Float])
@@ -62,8 +68,8 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
   lam argument : String.
   lam cwd : Path.
   lam timing : Timing.
-  lam nIters : Int. -- number of times to repeat the run
   lam nDryruns : Int. -- number of times to run before starting to measure
+  lam nIters : Int. -- number of times to repeat the run
     recursive let findSupportedCommand : [Command] -> Command  = lam commands.
       match commands with [] then
         error
@@ -78,16 +84,19 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
     let buildMs =
       optionMap (lam cmd.
                    let buildCmd = insertArg cmd argument in
-                   match runCommand buildCmd "" cwd with (_, buildMs)
-                   then buildMs else never)
+                   runCommandTime buildCmd "" cwd)
                 c.build_command
     in
     let cmd = insertArg c.command argument in
     -- Run the benchmark
     match timing with Complete () then
-      match runCommand cmd "" cwd with (_, runMs) then
-        (buildMs, runMs)
-      else never
+      let run = lam. runCommandTime cmd "" cwd in
+      let runMany = lam n. map run (create n (lam. ())) in
+      -- Throw away the result for the dry runs
+      runMany nDryruns;
+      -- Now collect the measurements
+      let times = runMany nIters in
+      (buildMs, times)
     else error "Unknown timing option"
 
 -- Run a given list of benchmarks
@@ -99,7 +108,7 @@ let runBenchmarks : [Benchmark] -> Map String Runtime -> [Result] =
          match b with {description = d, timing = t, runtime = r,
                        argument = a, cwd = cwd}
          then
-           match runWithRuntime (mapFindWithExn r runtimes) a cwd t 0 0
+           match runWithRuntime (mapFindWithExn r runtimes) a cwd t 1 5
            with (buildMs, runMs) then
              cons {benchmark = d, ms_build = buildMs, ms_run = runMs} acc
            else never
@@ -116,7 +125,7 @@ let toCSV : [Result] -> String =
       (lam r.
         cs [r.benchmark
            , float2string (optionGetOr 0.0 (r.ms_build))
-           , float2string r.ms_run])
+           , join ["{", cs (map float2string r.ms_run), "}"]])
       results
     in strJoin "\n" (cons header body)
 
