@@ -1,0 +1,9 @@
+runtime = "text"
+
+[[dataset]]
+tags = ["foo", "number"]
+argument = "1.txt"
+
+[[dataset]]
+tags = ["bar", "number"]
+argument = "2.txt"
