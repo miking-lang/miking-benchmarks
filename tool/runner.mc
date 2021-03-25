@@ -125,7 +125,8 @@ let runBenchmark = -- ... -> [Result]
          }]
       else never
     else
-      foldl (lam acc. lam d.
+      foldl (lam acc. lam dKey.
+        let d = mapFindWithExn dKey datasets in
         match d with {argument = arg, runtime = rID, cwd = cwd} then
           let r = mapFindWithExn rID runtimes in
           let c = findSupportedCommand r.command in
@@ -137,7 +138,7 @@ let runBenchmark = -- ... -> [Result]
             match runBench res.stdout with (buildMs, times) then
                cons
                  { benchmark = benchmark.description
-                 , data = d
+                 , data = dKey
                  , ms_build = buildMs
                  , ms_run = times
                  }
@@ -146,7 +147,7 @@ let runBenchmark = -- ... -> [Result]
           else never
         else never)
         []
-        (map (lam d. mapFindWithExn d datasets) data)
+        data
   else never
 
 -- Run a given list of benchmarks
@@ -164,10 +165,11 @@ let runBenchmarks = -- ... -> [Result]
 let toCSV : [Result] -> String =
   lam results.
     let cs = lam lst. strJoin "," lst in
-    let header = cs ["benchmark", "ms_build", "ms_run"] in
+    let header = cs ["benchmark", "data", "ms_build", "ms_run"] in
     let body = map
       (lam r.
         cs [ r.benchmark
+           , r.data
            , float2string (optionGetOr 0.0 (r.ms_build))
            , join ["{", cs (map float2string r.ms_run), "}"]])
       results
