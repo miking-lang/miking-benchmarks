@@ -10,6 +10,10 @@ type Result = { benchmark : String
               , ms_run : [Float]
               }
 
+type Options = { nIters : Int
+               , warmups : Int
+               }
+
 -- Check if 'str' starts with 'prefix'
 let startsWith = lam str. lam prefix.
   isPrefix eqChar prefix str
@@ -72,7 +76,7 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
   lam argument : String.
   lam cwd : Path.
   lam timing : Timing.
-  lam nDryruns : Int. -- number of times to run before starting to measure
+  lam nWarmups : Int. -- number of times to run before starting to measure
   lam nIters : Int. -- number of times to repeat the run
     recursive let findSupportedCommand : [Command] -> Command  = lam commands.
       match commands with [] then
@@ -96,23 +100,25 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
     match timing with Complete () then
       let run = lam. runCommandTime cmd "" cwd in
       let runMany = lam n. map run (create n (lam. ())) in
-      -- Throw away the result for the dry runs
-      runMany nDryruns;
+      -- Throw away the result for the warmup runs
+      runMany nWarmups;
       -- Now collect the measurements
       let times = runMany nIters in
       (buildMs, times)
     else error "Unknown timing option"
 
 -- Run a given list of benchmarks
-let runBenchmarks : [Benchmark] -> Map String Runtime -> [Result] =
+let runBenchmarks : [Benchmark] -> Map String Runtime -> Options -> [Result] =
   lam benchmarks.
   lam runtimes.
+  lam ops.
     foldl
       (lam acc. lam b.
          match b with {description = d, timing = t, runtime = r,
                        argument = a, cwd = cwd}
          then
-           match runWithRuntime (mapFindWithExn r runtimes) a cwd t 1 5
+           match runWithRuntime (mapFindWithExn r runtimes) a cwd t
+                   ops.warmups ops.iters
            with (buildMs, runMs) then
              cons {benchmark = d, ms_build = buildMs, ms_run = runMs} acc
            else never

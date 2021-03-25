@@ -11,7 +11,7 @@ let options =
   { benchmarks = ""
   , runtimes = ""
   , iters = 1
-  , dryRuns = 1
+  , warmups = 1
   }
 
 recursive let parseArgs = lam ops. lam args.
@@ -30,10 +30,10 @@ recursive let parseArgs = lam ops. lam args.
       parseArgs {ops with iters = string2int n} args
     else error "--iters with no argument"
 
-  else match args with ["--dry-runs"] ++ args then
+  else match args with ["--warmups"] ++ args then
     match args with [n] ++ args then
-      parseArgs {ops with dryRuns = string2int n} args
-    else error "--dry-runs with no argument"
+      parseArgs {ops with warmups = string2int n} args
+    else error "--warmups with no argument"
 
   else match args with [] then ops
   else match args with [a] ++ args then
@@ -50,8 +50,8 @@ let verifyOptions = lam ops.
        concat "No such directory: " ops.benchmarks)
     , (gti ops.iters 0,
        "Number of iterations should be larger than 0")
-    , (geqi ops.dryRuns 0,
-       "Number of dry runs cannot be negative")
+    , (geqi ops.warmups 0,
+       "Number of warmups cannot be negative")
     ]
 
 let main = lam.
@@ -61,7 +61,7 @@ let main = lam.
   let runtimes = findRuntimes ops.runtimes in
   let benchmarks = findBenchmarks ops.benchmarks [] runtimes in
 
-  let rs = runBenchmarks benchmarks runtimes in
+  let rs = runBenchmarks benchmarks runtimes ops in
   printLn (toCSV rs)
 
 mexpr
