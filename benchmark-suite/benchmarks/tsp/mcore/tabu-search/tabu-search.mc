@@ -15,7 +15,7 @@ let randElem = lam seq.
 let randomBest = lam ns. lam state.
   match ns with [] then None () else
   let costs = map cost ns in
-  let minCost = min subi costs in
+  let minCost = minOrElse (lam. error "costs should not be empty") subi costs in
   let nsCosts = zipWith (lam n. lam c. (n,c)) ns costs in
   let minNs = filter (lam t. eqi t.1 minCost) nsCosts in
   randElem minNs
