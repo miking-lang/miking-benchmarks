@@ -71,7 +71,7 @@ let runCommandTime : String -> String -> Path -> (ExecResult, Float) =
     else never
 
 -- Run one benchmark
-let runBenchmark = -- ... -> (Option Float, [Float])
+let runBenchmark = -- ... -> [Result]
   lam benchmark : Benchmark.
   lam datasets : Map String Data.
   lam runtimes : Map String Runtime.
@@ -97,39 +97,56 @@ let runBenchmark = -- ... -> (Option Float, [Float])
                 cmd
     in
 
-    -- Run the dataset program and get the stdout, use as stdin for benchmark
-    let benchStdin =
-      match data with [] then ""
-      else match data with [d] ++ _ then
-        match mapFindWithExn d datasets
-        with {argument = arg, runtime = rID, cwd = cwd}
-        then
+    let benchSupportedCmd = findSupportedCommand runtime.command in
+
+    -- Run the benchmark with a given stdin
+    let runBench = lam stdin.
+      -- Build the benchmark
+      let buildMs = build benchSupportedCmd.build_command argument in
+      -- Run the benchmark
+      let cmd = insertArg benchSupportedCmd.command argument in
+        match timing with Complete () then
+          let run = lam. runCommandTime cmd stdin cwd in
+          let runMany = lam n. map run (create n (lam. ())) in
+          -- Throw away the result for the warmup runs
+          runMany ops.warmups;
+          -- Now collect the measurements
+          let times = runMany ops.iters in
+          (buildMs, times)
+        else error "Unknown timing option"
+    in
+
+    match data with [] then
+      match runBench "" with (buildMs, times) then
+        [{ benchmark = benchmark.description
+         , data = ""
+         , ms_build = buildMs
+         , ms_run = times
+         }]
+      else never
+    else
+      foldl (lam acc. lam d.
+        match d with {argument = arg, runtime = rID, cwd = cwd} then
           let r = mapFindWithExn rID runtimes in
           let c = findSupportedCommand r.command in
           build c.build_command arg;
           let runCmd = insertArg c.command arg in
+          -- Run the dataset program and get the stdout, use as stdin for
+          -- benchmark
           match runCommandFailOnExit runCmd "" cwd with (res, _) then
-            res.stdout
+            match runBench res.stdout with (buildMs, times) then
+               cons
+                 { benchmark = benchmark.description
+                 , data = d
+                 , ms_build = buildMs
+                 , ms_run = times
+                 }
+                 acc
+            else never
           else never
-        else never
-      else never
-    in
-
-    let c = findSupportedCommand runtime.command in
-
-    -- Build the benchmark
-    let buildMs = build c.build_command argument in
-    -- Run the benchmark
-    let cmd = insertArg c.command argument in
-    match timing with Complete () then
-      let run = lam. runCommandTime cmd benchStdin cwd in
-      let runMany = lam n. map run (create n (lam. ())) in
-      -- Throw away the result for the warmup runs
-      runMany ops.warmups;
-      -- Now collect the measurements
-      let times = runMany ops.iters in
-      (buildMs, times)
-    else error "Unknown timing option"
+        else never)
+        []
+        (map (lam d. mapFindWithExn d datasets) data)
   else never
 
 -- Run a given list of benchmarks
@@ -140,15 +157,8 @@ let runBenchmarks = -- ... -> [Result]
   lam ops : Options.
     foldl
       (lam acc. lam b.
-         match b with {description = d, timing = t, runtime = r,
-                       argument = a, cwd = cwd}
-         then
-           match runBenchmark b datasets runtimes ops with (buildMs, runMs) then
-             cons {benchmark = d, ms_build = buildMs, ms_run = runMs} acc
-           else never
-         else never)
-      []
-      benchmarks
+         concat (runBenchmark b datasets runtimes ops) acc)
+      [] benchmarks
 
 -- Convert a list of results into CSV format
 let toCSV : [Result] -> String =
@@ -157,7 +167,7 @@ let toCSV : [Result] -> String =
     let header = cs ["benchmark", "ms_build", "ms_run"] in
     let body = map
       (lam r.
-        cs [r.benchmark
+        cs [ r.benchmark
            , float2string (optionGetOr 0.0 (r.ms_build))
            , join ["{", cs (map float2string r.ms_run), "}"]])
       results
