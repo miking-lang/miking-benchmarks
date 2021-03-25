@@ -6,6 +6,8 @@ include "path.mc"
 include "bool.mc"
 
 type Timing
+-- Don't measure the time
+con NoTiming : () -> Timing
 -- Measure runtime end-to-end
 con Complete : () -> Timing
 
@@ -15,13 +17,11 @@ type Command = { required_executables : [String]
 type Runtime = { provides : String
                , command : [Command]
                }
-type Data = { id : String
-            , runtime : String
+type Data = { runtime : String
             , argument : String
             , cwd : Path
             , tags : [String]
             }
-
 type Benchmark = { description : String
                  , timing : Timing
                  , runtime : String
@@ -87,13 +87,14 @@ let findRuntimes : Path -> Map String Runtime = lam root.
 let findData : Path -> Map String Data = lam root.
   let addData = lam configFile : Path. lam data : Map String Data.
     let d = readToml (readFile configFile) in
+    let cwd = pathGetParent configFile in
     match d with {runtime = r, dataset = dataset} then
       foldl (lam acc. lam entry.
-        mapInsert entry.argument
-         { id = entry.argument
-         , runtime = r
+        let id = join [cwd, ":", entry.argument] in
+        mapInsert id
+         { runtime = r
          , argument = entry.argument
-         , cwd = pathGetParent configFile
+         , cwd = cwd
          , tags = entry.tags
          } acc)
        data
@@ -200,7 +201,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
            in
            match
              if endsWith file ".toml" then
-               -- Update the benchmark with info from config file
+               -- Update the benchmark
                let b = updatePartialBench partialBench file (mapKeys newData) in
                if isCompleteBench b then
                  (partialBench,
@@ -211,7 +212,6 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
                  (b, benchAndData)
              else acc
            with (pb, bd) then
-             -- Collect all of the datasets
              (pb, {bd with datasets = mapUnion bd.datasets newData})
            else never
          else never

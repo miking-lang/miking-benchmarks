@@ -59,10 +59,11 @@ let main = lam.
   verifyOptions ops;
 
   let runtimes = findRuntimes ops.runtimes in
-  let benchmarks = findBenchmarks ops.benchmarks [] runtimes in
-
-  let rs = runBenchmarks benchmarks runtimes ops in
-  printLn (toCSV rs)
+  match findBenchmarks ops.benchmarks [] runtimes
+  with {benchmarks = benchmarks, datasets = datasets} then
+    let rs = runBenchmarks benchmarks datasets runtimes ops in
+    printLn (toCSV rs)
+  else never
 
 mexpr
 

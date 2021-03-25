@@ -4,7 +4,7 @@ include "path.mc"
 include "config-scanner.mc"
 
 type Result = { benchmark : String
-              -- , data : String
+              , data : String
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
@@ -70,15 +70,16 @@ let runCommandTime : String -> String -> Path -> (ExecResult, Float) =
     then ms
     else never
 
--- Build and run with a 'runtime' provided with a given 'argument'. Returns both
--- the time for building and the time for running.
-let runWithRuntime = -- ... -> (Option Float, [Float])
-  lam runtime : Runtime.
-  lam argument : String.
-  lam cwd : Path.
-  lam timing : Timing.
-  lam nWarmups : Int. -- number of times to run before starting to measure
-  lam nIters : Int. -- number of times to repeat the run
+-- Run one benchmark
+let runBenchmark = -- ... -> (Option Float, [Float])
+  lam benchmark : Benchmark.
+  lam datasets : Map String Data.
+  lam runtimes : Map String Runtime.
+  lam ops : Options.
+  match benchmark with { runtime = runtimeID, data = data,
+                         argument = argument, cwd = cwd, timing = timing } then
+    let runtime = mapFindWithExn runtimeID runtimes in
+
     recursive let findSupportedCommand : [Command] -> Command  = lam commands.
       match commands with [] then
         error
@@ -88,39 +89,61 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
         else findSupportedCommand commands
       else never
     in
-    let c = findSupportedCommand runtime.command in
-    -- Build the benchmark if build command is present
-    let buildMs =
+
+    let build : String Option -> String -> Float Option = lam cmd. lam arg.
       optionMap (lam cmd.
-                   let buildCmd = insertArg cmd argument in
+                   let buildCmd = insertArg cmd arg in
                    runCommandTime buildCmd "" cwd)
-                c.build_command
+                cmd
     in
-    let cmd = insertArg c.command argument in
+
+    -- Run the dataset program and get the stdout, use as stdin for benchmark
+    let benchStdin =
+      match data with [] then ""
+      else match data with [d] ++ _ then
+        match mapFindWithExn d datasets
+        with {argument = arg, runtime = rID, cwd = cwd}
+        then
+          let r = mapFindWithExn rID runtimes in
+          let c = findSupportedCommand r.command in
+          build c.build_command arg;
+          let runCmd = insertArg c.command arg in
+          match runCommandFailOnExit runCmd "" cwd with (res, _) then
+            res.stdout
+          else never
+        else never
+      else never
+    in
+
+    let c = findSupportedCommand runtime.command in
+
+    -- Build the benchmark
+    let buildMs = build c.build_command argument in
     -- Run the benchmark
+    let cmd = insertArg c.command argument in
     match timing with Complete () then
-      let run = lam. runCommandTime cmd "" cwd in
+      let run = lam. runCommandTime cmd benchStdin cwd in
       let runMany = lam n. map run (create n (lam. ())) in
       -- Throw away the result for the warmup runs
-      runMany nWarmups;
+      runMany ops.warmups;
       -- Now collect the measurements
-      let times = runMany nIters in
+      let times = runMany ops.iters in
       (buildMs, times)
     else error "Unknown timing option"
+  else never
 
 -- Run a given list of benchmarks
-let runBenchmarks : [Benchmark] -> Map String Runtime -> Options -> [Result] =
-  lam benchmarks.
-  lam runtimes.
-  lam ops.
+let runBenchmarks = -- ... -> [Result]
+  lam benchmarks : [Benchmark].
+  lam datasets : Map String Data.
+  lam runtimes : Map String Runtime.
+  lam ops : Options.
     foldl
       (lam acc. lam b.
          match b with {description = d, timing = t, runtime = r,
                        argument = a, cwd = cwd}
          then
-           match runWithRuntime (mapFindWithExn r runtimes) a cwd t
-                   ops.warmups ops.iters
-           with (buildMs, runMs) then
+           match runBenchmark b datasets runtimes ops with (buildMs, runMs) then
              cons {benchmark = d, ms_build = buildMs, ms_run = runMs} acc
            else never
          else never)

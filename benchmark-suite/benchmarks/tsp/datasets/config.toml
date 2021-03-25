@@ -1,5 +1,5 @@
-runtime = "MCore"
+runtime = "text"
 
 [[dataset]]
 tags = ["small"]
-argument = "small1"
+argument = "small1.txt"
