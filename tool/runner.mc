@@ -57,7 +57,8 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
       if eqi r.returncode 0 then (r, ms)
       else
         error (join ["Command ", cmd, "\n"
-                    , " failed with exit code ", int2string r.returncode, "\n"
+                    , "failed with exit code ", int2string r.returncode, "\n"
+                    , "Stdin: ", stdin, "\n"
                     , "Stdout: ", r.stdout, "\n"
                     , "Stderr: ", r.stderr, "\n"
                     ])

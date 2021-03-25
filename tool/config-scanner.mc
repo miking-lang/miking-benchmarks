@@ -95,7 +95,7 @@ let findData : Path -> Map String Data = lam root.
          { runtime = r
          , argument = entry.argument
          , cwd = cwd
-         , tags = entry.tags
+         , tags = match entry with {tags = tags} then tags else []
          } acc)
        data
        dataset
@@ -210,7 +210,8 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
                                        benchmarks })
                else
                  (b, benchAndData)
-             else acc
+             else
+               ({partialBench with data = concat partialBench.data (mapKeys newData)}, benchAndData)
            with (pb, bd) then
              (pb, {bd with datasets = mapUnion bd.datasets newData})
            else never
