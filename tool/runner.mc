@@ -1,6 +1,7 @@
 include "ocaml/process-helpers.mc"
 include "string.mc"
 include "path.mc"
+include "config-scanner.mc"
 
 type Result = { benchmark : String
               -- , data : String

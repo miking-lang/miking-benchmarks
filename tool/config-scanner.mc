@@ -15,12 +15,19 @@ type Command = { required_executables : [String]
 type Runtime = { provides : String
                , command : [Command]
                }
+type Data = { id : String
+            , runtime : String
+            , argument : String
+            , cwd : Path
+            , tags : [String]
+            }
+
 type Benchmark = { description : String
                  , timing : Timing
                  , runtime : String
                  , argument : String
                  , cwd : Path
-                 -- , data : Unknown -- TODO(Linnea, 2021-03-23): scanning of data sets are not supported yet
+                 , data : [Data]
                  }
 
 -- Check if 'str' starts with 'prefix'
@@ -47,9 +54,16 @@ let dirRuntime = lam path.
   all eqBool
     [ not (startsWith "_" path) ]
 
+-- Check if 'path' is a valid directory for a dataset definition
+let dirData = lam path.
+  all eqBool
+    [ not (startsWith "_" path) ]
+
 let pathFoldBenchmark = pathFoldWD dirBenchmark
 
 let pathFoldRuntime = pathFold dirRuntime
+
+let pathFoldData = pathFold dirData
 
 -- Find all the available runtimes defined in the directory 'root'.
 let findRuntimes : Path -> Map String Runtime = lam root.
@@ -69,6 +83,28 @@ let findRuntimes : Path -> Map String Runtime = lam root.
     (mapEmpty cmpString)
     root
 
+-- Find all the datasets in the directory 'root'
+let findData : Path -> Map String Data = lam root.
+  let addData = lam configFile : Path. lam data : Map String Data.
+    let d = readToml (readFile configFile) in
+    match d with {runtime = r, dataset = dataset} then
+      foldl (lam acc. lam entry.
+        mapInsert entry.argument
+         { id = entry.argument
+         , runtime = r
+         , argument = entry.argument
+         , cwd = pathGetParent configFile
+         , tags = entry.tags
+         } acc)
+       data
+       dataset
+    else never
+  in
+  pathFoldData
+    (lam acc. lam f. if endsWith f ".toml" then addData f acc else acc)
+    (mapEmpty cmpString)
+    root
+
 -- Convert a string into a Timing type.
 let getTiming : String -> Timing = lam str.
   match str with "complete" then
@@ -80,6 +116,7 @@ type PartialBench =
   { timing : Option Timing
   , runtime : Option String
   , argument : Option String
+  , data : [Data]
   }
 
 -- Check if a partial benchmark can be converted into a benchmark.
@@ -88,8 +125,11 @@ let isCompleteBench : PartialBench -> Bool = lam b.
       [b.timing, b.runtime, b.argument]
 
 -- Convert a partial benchmark into a benchmark, and verify that options are valid.
-let extractBench : Map String RuntimString -> PartialBench -> Benchmark =
-  lam runtimes. lam desc. lam cwd. lam b.
+let extractBench = -- ... -> Benchmark
+  lam runtimes : Map String Runtime.
+  lam desc : String.
+  lam cwd : Path.
+  lam b : PartialBench.
     { description = desc
     , timing =
       let raw = optionGetOrElse (lam. error "expected timing") b.timing in
@@ -100,62 +140,87 @@ let extractBench : Map String RuntimString -> PartialBench -> Benchmark =
       r
     , argument = optionGetOrElse (lam. error "expected argument") b.argument
     , cwd = cwd
+    , data = b.data
     }
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
-let findBenchmarks : String -> [String] -> Unknown =
+let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String Data}
   lam root : Path. -- The root directory of the benchmarks
   lam paths : [Path]. -- Subpaths within root in which to look for benchmarks TODO(Linnea, 2021-03-23): not supported yet
   lam runtimes : Map String Runtime.
 
   -- Update a partial benchmark 'b' with information from 'configFile'.
-  let updatePartialBench = lam b : PartialBench. lam configFile : Path.
-    let c = readToml (readFile configFile) in
-    { timing =
-      match c with {timing = t} then
-        match b.timing with Some oldT then
-          error (join [ "Overriding timing in file: ", configFile
-                      , "\nPrevious definition: ", oldT
-                      , "\nNew definition: ", t])
-        else Some t
-      else b.timing
-    , runtime =
-      match c with {runtime = r} then
-        match b.runtime with Some oldR then
-          error (join [ "Overriding runtime in file: ", configFile
-                      , "\nPrevious definition: ", oldR
-                      , "\nNew definition: ", r])
-        else Some r
-      else b.runtime
-    , argument =
-      match c with {argument = a} then
-        match b.argument with Some oldA then
-          error (join [ "Overriding argument in file: ", configFile
-                      , "\nPrevious definition: ", oldA
-                      , "\nNew definition: ", a])
-        else Some a
-      else b.argument
-    }
+  let updatePartialBench =
+    lam b : PartialBench.
+    lam configFile : Path.
+    lam data : [Data].
+      let c = readToml (readFile configFile) in
+      let updates =
+      [ lam b. {b with timing =
+          match c with {timing = t} then
+            match b.timing with Some oldT then
+              error (join [ "Overriding timing in file: ", configFile
+                          , "\nPrevious definition: ", oldT
+                          , "\nNew definition: ", t])
+            else Some t
+          else b.timing}
+      , lam b. {b with runtime =
+          match c with {runtime = r} then
+            match b.runtime with Some oldR then
+              error (join [ "Overriding runtime in file: ", configFile
+                          , "\nPrevious definition: ", oldR
+                          , "\nNew definition: ", r])
+            else Some r
+          else b.runtime}
+      , lam b. {b with argument =
+          match c with {argument = a} then
+            match b.argument with Some oldA then
+              error (join [ "Overriding argument in file: ", configFile
+                          , "\nPrevious definition: ", oldA
+                          , "\nNew definition: ", a])
+            else Some a
+          else b.argument}
+      , lam b. {b with data = concat b.data data}
+      ] in
+      foldl (lam acc. lam upd. upd acc) b updates
   in
 
   match pathFoldBenchmark
     (lam acc. lam file.
-       match acc with (partialBench, benchmarks) then
-         if endsWith file ".toml" then
-           let cwd = pathGetParent file in
-           let b = updatePartialBench partialBench file in
-           if isCompleteBench b then
-             (partialBench, cons (extractBench runtimes file cwd b) benchmarks)
-           else
-             (b, benchmarks)
-         else
-           acc
-       else never
+       match acc with (partialBench, benchAndData) then
+       match benchAndData with {benchmarks = benchmarks, datasets = datasets}
+       then
+         let cwd = pathGetParent file in
+         match pathList cwd with {dirs = dirs} then
+           -- Scan for any new datasets
+           let newData =
+             match find (eqString "datasets") dirs with Some _ then
+               findData (pathConcat cwd "datasets")
+             else mapEmpty cmpString
+           in
+           match
+             if endsWith file ".toml" then
+               -- Update the benchmark with info from config file
+               let b = updatePartialBench partialBench file (mapKeys newData) in
+               if isCompleteBench b then
+                 (partialBench,
+                   { benchAndData with
+                     benchmarks = cons (extractBench runtimes file cwd b)
+                                       benchmarks })
+               else
+                 (b, benchAndData)
+             else acc
+           with (pb, bd) then
+             -- Collect all of the datasets
+             (pb, {bd with datasets = mapUnion bd.datasets newData})
+           else never
+         else never
+       else never else never
        )
-    {timing = None (), runtime = None (), argument = None ()}
-    []
+    {timing = None (), runtime = None (), argument = None (), data = []}
+    {benchmarks = [], datasets = mapEmpty cmpString}
     root
-  with (_, benchmarks) then benchmarks
+  with (_, benchAndData) then benchAndData
   else never
   -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
 

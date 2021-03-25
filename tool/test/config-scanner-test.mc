@@ -15,7 +15,11 @@ utest mapBindings runtimes with
 ]
 in
 
-let benchmarks = findBenchmarks "benchmarks" [] runtimes in
+let benchAndData = findBenchmarks "benchmarks" [] runtimes in
+
+match benchAndData with {benchmarks = benchmarks, datasets = datasets} then
+
+utest mapKeys datasets with ["1.txt", "2.txt"] in
 
 utest benchmarks with
 [ { description = "benchmarks/hello/mcore/config.toml"
@@ -23,13 +27,17 @@ utest benchmarks with
   , runtime = "MCore"
   , timing = Complete ()
   , cwd = "benchmarks/hello/mcore"
+  , data = ["1.txt", "2.txt"]
   }
 , { description = "benchmarks/hello/ocaml/config.toml"
   , argument = "hello"
   , runtime = "OCaml"
   , timing = Complete ()
   , cwd = "benchmarks/hello/ocaml"
+  , data = ["1.txt", "2.txt"]
   }
-] in
+] in ()
+
+else never;
 
 ()
