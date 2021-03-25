@@ -28,12 +28,12 @@ let parseEdges = lam str.
 utest parseEdges " []  " with []
 utest parseEdges " [(a,  b, 1 )  , ( c,d,  42)] " with [("a","b",1),("c","d",42)]
 
-let parseTSPInput = lam _.
+let parseTSPInput = lam.
   let vs = parseVertices (readLine ()) in
   let es = parseEdges (readLine ()) in
   let initTour = parseEdges (readLine ()) in
 
-  {g = digraphAddEdges es (digraphAddVertices vs (digraphEmpty eqstr eqi)),
+  {g = digraphAddEdges es (digraphAddVertices vs (digraphEmpty eqString eqi)),
    initTour = initTour}
 
 
@@ -44,8 +44,8 @@ let neighbours = lam g. lam state.
   let tour = curSol.0 in
 
   let tourHasEdge = lam v1. lam v2.
-    any (lam e. or (and (eqstr v1 e.0) (eqstr v2 e.1))
-                   (and (eqstr v1 e.1) (eqstr v2 e.0))) tour in
+    any (lam e. or (and (eqString v1 e.0) (eqString v2 e.1))
+                   (and (eqString v1 e.1) (eqString v2 e.0))) tour in
 
   -- Find replacing edges for 'e12' and 'e34'
   let exchange = lam e12. lam e34.
