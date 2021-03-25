@@ -10,6 +10,12 @@ let pathExists : Path -> Bool = lam path.
 
 utest pathExists "." with true
 
+-- Check if path is a command
+let pathIsCmd = lam path.
+  let shutil = pyimport "shutil" in
+  match pyconvert (pycall shutil "which" (path,))
+  with "" then false else true
+
 let pathConcat : Path -> Path -> Path = lam p1. lam p2.
   join [p1, "/", p2]
 

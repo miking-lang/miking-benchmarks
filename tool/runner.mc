@@ -10,9 +10,6 @@ type Result = { benchmark : String
               , ms_run : [Float]
               }
 
-let cmdExists = lam cmd.
-  true
-
 -- Check if 'str' starts with 'prefix'
 let startsWith = lam str. lam prefix.
   isPrefix eqChar prefix str
@@ -82,7 +79,7 @@ let runWithRuntime = -- ... -> (Option Float, [Float])
         error
           (concat "Required executables not found for runtime" runtime.provides)
       else match commands with [c] ++ commands then
-        if all cmdExists c.required_executables then c
+        if all pathIsCmd c.required_executables then c
         else findSupportedCommand commands
       else never
     in
