@@ -21,5 +21,3 @@ clean:
 	rm -rf benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml/_build
 	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml2mcore2ocaml/bstree
 	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml2mcore2ocaml/bstree.mc
-
-

@@ -68,7 +68,7 @@ let pathFoldData = pathFold dirData
 -- Find all the available runtimes defined in the directory 'root'.
 let findRuntimes : Path -> Map String Runtime = lam root.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
-    let r = readToml (readFile configFile) in
+    let r = tomlRead (readFile configFile) in
     let r = { provides = r.provides
             , command =
               map (lam c. { required_executables = c.required_executables
@@ -86,7 +86,7 @@ let findRuntimes : Path -> Map String Runtime = lam root.
 -- Find all the datasets in the directory 'root'
 let findData : Path -> Map String Data = lam root.
   let addData = lam configFile : Path. lam data : Map String Data.
-    let d = readToml (readFile configFile) in
+    let d = tomlRead (readFile configFile) in
     let cwd = pathGetParent configFile in
     match d with {runtime = r, dataset = dataset} then
       foldl (lam acc. lam entry.
@@ -155,7 +155,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
     lam b : PartialBench.
     lam configFile : Path.
     lam data : [Data].
-      let c = readToml (readFile configFile) in
+      let c = tomlRead (readFile configFile) in
       let updates =
       [ lam b. {b with timing =
           match c with {timing = t} then
