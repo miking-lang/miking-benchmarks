@@ -9,4 +9,4 @@ let factorial n =
 
 let a =
   let n = int_of_string (read_line ()) in
-  print_endline (string_of_int (factorial n))
+  factorial n
