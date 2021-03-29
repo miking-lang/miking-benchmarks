@@ -5,7 +5,7 @@ run:
 	mi main.mc -- \
 	--benchmarks ../benchmark-suite/benchmarks \
 	--runtimes ../benchmark-suite/runtimes \
-	--iters 1 \
+	--iters 3 \
 	--output toml \
 	--warmups 1
 
@@ -23,3 +23,7 @@ clean:
 	rm -rf benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml/_build
 	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml2mcore2ocaml/bstree
 	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/bstree/ocaml2mcore2ocaml/bstree.mc
+
+	rm -rf benchmark-suite/benchmarks/ocaml-mcore-ocaml/factorial/ocaml/_build
+	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/factorial/ocaml2mcore2ocaml/factorial
+	rm -f benchmark-suite/benchmarks/ocaml-mcore-ocaml/factorial/ocaml2mcore2ocaml/factorial.mc
