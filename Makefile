@@ -6,12 +6,14 @@ run:
 	--benchmarks ../benchmark-suite/benchmarks \
 	--runtimes ../benchmark-suite/runtimes \
 	--iters 1 \
+	--output toml \
 	--warmups 1
 
 test:
 	cd tool/test ; mi test .
 	mi test tool/config-scanner.mc
 	mi test tool/runner.mc
+	mi test tool/toml.mc
 
 clean:
 	rm -rf benchmark-suite/benchmarks/ocaml-mcore-ocaml/fibonacci/ocaml/_build

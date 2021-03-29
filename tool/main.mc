@@ -12,6 +12,7 @@ let options =
   , runtimes = ""
   , iters = 1
   , warmups = 1
+  , output = toTOML
   }
 
 recursive let parseArgs = lam ops. lam args.
@@ -34,6 +35,17 @@ recursive let parseArgs = lam ops. lam args.
     match args with [n] ++ args then
       parseArgs {ops with warmups = string2int n} args
     else error "--warmups with no argument"
+
+  else match args with ["--output"] ++ args then
+    match args with [s] ++ args then
+      let s = str2lower s in
+      let outFun =
+          match s with "csv" then toCSV
+          else match s with "toml" then toTOML
+          else error (concat "Unknown output option: " s)
+      in
+      parseArgs {ops with output = outFun} args
+    else error "--output with no argument"
 
   else match args with [] then ops
   else match args with [a] ++ args then
@@ -62,7 +74,7 @@ let main = lam.
   match findBenchmarks ops.benchmarks [] runtimes
   with {benchmarks = benchmarks, datasets = datasets} then
     let rs = runBenchmarks benchmarks datasets runtimes ops in
-    printLn (toCSV rs)
+    printLn (ops.output rs)
   else never
 
 mexpr
