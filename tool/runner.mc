@@ -61,6 +61,7 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
                     , "Stdin: ", stdin, "\n"
                     , "Stdout: ", r.stdout, "\n"
                     , "Stderr: ", r.stderr, "\n"
+                    , "cwd: ", cwd, "\n"
                     ])
     else never
 
