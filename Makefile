@@ -1,3 +1,5 @@
+.PHONY: run test clean
+
 run:
 	cd tool && \
 	mi main.mc -- \
