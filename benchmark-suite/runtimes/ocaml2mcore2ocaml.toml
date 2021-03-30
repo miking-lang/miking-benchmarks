@@ -3,4 +3,4 @@ provides = "OCaml2MCore2OCaml"
 [[command]]
 required_executables = ["ocaml2mcore"]
 build_command = "ocaml2mcore {argument}.ml -o {argument}.mc --to-ocaml"
-command = "./prog"
+command = "./{argument}"

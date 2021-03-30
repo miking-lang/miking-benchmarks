@@ -1,0 +1,13 @@
+runtime = "text"
+
+[[dataset]]
+argument = "1000"
+
+[[dataset]]
+argument = "10000"
+
+[[dataset]]
+argument = "100000"
+
+[[dataset]]
+argument = "1000000"

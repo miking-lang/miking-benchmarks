@@ -61,6 +61,7 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
                     , "Stdin: ", stdin, "\n"
                     , "Stdout: ", r.stdout, "\n"
                     , "Stderr: ", r.stderr, "\n"
+                    , "cwd: ", cwd, "\n"
                     ])
     else never
 
@@ -175,3 +176,17 @@ let toCSV : [Result] -> String =
            , join ["{", cs (map float2string r.ms_run), "}"]])
       results
     in strJoin "\n" (cons header body)
+
+-- Convert a list of results into TOML format
+let toTOML : [Result] -> String =
+  lam results.
+    -- Remove the option types from the results (not supported by TOML writer)
+    let results =
+      map (lam r.
+        { benchmark = r.benchmark
+        , data = r.data
+        , ms_build = optionGetOr 0.0 r.ms_build
+        , ms_run = r.ms_run
+        }
+      ) results in
+    tomlWrite {results = results}

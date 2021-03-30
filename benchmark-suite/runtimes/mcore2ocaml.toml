@@ -1,0 +1,6 @@
+provides = "MCore2OCaml"
+
+[[command]]
+required_executables = ["boot.mi"]
+build_command = "boot.mi /Users/lingmar/Dropbox/PhD/Research/miking-lang/miking/stdlib/../src/main/mi.mc -- compile {argument}.mc"
+command = "./{argument}"

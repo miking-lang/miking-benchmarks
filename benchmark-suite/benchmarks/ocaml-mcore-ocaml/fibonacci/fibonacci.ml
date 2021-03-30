@@ -6,4 +6,4 @@ let rec fibonacci n =
 
 let _ =
   let n = int_of_string (read_line ()) in
-  print_endline (string_of_int (fibonacci n))
+  fibonacci n
