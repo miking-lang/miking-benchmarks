@@ -115,7 +115,9 @@ let runBenchmark = -- ... -> [Result]
         -- Now collect the measurements
         let times = runMany ops.iters in
         -- Run clean command
-        runOpCmd benchSupportedCmd.clean_command argument;
+        (if ops.clean then
+           runOpCmd benchSupportedCmd.clean_command argument
+         else ());
         -- Return the final result
         (buildMs, times)
       else error "Unknown timing option"

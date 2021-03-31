@@ -192,6 +192,8 @@ A runtime configuration file specifies:
     configuration file.
   - A template `build_command` (optional): how to compile the benchmark. Again
   where "{argument}" is to be replaced.
+  - A template `clean_command` (optional): how to clean up files after running
+    the benchmark.
  
   
   The first command entry that has all required executables will be chosen.

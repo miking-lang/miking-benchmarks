@@ -13,6 +13,7 @@ let options =
   , iters = 1
   , warmups = 1
   , output = toTOML
+  , clean = true
   }
 
 recursive let parseArgs = lam ops. lam args.
@@ -46,6 +47,11 @@ recursive let parseArgs = lam ops. lam args.
       in
       parseArgs {ops with output = outFun} args
     else error "--output with no argument"
+
+  else match args with ["--enable-clean"] ++ args then
+     parseArgs {ops with clean = true} args
+  else match args with ["--disable-clean"] ++ args then
+     parseArgs {ops with clean = false} args
 
   else match args with [] then ops
   else match args with [a] ++ args then
