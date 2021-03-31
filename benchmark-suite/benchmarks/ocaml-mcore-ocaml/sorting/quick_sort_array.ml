@@ -12,7 +12,7 @@ let rand seed =
 
 let rand_array n =
   Array.make n 0
-  |> Array.mapi (fun i _ -> rand i)
+  |> Array.mapi (fun i _ -> rand (i + 1))
 
 let partition a lo hi =
   let swap i j =

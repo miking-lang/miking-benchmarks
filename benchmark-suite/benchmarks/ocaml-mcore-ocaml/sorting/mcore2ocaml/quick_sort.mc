@@ -57,7 +57,7 @@ let rand = lam seed.
   r
 
 let randList = lam n.
-  create n rand
+  create n (lam i. rand (addi i 1))
 
 let mapi = lam f. lam seq.
   recursive let work = lam i. lam f. lam seq.
@@ -79,12 +79,12 @@ let partition = (lam p. lam seq.
   (filter p seq, filter (lam q. if p q then false else true) seq))
 
 recursive
-  let quickSort = lam cmp. lam seq.
+  let quickSort = lam seq.
     if null seq then seq else
     let h = head seq in
     let t = tail seq in
-    let lr = partition (lam x. lti (cmp x h) 0) t in
-    concat (quickSort cmp lr.0) (cons h (quickSort cmp lr.1))
+    let lr = partition (lam x. lti x h) t in
+    concat (quickSort lr.0) (cons h (quickSort lr.1))
 end
 
 mexpr
@@ -92,6 +92,7 @@ let n = readLine () in
 
 let l = randList (string2int n) in
 
-let sorted = quickSort subi l in
+let sorted = quickSort l in
 
-()--print (strJoin " " (map int2string sorted))
+()
+--print (strJoin " " (map int2string sorted))
