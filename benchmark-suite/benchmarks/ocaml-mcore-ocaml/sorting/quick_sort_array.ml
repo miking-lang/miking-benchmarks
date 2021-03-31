@@ -14,10 +14,6 @@ let rand_array n =
   Array.make n 0
   |> Array.mapi (fun i _ -> rand i)
 
-let print_array a =
-  Array.iter (Printf.printf "%d ") a;
-  print_endline ""
-
 let partition a lo hi =
   let swap i j =
     let temp = a.(i) in

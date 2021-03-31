@@ -1,1 +1,1 @@
-../quick_sort.ml
+../quick_sort_list.ml
