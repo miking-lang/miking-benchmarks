@@ -3,8 +3,18 @@ include "runner.mc"
 include "path.mc"
 include "string.mc"
 
-let menu = strJoin "\n" [
-  "TBA"
+let menu = strJoin "\n"
+[ "Usage: mi main -- <options>"
+, ""
+, "Options:"
+, "  --help           Print this message and exit"
+, "  --benchmarks     Root directory of the benchmarks"
+, "  --runtimes       Root directory of the runtime definitions"
+, "  --iters          Number of times to repeat each benchmark (default 1)"
+, "  --warmups        Number of warmup runs for each benchmark (default 1)"
+, "  --output         Output format {csv,toml}"
+, "  --enable-clean   Clean up files after running benchmarks (default on)"
+, "  --disable-clean  Do not clean up files after running benchmarks"
 ]
 
 let options =
@@ -17,7 +27,10 @@ let options =
   }
 
 recursive let parseArgs = lam ops. lam args.
-  match args with ["--benchmarks"] ++ args then
+  match args with ["--help"] ++ args then
+    printLn menu; exit 0
+
+  else match args with ["--benchmarks"] ++ args then
     match args with [b] ++ args then
       parseArgs {ops with benchmarks = b} args
     else error "--benchmarks with no argument"
@@ -61,7 +74,7 @@ end
 
 let verifyOptions = lam ops.
   map
-    (lam t. if t.0 then () else error t.1)
+    (lam t. if t.0 then () else printLn menu; error t.1)
     [ (pathExists ops.runtimes,
        concat "No such directory: " ops.runtimes)
     , (pathExists ops.benchmarks,
