@@ -36,12 +36,12 @@ let int2string = lam n.
 
 -- Joins the strings in strs on delim
 recursive
-let strJoin = lam delim. lam strs.
-if eqi (length strs) 0
-then ""
-else if eqi (length strs) 1
-then head strs
-else concat (concat (head strs) delim) (strJoin delim (tail strs))
+  let strJoin = lam delim. lam strs.
+    if eqi (length strs) 0
+    then ""
+    else if eqi (length strs) 1
+    then head strs
+    else concat (concat (head strs) delim) (strJoin delim (tail strs))
 end
 
 
@@ -84,7 +84,7 @@ recursive
     let h = head seq in
     let t = tail seq in
     let lr = partition (lam x. lti (cmp x h) 0) t in
-  concat (quickSort cmp lr.0) (cons h (quickSort cmp lr.1))
+    concat (quickSort cmp lr.0) (cons h (quickSort cmp lr.1))
 end
 
 mexpr
