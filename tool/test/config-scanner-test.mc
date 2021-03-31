@@ -7,11 +7,13 @@ utest mapBindings runtimes with
 [ ("MCore", { provides = "MCore"
             , command = [{ required_executables = ["boot.mi"]
                          , build_command = None ()
-                         , command = "boot.mi {argument}.mc"}]})
+                         , command = "boot.mi {argument}.mc"
+                         , clean_command = None ()}]})
 , ("OCaml", { provides = "OCaml"
             , command = [{ required_executables = ["dune"]
                          , build_command = Some "dune build"
-                         , command = "_build/default/{argument}.exe"}]})
+                         , command = "_build/default/{argument}.exe"
+                         , clean_command = None ()}]})
 ]
 in
 

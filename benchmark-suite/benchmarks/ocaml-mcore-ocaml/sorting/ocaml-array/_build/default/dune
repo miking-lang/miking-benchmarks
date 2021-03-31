@@ -1,3 +1,0 @@
-(env (dev (flags (:standard -w -a))))
-(executable
-  (name quick_sort))

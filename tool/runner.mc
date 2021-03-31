@@ -66,7 +66,7 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
     else never
 
 -- Like 'runCommandFailOnExit' but only returns the elapsed time.
-let runCommandTime : String -> String -> Path -> (ExecResult, Float) =
+let runCommandTime : String -> String -> Path -> Float =
   lam cmd. lam stdin. lam cwd.
     match runCommandFailOnExit cmd stdin cwd with (_, ms)
     then ms
@@ -92,30 +92,33 @@ let runBenchmark = -- ... -> [Result]
       else never
     in
 
-    let build : String Option -> String -> Float Option = lam cmd. lam arg.
+    let runOpCmd : String Option -> String -> Float Option = lam cmd. lam arg.
       optionMap (lam cmd.
-                   let buildCmd = insertArg cmd arg in
-                   runCommandTime buildCmd "" cwd)
+                   let fullCmd = insertArg cmd arg in
+                   runCommandTime fullCmd "" cwd)
                 cmd
     in
 
     let benchSupportedCmd = findSupportedCommand runtime.command in
 
     -- Run the benchmark with a given stdin
-    let runBench = lam stdin.
+    let runBench : String -> (Float, [Float]) = lam stdin.
       -- Build the benchmark
-      let buildMs = build benchSupportedCmd.build_command argument in
+      let buildMs = runOpCmd benchSupportedCmd.build_command argument in
       -- Run the benchmark
       let cmd = insertArg benchSupportedCmd.command argument in
-        match timing with Complete () then
-          let run = lam. runCommandTime cmd stdin cwd in
-          let runMany = lam n. map run (create n (lam. ())) in
-          -- Throw away the result for the warmup runs
-          runMany ops.warmups;
-          -- Now collect the measurements
-          let times = runMany ops.iters in
-          (buildMs, times)
-        else error "Unknown timing option"
+      match timing with Complete () then
+        let run = lam. runCommandTime cmd stdin cwd in
+        let runMany = lam n. map run (create n (lam. ())) in
+        -- Throw away the result for the warmup runs
+        runMany ops.warmups;
+        -- Now collect the measurements
+        let times = runMany ops.iters in
+        -- Run clean command
+        runOpCmd benchSupportedCmd.clean_command argument;
+        -- Return the final result
+        (buildMs, times)
+      else error "Unknown timing option"
     in
 
     match data with [] then
@@ -132,12 +135,13 @@ let runBenchmark = -- ... -> [Result]
         match d with {argument = arg, runtime = rID, cwd = cwd} then
           let r = mapFindWithExn rID runtimes in
           let c = findSupportedCommand r.command in
-          build c.build_command arg;
+          runOpCmd c.build_command arg;
           let runCmd = insertArg c.command arg in
           -- Run the dataset program and get the stdout, use as stdin for
           -- benchmark
-          match runCommandFailOnExit runCmd "" cwd with (res, _) then
-            match runBench res.stdout with (buildMs, times) then
+          match runCommandFailOnExit runCmd "" cwd with ({stdout = stdout}, _)
+            then
+            match runBench stdout with (buildMs, times) then
                cons
                  { benchmark = benchmark.description
                  , data = dKey
