@@ -20,15 +20,15 @@ let partition a lo hi =
     a.(i) <- a.(j);
     a.(j) <- temp;
   in
-  let pivot = a.(hi) in
-  let i = ref lo in
-  for j = lo to hi do
-    if a.(j) < pivot then
+  let pivot = a.(lo) in
+  let i = ref hi in
+  for j = hi downto lo do
+    if a.(j) > pivot then
       (swap !i j;
-       i := !i + 1)
+       i := !i - 1)
     else ();
   done;
-  swap !i hi;
+  swap !i lo;
   !i
 
 let quicksort (a : int Array.t) =
