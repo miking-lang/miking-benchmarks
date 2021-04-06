@@ -11,20 +11,20 @@ let rand seed =
   r
 
 let rand_list n =
-  List.init n rand
+  List.init n (fun i -> rand (i + 1))
 
-let rec quicksort (cmp : int -> int -> int) seq =
+let rec quicksort seq =
   match seq with
   | [] -> seq
   | h :: t ->
-    let l, r = List.partition (fun x -> (cmp x h) < 0) t in
-    (quicksort cmp l) @ (h :: (quicksort cmp r))
+    let l, r = List.partition (fun x -> x < h) t in
+    (quicksort l) @ (h :: (quicksort r))
 
 let _ =
   read_line ()
   |> int_of_string
   |> rand_list
-  |> quicksort (-)
+  |> quicksort
   (* |> List.map string_of_int
-   * |> String.concat " "
+   * |> String.concat "\n"
    * |> print_endline *)

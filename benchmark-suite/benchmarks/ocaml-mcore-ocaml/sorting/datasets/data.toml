@@ -6,8 +6,10 @@ argument = "1000"
 [[dataset]]
 argument = "10000"
 
-[[dataset]]
-argument = "100000"
+# TODO(Linnea, 2021-03-31): add these as additional datasets to list and array
+# implementations
+# [[dataset]]
+# argument = "100000"
 
-[[dataset]]
-argument = "1000000"
+# [[dataset]]
+# argument = "1000000"

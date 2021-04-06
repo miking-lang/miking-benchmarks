@@ -1,6 +1,7 @@
 provides = "OCaml2MCore2OCaml"
 
 [[command]]
-required_executables = ["ocaml2mcore"]
+required_executables = ["ocaml2mcore", "rm"]
 build_command = "ocaml2mcore {argument}.ml -o {argument}.mc --to-ocaml"
 command = "./{argument}"
+clean_command = "rm {argument} {argument}.mc test.cmi"

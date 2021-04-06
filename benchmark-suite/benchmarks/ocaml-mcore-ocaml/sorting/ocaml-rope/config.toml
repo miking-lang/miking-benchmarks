@@ -1,0 +1,3 @@
+runtime = "OCaml"
+
+argument = "quick_sort"

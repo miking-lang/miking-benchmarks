@@ -13,7 +13,8 @@ con Complete : () -> Timing
 
 type Command = { required_executables : [String]
                , build_command : Option String
-               , command : String}
+               , command : String
+               , clean_command : Option String}
 type Runtime = { provides : String
                , command : [Command]
                }
@@ -74,7 +75,9 @@ let findRuntimes : Path -> Map String Runtime = lam root.
               map (lam c. { required_executables = c.required_executables
                           , build_command = match c with {build_command = bc}
                                             then Some bc else None ()
-                          , command = c.command})
+                          , command = c.command
+                          , clean_command = match c with {clean_command = cc}
+                                            then Some cc else None ()})
                   r.command}
     in mapInsert r.provides r runtimes
   in
