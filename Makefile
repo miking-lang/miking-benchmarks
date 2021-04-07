@@ -1,4 +1,4 @@
-.PHONY: run plot test clean
+.PHONY: run plot test
 
 run:
 	cd tool/main && \
@@ -18,6 +18,3 @@ plot:
 
 test:
 	cd tool/tool ; mi test .
-
-clean:
-	for f in `find . -name "*.png"`; do rm $f; done
