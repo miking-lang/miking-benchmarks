@@ -29,15 +29,13 @@ in
 utest mapKeys datasets with dataKeys in
 
 utest benchmarks with
-[ { description = "benchmarks/hello/mcore/config.toml"
-  , argument = "hello"
+[ { argument = "hello"
   , runtime = "MCore"
   , timing = Complete ()
   , cwd = "benchmarks/hello/mcore"
   , data = dataKeys
   }
-, { description = "benchmarks/hello/ocaml/config.toml"
-  , argument = "hello"
+, { argument = "hello"
   , runtime = "OCaml"
   , timing = Complete ()
   , cwd = "benchmarks/hello/ocaml"

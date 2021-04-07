@@ -14,3 +14,5 @@ test:
 	mi test tool/config-scanner.mc
 	mi test tool/runner.mc
 	mi test tool/toml.mc
+	mi test tool/path.mc
+	mi test tool/utils.mc

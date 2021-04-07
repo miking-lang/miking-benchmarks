@@ -4,6 +4,7 @@ include "string.mc"
 include "map.mc"
 include "path.mc"
 include "bool.mc"
+include "utils.mc"
 
 type Timing
 -- Don't measure the time
@@ -23,21 +24,12 @@ type Data = { runtime : String
             , cwd : Path
             , tags : [String]
             }
-type Benchmark = { description : String
-                 , timing : Timing
+type Benchmark = { timing : Timing
                  , runtime : String
                  , argument : String
                  , cwd : Path
                  , data : [Data]
                  }
-
--- Check if 'str' starts with 'prefix'
-let startsWith = lam prefix. lam str.
-  isPrefix eqChar prefix str
-
--- Check if 'str' ends with 'suffix'
-let endsWith = lam str. lam suffix.
-  isSuffix eqChar suffix str
 
 -- Check if 'path' is a valid directory for a benchmark
 let dirBenchmark = lam path.
@@ -131,11 +123,9 @@ let isCompleteBench : PartialBench -> Bool = lam b.
 -- Convert a partial benchmark into a benchmark, and verify that options are valid.
 let extractBench = -- ... -> Benchmark
   lam runtimes : Map String Runtime.
-  lam desc : String.
   lam cwd : Path.
   lam b : PartialBench.
-    { description = desc
-    , timing =
+    { timing =
       let raw = optionGetOrElse (lam. error "expected timing") b.timing in
       getTiming raw
     , runtime =
@@ -209,7 +199,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
                if isCompleteBench b then
                  (partialBench,
                    { benchAndData with
-                     benchmarks = cons (extractBench runtimes file cwd b)
+                     benchmarks = cons (extractBench runtimes cwd b)
                                        benchmarks })
                else
                  (b, benchAndData)

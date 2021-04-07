@@ -1,10 +1,10 @@
 include "ocaml/process-helpers.mc"
-include "string.mc"
 include "path.mc"
 include "config-scanner.mc"
+include "utils.mc"
 
-type Result = { benchmark : String
-              , data : String
+type Result = { benchmark : Path
+              , data : Path
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
@@ -14,29 +14,6 @@ type Result = { benchmark : String
 type Options = { nIters : Int
                , warmups : Int
                }
-
--- Check if 'str' starts with 'prefix'
-let startsWith = lam str. lam prefix.
-  isPrefix eqChar prefix str
-
--- Replace all occurrences of substring 'old' in 'str' by substring 'new'.
-let strReplace : String -> String -> String =
-  lam str. lam old. lam new.
-    let oldLen = length old in
-    recursive let work = lam str.
-      match str with "" then str
-      else
-        if startsWith str old then
-          match splitAt str oldLen with (_, str) then
-            concat new (work str)
-          else never
-        else cons (head str) (work (tail str))
-    in work str
-
-utest strReplace "Hello" "H" "Y" with "Yello"
-utest strReplace "" "H" "Y" with ""
-utest strReplace "./{argument} -- {argument}" "{argument}" "prog"
-with "./prog -- prog"
 
 let insertArg = lam cmd. lam arg.
   strReplace cmd "{argument}" arg
@@ -125,7 +102,7 @@ let runBenchmark = -- ... -> [Result]
 
     match data with [] then
       match runBench "" with (buildMs, times) then
-        [{ benchmark = benchmark.description
+        [{ benchmark = benchmark.cwd
          , data = ""
          , ms_build = buildMs
          , ms_run = times
@@ -145,7 +122,7 @@ let runBenchmark = -- ... -> [Result]
             then
             match runBench stdout with (buildMs, times) then
                cons
-                 { benchmark = benchmark.description
+                 { benchmark = benchmark.cwd
                  , data = dKey
                  , ms_build = buildMs
                  , ms_run = times
