@@ -1,18 +1,23 @@
-.PHONY: run test
+.PHONY: run plot test clean
 
 run:
-	cd tool && \
+	cd tool/main && \
 	mi main.mc -- \
-	--benchmarks ../benchmark-suite/benchmarks \
-	--runtimes ../benchmark-suite/runtimes \
+	--benchmarks ../../benchmark-suite/benchmarks \
+	--runtimes ../../benchmark-suite/runtimes \
 	--iters 5 \
 	--output toml \
-	--warmups 1
+	--warmups 1 > ../../results.toml
+
+plot:
+	cd tool/main && \
+	mi main.mc -- \
+	--benchmarks ../../benchmark-suite/benchmarks \
+	--plot ../../results.toml \
+	&& convert *.png ../../report.pdf
 
 test:
-	cd tool/test ; mi test .
-	mi test tool/config-scanner.mc
-	mi test tool/runner.mc
-	mi test tool/toml.mc
-	mi test tool/path.mc
-	mi test tool/utils.mc
+	cd tool/tool ; mi test .
+
+clean:
+	for f in `find . -name "*.png"`; do rm $f; done

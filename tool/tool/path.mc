@@ -34,6 +34,10 @@ utest pathRel "." "." with "."
 utest pathRel ".." "" with ".."
 utest pathRel ".." "." with ".."
 
+-- Get the absolute path of 'path' (could be relative or absolute)
+let pathAbs = lam path.
+  pyconvert (pycall _os_path "abspath" (path,))
+
 -- Format path into a string using 'delim' as delimiter instead of the usual
 -- path separator
 let pathWithDelim = lam path. lam delim.

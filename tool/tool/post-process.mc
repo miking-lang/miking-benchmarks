@@ -58,6 +58,3 @@ let plotByData = lam root. lam filename.
     plotFinalizePlot plotDefaultOptions dataKey
   in
   map (lam b. doPlots b.0 b.1) (mapBindings groupedResults)
-
-mexpr
-plotByData "../benchmark-suite/benchmarks" "results.toml"
