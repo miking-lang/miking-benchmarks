@@ -52,10 +52,10 @@ let plotByData = lam root. lam filename.
       let xticks = map (lam r. r.data.argument) res in
       let xs = xAxisFromTicks xticks in
       let ys = map (lam r. mean r.ms_run) res in
-      addPlot benchKey xs ys xticks
+      plotAddPlot benchKey xs ys xticks
     in
     map (lam r. doOnePlot r.0 r.1) (mapBindings results);
-    finalizePlot dataKey
+    plotFinalizePlot plotDefaultOptions dataKey
   in
   map (lam b. doPlots b.0 b.1) (mapBindings groupedResults)
 
