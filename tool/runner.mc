@@ -3,8 +3,8 @@ include "path.mc"
 include "config-scanner.mc"
 include "utils.mc"
 
-type Result = { benchmark : Path
-              , data : Path
+type Result = { benchmark : Benchmark
+              , data : Data
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
@@ -14,6 +14,10 @@ type Result = { benchmark : Path
 type Options = { nIters : Int
                , warmups : Int
                }
+
+-- Used as dummy data object for benchmarks without data. We could use option
+-- type in result type, but this simplifies writing to toml.
+let dataEmpty : Data = {runtime = "", argument = "", cwd = "", tags = []}
 
 let insertArg = lam cmd. lam arg.
   strReplace cmd "{argument}" arg
@@ -102,8 +106,8 @@ let runBenchmark = -- ... -> [Result]
 
     match data with [] then
       match runBench "" with (buildMs, times) then
-        [{ benchmark = benchmark.cwd
-         , data = ""
+        [{ benchmark = benchmark.cwdx
+         , data = dataEmpty
          , ms_build = buildMs
          , ms_run = times
          }]
@@ -123,7 +127,7 @@ let runBenchmark = -- ... -> [Result]
             match runBench stdout with (buildMs, times) then
                cons
                  { benchmark = benchmark.cwd
-                 , data = dKey
+                 , data = d
                  , ms_build = buildMs
                  , ms_run = times
                  }
