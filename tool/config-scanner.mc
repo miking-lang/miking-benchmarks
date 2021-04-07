@@ -5,6 +5,7 @@ include "map.mc"
 include "path.mc"
 include "bool.mc"
 include "utils.mc"
+include "set.mc"
 
 type Timing
 -- Don't measure the time
@@ -143,6 +144,9 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
   lam paths : [Path]. -- Subpaths within root in which to look for benchmarks TODO(Linnea, 2021-03-23): not supported yet
   lam runtimes : Map String Runtime.
 
+  let addData = lam pb : PartialBench. lam dataStr : String.
+    {pb with data = setUnion eqString  pb.data dataStr} in
+
   -- Update a partial benchmark 'b' with information from 'configFile'.
   let updatePartialBench =
     lam b : PartialBench.
@@ -174,7 +178,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
                           , "\nNew definition: ", a])
             else Some a
           else b.argument}
-      , lam b. {b with data = concat b.data data}
+      , lam b. addData b data
       ] in
       foldl (lam acc. lam upd. upd acc) b updates
   in
@@ -204,7 +208,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
                else
                  (b, benchAndData)
              else
-               ({partialBench with data = concat partialBench.data (mapKeys newData)}, benchAndData)
+               (addData partialBench (mapKeys newData), benchAndData)
            with (pb, bd) then
              (pb, {bd with datasets = mapUnion bd.datasets newData})
            else never
