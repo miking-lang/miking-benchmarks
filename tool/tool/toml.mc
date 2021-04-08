@@ -6,6 +6,9 @@ let _pyToml = pyimport "toml"
 let tomlRead = lam tomlStr.
   pyconvert (pycall _pyToml "loads" (tomlStr,))
 
+let tomlReadFile = lam tomlFile.
+  tomlRead (readFile tomlFile)
+
 -- Write a dict (=record) into TOML format
 let tomlWrite = lam dict.
   pyconvert (pycall _pyToml "dumps" (dict,))

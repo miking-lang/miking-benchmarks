@@ -1,19 +1,23 @@
 include "string.mc"
+include "utils.mc"
 include "python/python.mc"
 
 type Path = String
 
+let _blt = pyimport "builtins"
+let _os = pyimport "os"
+let _os_path = pythonGetAttr _os "path"
+let _shutil = pyimport "shutil"
+
 -- Check if a path exists
 let pathExists : Path -> Bool = lam path.
-  let oslib = pyimport "os" in
-  pyconvert (pycall (pythonGetAttr oslib "path") "exists" (path,))
+  pyconvert (pycall _os_path "exists" (path,))
 
 utest pathExists "." with true
 
 -- Check if path is a command
 let pathIsCmd = lam path.
-  let shutil = pyimport "shutil" in
-  match pyconvert (pycall shutil "which" (path,))
+  match pyconvert (pycall _shutil "which" (path,))
   with "" then false else true
 
 let pathConcat : Path -> Path -> Path = lam p1. lam p2.
@@ -21,12 +25,32 @@ let pathConcat : Path -> Path -> Path = lam p1. lam p2.
 
 utest pathConcat "/path/to" "hello" with "/path/to/hello"
 
+-- Get the path of 'path' relative to 'start'
+let pathRel = lam path. lam start.
+  pyconvert (pycallkw _os_path "relpath" (path,) {start = start})
+
+utest pathRel "." "" with "."
+utest pathRel "." "." with "."
+utest pathRel ".." "" with ".."
+utest pathRel ".." "." with ".."
+
+-- Get the absolute path of 'path' (could be relative or absolute)
+let pathAbs = lam path.
+  pyconvert (pycall _os_path "abspath" (path,))
+
+-- Format path into a string using 'delim' as delimiter instead of the usual
+-- path separator
+let pathWithDelim = lam path. lam delim.
+  let sep = pyconvert (pythonGetAttr _os_path "sep") in
+  strReplace path sep delim
+
+utest pathWithDelim "" "xyz" with ""
+utest pathWithDelim "path/to/something" "::" with "path::to::something"
+
 -- Get all the files and sub-directories immediately below a directory
 let pathList : Path -> {dirs : [Path], files : [Path]} = lam dir.
   if pathExists dir then
-    let blt = pyimport "builtins" in
-    let oslib = pyimport "os" in
-    let walk = pycall blt "list" (pycall oslib "walk" (dir,),) in
+    let walk = pycall _blt "list" (pycall _os "walk" (dir,),) in
     let lst = pyconvert walk in
     match lst with [] then
       {dirs = [], files = []}
