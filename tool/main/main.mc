@@ -3,6 +3,7 @@ include "../tool/runner.mc"
 include "../tool/path.mc"
 include "../tool/post-process.mc"
 include "string.mc"
+include "common.mc"
 
 let menu = strJoin "\n"
 [ "Usage: mi main -- <options>"

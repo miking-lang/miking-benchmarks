@@ -1,7 +1,7 @@
 provides = "MCore2OCaml"
 
 [[command]]
-required_executables = ["boot.mi", "rm"]
-build_command = "boot.mi /Users/lingmar/Dropbox/PhD/Research/miking-lang/miking/stdlib/../src/main/mi.mc -- compile {argument}.mc"
+required_executables = ["mi", "rm"]
+build_command = "mi compile {argument}.mc"
 command = "./{argument}"
 clean_command = "rm {argument}"
