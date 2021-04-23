@@ -27,8 +27,11 @@ let insertArg = lam cmd. lam arg.
 -- result and the elapsed time in ms.
 let runCommand : String -> String -> Path -> (ExecResult, Float) =
   lam cmd. lam stdin. lam cwd.
+    let stdin = join ["\"", escapeString stdin, "\""] in
+    let cmd = (strSplit " " cmd) in
+
     let t1 = wallTimeMs () in
-    let r = sysRunCommand (strSplit " " cmd) stdin cwd in
+    let r = sysRunCommand cmd stdin cwd in
     let t2 = wallTimeMs () in
     (r, subf t2 t1)
 
