@@ -1,7 +1,8 @@
-include "ocaml/process-helpers.mc"
+include "ocaml/sys.mc"
 include "path.mc"
 include "config-scanner.mc"
 include "utils.mc"
+include "common.mc"
 
 type Result = { benchmark : Benchmark
               , data : Data
@@ -26,8 +27,11 @@ let insertArg = lam cmd. lam arg.
 -- result and the elapsed time in ms.
 let runCommand : String -> String -> Path -> (ExecResult, Float) =
   lam cmd. lam stdin. lam cwd.
+    let stdin = join ["\"", escapeString stdin, "\""] in
+    let cmd = (strSplit " " cmd) in
+
     let t1 = wallTimeMs () in
-    let r = phRunCommand (strSplit " " cmd) stdin cwd in
+    let r = sysRunCommand cmd stdin cwd in
     let t2 = wallTimeMs () in
     (r, subf t2 t1)
 

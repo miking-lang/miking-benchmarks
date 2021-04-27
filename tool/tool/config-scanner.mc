@@ -5,7 +5,7 @@ include "map.mc"
 include "path.mc"
 include "bool.mc"
 include "utils.mc"
-include "set.mc"
+include "eqset.mc"
 
 type Timing
 -- Don't measure the time
@@ -145,7 +145,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark], datasets : Map String 
   lam runtimes : Map String Runtime.
 
   let addData = lam pb : PartialBench. lam dataStr : String.
-    {pb with data = setUnion eqString  pb.data dataStr} in
+    {pb with data = eqsetUnion eqString  pb.data dataStr} in
 
   -- Update a partial benchmark 'b' with information from 'configFile'.
   let updatePartialBench =

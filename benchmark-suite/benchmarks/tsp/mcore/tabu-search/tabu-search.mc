@@ -1,4 +1,5 @@
 include "../tsp.mc"
+include "eqset.mc"
 
 mexpr
 
@@ -22,7 +23,7 @@ let randomBest = lam ns. lam state.
 in
 
 let toursEq = lam t1. lam t2.
-  setEqual (digraphEdgeEq g) t1 t2 in
+  eqsetEqual (digraphEdgeEq g) t1 t2 in
 
 let metaTabu = (TabuSearch {tabu = [initTour],
                             isTabu = lam tour. lam tabu. any (toursEq tour) tabu,

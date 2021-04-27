@@ -1,3 +1,4 @@
+include "option.mc"
 
 type PlotOptions =
 { legend : Bool
@@ -49,7 +50,7 @@ let _markerClear = lam. modref _markerIdx 0
 let plotDefaultOptions =
 { legend = true
 , grid = true
-, xmin = Some 0
+, xmin = Some 0.0
 , xmax = None () -- Let Python set the max value
 , ymin = Some 0.0
 , ymax = None ()

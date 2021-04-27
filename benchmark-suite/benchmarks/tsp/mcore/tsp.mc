@@ -2,6 +2,7 @@
 
 include "local-search.mc"
 include "string.mc"
+include "eqset.mc"
 
 -- "[a, b, c]" -> [a, b, c]
 let parseVertices = lam str.
@@ -69,7 +70,7 @@ let neighbours = lam g. lam state.
 
   let neighbourFromExchange = lam oldEdgs. lam newEdgs. lam tour.
     let equal = digraphEdgeEq g in
-    setUnion equal newEdgs (setDiff equal tour oldEdgs)
+    eqsetUnion equal newEdgs (eqsetDiff equal tour oldEdgs)
   in
 
   let possibleExchanges =
