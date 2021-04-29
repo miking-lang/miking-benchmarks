@@ -2,7 +2,7 @@
 
 run:
 	cd tool/main && \
-	boot main.mc -- \
+	boot eval main.mc -- \
 	--benchmarks ../../benchmark-suite/benchmarks \
 	--runtimes ../../benchmark-suite/runtimes \
 	--iters 5 \
@@ -11,7 +11,7 @@ run:
 
 plot:
 	cd tool/main && \
-	boot main.mc -- \
+	boot eval main.mc -- \
 	--benchmarks ../../benchmark-suite/benchmarks \
 	--plot ../../results.toml \
 	&& convert *.png ../../report.pdf
