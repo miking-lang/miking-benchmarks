@@ -1,0 +1,5 @@
+provides = "WebPPL"
+
+[[command]]
+required_executables = ["webppl"]
+command = "webppl {argument}.wppl"

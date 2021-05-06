@@ -85,7 +85,7 @@ fields must match a runtime specification in the `runtimes` directory (see
 
 ##### Example Benchmark Configuration File
 
-The following may be a specification for the `sort/insertsort/insertsort.mc`
+The following may be a specification for the `sort/insertsort/mcore/insertsort.mc`
 benchmark in the [example file structure](#example-file-structure) above:
 
 ```toml

@@ -17,4 +17,4 @@ plot:
 	&& convert *.png ../../report.pdf
 
 test:
-	cd tool/tool ; boot --test .
+	cd tool/tool ; boot eval --test .
