@@ -110,7 +110,7 @@ let runBenchmark = -- ... -> [Result]
 
     match data with [] then
       match runBench "" with (buildMs, times) then
-        [{ benchmark = benchmark.cwdx
+        [{ benchmark = benchmark.cwd
          , data = dataEmpty
          , ms_build = buildMs
          , ms_run = times
