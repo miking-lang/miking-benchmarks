@@ -1,1 +1,9 @@
 timing = "complete"
+
+[[input]]
+tags = ["foo", "number"]
+data = "1"
+
+[[input]]
+tags = ["bar", "number"]
+file = "2.txt"

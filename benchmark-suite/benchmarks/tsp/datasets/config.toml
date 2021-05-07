@@ -1,5 +1,0 @@
-runtime = "text"
-
-[[dataset]]
-tags = ["small"]
-argument = "small1.txt"

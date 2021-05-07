@@ -1,0 +1,13 @@
+[[input]]
+data = "1000"
+
+[[input]]
+data = "10000"
+
+# TODO(Linnea, 2021-03-31): add these as additional datasets to list and array
+# implementations
+# [[input]]
+# data = "100000"
+
+# [[input]]
+# data = "1000000"

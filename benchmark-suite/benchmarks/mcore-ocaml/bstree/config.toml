@@ -1,0 +1,14 @@
+[[input]]
+data = "100"
+
+[[input]]
+data = "1000"
+
+[[input]]
+data = "10000"
+
+[[input]]
+data = "100000"
+
+[[input]]
+data = "1000000"
