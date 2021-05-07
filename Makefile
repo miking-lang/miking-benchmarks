@@ -9,6 +9,14 @@ run:
 	--output toml \
 	--warmups 1 > ../../results.toml
 
+run-ppl:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 5 \
+	  --output toml \
+	  --warmups 1
+
 plot:
 	cd tool/main && \
 	boot eval main.mc -- \
