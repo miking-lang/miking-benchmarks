@@ -26,7 +26,7 @@ type Runtime = { provides : String
                , command : [Command]
                }
 
--- An instantiation of a runtime with a particular argument
+-- An instantiation of a runtime with a particular argument within a benchmark
 type App = { runtime : String
            , argument : String
            }
@@ -49,7 +49,9 @@ type Benchmark = { timing : Timing
 -- Check if 'path' is a valid directory for a benchmark
 let dirBenchmark = lam path.
   all (lam x. x)
-    [ not (startsWith "_" path) ]
+    [ not (startsWith "_" path)
+    , not (eqString "datasets" path)
+    ]
 
 utest dirBenchmark "hello" with true
 utest dirBenchmark "_build" with false
@@ -63,8 +65,6 @@ let dirRuntime = lam path.
 let pathFoldBenchmark = pathFoldDirWD dirBenchmark
 
 let pathFoldRuntime = pathFold dirRuntime
-
-let pathFoldData = pathFold dirData
 
 -- Find all the available runtimes defined in the directory 'root'.
 let findRuntimes : Path -> Map String Runtime = lam root.
@@ -95,48 +95,32 @@ let getTiming : String -> Timing = lam str.
     Complete ()
   else error (concat "Unknown timing option: " str)
 
--- Check if a partial benchmark can be converted into a benchmark.
-let isCompleteBench : PartialBench -> Bool = lam b.
-  all (lam o. match o with Some _ then true else false)
-      [b.timing, b.runtime, b.argument]
-
 -- Convert a partial benchmark into a benchmark, and verify that options are valid.
 let extractBench = -- ... -> Option Benchmark
   lam runtimes : Map String Runtime.
   lam cwd : Path.
   lam pb : PartialBench.
+        -- print "\n"; dprint pb; print "\n";
     match pb.timing with Some timing then
       let timing: Timing = getTiming timing in
       match pb.app with Some app then
-        match pb.pre with Some pre then
-          let postruns = map (lam app. app.runtime) pb.post in
-          match mapOption
-            (lam r. mapLookup r runtimes)
-            (join [[app.runtime], [pre.runtime], postruns])
-          with Some _ then
-            { timing = timing
-            , app = app
-            , pre = pre
-            , post = pb.post
-            , cwd = cwd
-            , input = pb.input
-            }
-          else None ()
-        else None ()
+        let preruns = match pb.pre with Some pre then [pre] else [] in
+        let postruns = map (lam app. app.runtime) pb.post in
+        match find
+          (lam r. match mapLookup r runtimes with None () then true else false)
+          (join [[app.runtime], preruns, postruns])
+        with Some r then
+          error (concat "Runtime does not exist: " r)
+        else
+          Some { timing = timing
+               , app = app
+               , pre = pb.pre
+               , post = pb.post
+               , cwd = cwd
+               , input = pb.input
+               }
       else None ()
     else None ()
-    -- TODO: Incorporate error messages above
-    -- { timing =
-    --   let raw = optionGetOrElse (lam. error "expected timing") b.timing in
-    --   getTiming raw
-    -- , runtime =
-    --   let r = optionGetOrElse (lam. error "expected runtime") b.runtime in
-    --   mapLookupOrElse (lam. error (concat "Undefined runtime: " r)) r runtimes;
-    --   r
-    -- , argument = optionGetOrElse (lam. error "expected argument") b.argument
-    -- , cwd = cwd
-    -- , data = b.data
-    -- }
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
 let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
@@ -173,80 +157,90 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
                 , "\nNew definition: ", new])
   in
 
-  -- Update a partial benchmark 'b' with information from 'configFile'.
+  -- Update a partial benchmark 'pb' with information from 'configFile'.
   let updatePartialBench =
-    lam b : PartialBenchmark.
+    lam pb : PartialBenchmark.
     lam configFile : Path.
       let c = tomlRead (readFile configFile) in
       let cwd = pathGetParent configFile in
       let updates =
 
       -- Timing
-      [ lam b. {b with timing =
+      [ lam pb. {pb with timing =
           match c with {timing = t} then
-            match b.timing with Some oldT then
+            match pb.timing with Some oldT then
               overrideErr "timing" configFile oldT t
             else Some t
-          else b.timing}
+          else pb.timing}
 
       -- App
-      , lam b. {b with app =
+      , lam pb. {pb with app =
           match c with {app = app} then
-            match b.app with Some oldA then
+            match pb.app with Some oldA then
               overrideErr "app" configFile oldA app
             else Some app
-          else b.app}
+          else pb.app}
 
       -- Pre
-      , lam b. {b with pre =
+      , lam pb. {pb with pre =
           match c with {pre = pre} then
-            match b.pre with Some oldPre then
+            match pb.pre with Some oldPre then
               overrideErr "pre" configFile oldPre pre
             else Some pre
-          else b.pre}
+          else pb.pre}
 
       -- Post
-      , lam b. {b with post = concat c.post pb.post}
+      , lam pb. {pb with post =
+          match c with {post = post} then
+            concat post pb.post
+          else pb.post}
+
 
       -- Input
-      , lam b. {b with input = foldl (lam input. lam tomlInput.
-            { file =
-                match tomlInput with {file = file}
-                then Some (pathConcat cwd file) else None (),
-              data =
-                match tomlInput with {data = data} then Some data else None (),
-              tags =
-                match tomlInput with {tags = tags} then tags else []
-            }
-          ) b.input c.input}
+      , lam pb. {pb with input =
+          match c with {input = input} then
+            foldl (lam input. lam tomlInput.
+                { file =
+                    match tomlInput with {file = file}
+                    then Some (pathConcat cwd file) else None (),
+                  data =
+                    match tomlInput with {data = data} then Some data
+                    else None (),
+                  tags =
+                    match tomlInput with {tags = tags} then tags else []
+                }
+              ) pb.input c.input
+          else pb.input}
       ] in
 
-      foldl (lam acc. lam upd. upd acc) b updates
+      foldl (lam acc. lam upd. upd acc) pb updates
   in
 
-  match pathFoldBenchmark
-    (lam acc. lam files.
-       match acc with (partialBench, benchmarks) then
+  recursive let rec =
+    lam pb: PartialBenchmark.
+    lam bs: [Benchmark].
+    lam p: Path.
 
-         let cwd = -- TODO: How to get this?
-         -- Update partial benchmark with all files in current dir
-         let partialBench = foldl (lam pb. lam file.
-           if endsWith file ".toml" then updatePartialBench pb file
-           else pb
-         ) partialBench files in
+      let ls = pathList p in
+      let files = map (pathConcat p) ls.files in
+      let dirs = map (pathConcat p) (filter dirBenchmark ls.dirs) in
 
-         -- If benchmark is complete, add it to the accumulated set of benchmarks
-         if isCompleteBench partialBench then
-           (partialBench, cons (extractBench runtimes cwd partialBench) benchmarks)
-         else
-           (partialBench, benchmarks)
-       else never)
-    initPartialBench
-    []
-    root
-  with (_, benchmarks) then benchmarks
-  else never
-  -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
+      let pb = foldl (lam pb. lam file.
+          if endsWith file ".toml" then updatePartialBench pb file
+          else pb
+        ) pb files in
+
+      match extractBench runtimes p pb with Some bench then
+        cons bench bs
+      else
+        if null dirs then
+          error (concat "Incomplete benchmark at leaf directory position " p)
+        else
+          foldl (rec pb) bs dirs
+
+  in
+
+  rec initPartialBench [] root
 
 mexpr
 

@@ -1,2 +1,3 @@
 [app]
+runtime = "MCore"
 argument = "simulated-annealing"
