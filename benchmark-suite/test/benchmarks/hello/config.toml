@@ -1,9 +1,15 @@
 timing = "complete"
 
+[pre]
+runtime = "id"
+
+[[post]]
+runtime = "id"
+
 [[input]]
 tags = ["foo", "number"]
 data = "1"
 
 [[input]]
 tags = ["bar", "number"]
-file = "2.txt"
+file = "datasets/2.txt"

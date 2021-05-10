@@ -1,0 +1,8 @@
+[[app]]
+runtime = "MCore"
+argument = "hello"
+
+# Repeat benchmark one more time (for testing that this works)
+[[app]]
+runtime = "MCore"
+argument = "hello"

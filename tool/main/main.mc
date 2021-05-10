@@ -105,7 +105,6 @@ let main = lam.
     plotByData ops.benchmarks f
   else
     let runtimes = findRuntimes ops.runtimes in
-    dprint (findBenchmarks ops.benchmarks [] runtimes); print "\n";
     let bs = findBenchmarks ops.benchmarks [] runtimes in
     let rs = runBenchmarks bs runtimes ops in
     printLn (ops.output rs)

@@ -1,0 +1,4 @@
+[[app]]
+runtime = "Birch"
+argument = "hello"
+

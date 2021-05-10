@@ -1,3 +1,4 @@
-[app]
+[[app]]
 runtime = "WebPPL"
-argument = "crbd"
+argument = "crbd.wppl"
+
