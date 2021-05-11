@@ -210,6 +210,8 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
         , lam pb. {pb with input =
             match c with {input = input} then
               foldl (lam input. lam tomlInput.
+                  match tomlInput with {file = _, data = _}
+                  then error "Not allowed to specify both file and data" else
                   cons
                     { file =
                         match tomlInput with {file = file}
