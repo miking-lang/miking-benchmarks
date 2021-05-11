@@ -120,7 +120,7 @@ let initPartialBench =
 let extractBenchmarks = -- ... -> Option Benchmark
   lam runtimes : Map String Runtime.
   lam cwd : Path.
-  lam pb : PartialBench.
+  lam pb : PartialBenchmark.
     match pb.timing with Some timing then
       let timing: Timing = getTiming timing in
       match pb.app with [] then []
