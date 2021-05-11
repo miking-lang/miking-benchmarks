@@ -1,3 +1,9 @@
 [[app]]
 runtime = "OCaml"
 argument = "hello"
+base = "sub-1"
+
+[[app]]
+runtime = "OCaml"
+argument = "hello"
+base = "sub-2"

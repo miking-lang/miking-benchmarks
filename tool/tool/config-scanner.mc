@@ -171,7 +171,8 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
         , argument = match tomlApp with { argument = a } then a else ""
         , options = match tomlApp with { options = o } then o else ""
         , buildOptions = match tomlApp with { buildOptions = o } then o else ""
-        , cwd = cwd
+        , cwd = match tomlApp with { base = base }
+                then pathConcat cwd base else cwd
         }
       in
       let updates =
