@@ -21,7 +21,7 @@ type Options = { iters : Int
 
 -- Used as dummy data object for benchmarks without data. We could use option
 -- type in result type, but this simplifies writing to toml.
-let inputEmpty : Data = {runtime = "", argument = "", cwd = "", tags = []}
+let inputEmpty : Input = {file = None (), data = Some "", tags = [], cwd = ""}
 
 let instantiateCmd = lam cmd. lam app.
   match app
