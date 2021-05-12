@@ -2,4 +2,4 @@ provides = "WebPPL"
 
 [[command]]
 required_executables = ["webppl"]
-command = "webppl {argument}.wppl"
+command = "webppl {argument} {options}"

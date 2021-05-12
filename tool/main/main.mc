@@ -105,11 +105,9 @@ let main = lam.
     plotByData ops.benchmarks f
   else
     let runtimes = findRuntimes ops.runtimes in
-    match findBenchmarks ops.benchmarks [] runtimes
-    with {benchmarks = benchmarks, datasets = datasets} then
-      let rs = runBenchmarks benchmarks datasets runtimes ops in
-      printLn (ops.output rs)
-    else never
+    let bs = findBenchmarks ops.benchmarks [] runtimes in
+    let rs = runBenchmarks bs runtimes ops in
+    printLn (ops.output rs)
 
 mexpr
 

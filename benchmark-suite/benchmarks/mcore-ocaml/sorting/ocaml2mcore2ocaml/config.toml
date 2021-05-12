@@ -1,2 +1,3 @@
+[[app]]
 runtime = "OCaml2MCore2OCaml"
 argument = "quick_sort"

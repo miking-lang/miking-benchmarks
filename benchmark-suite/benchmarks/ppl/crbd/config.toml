@@ -1,1 +1,7 @@
 timing = "complete"
+
+[[input]]
+data = "primates_233"
+
+[[post]]
+runtime = "id"

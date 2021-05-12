@@ -1,0 +1,5 @@
+provides = "id"
+
+[[command]]
+required_executables = ["cat"]
+command = "cat -"

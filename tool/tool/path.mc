@@ -76,24 +76,28 @@ recursive let pathFold =
       acc dirs
 end
 
--- Similar to 'pathFold', but only 'accD' is accumulated for all files, while
--- 'accW' is accumulated path-wise in the tree.
-recursive let pathFoldWD =
+-- Similar to 'pathFoldWD', but folds over directories rather than files. Also,
+-- see description for pathFoldWD below.
+recursive let pathFoldDirWD =
   lam pDir : Path -> Bool.
-  lam f : ((a, b) -> Path -> (a, b)).
+  lam f : ((a, b) -> [Path] -> (a, b)).
   lam accW : a.
   lam accD : b.
   lam root : Path.
     let ls = pathList root in
     let files = map (pathConcat root) ls.files in
     let dirs = map (pathConcat root) (filter pDir ls.dirs) in
-    match foldl f (accW, accD) files with (accW, accD) then
-      foldl (lam wd. lam dir.
-        match wd with (_, accD) then
-          pathFoldWD pDir f accW accD dir
-        else never
-      ) (accW, accD) dirs
+    match f (accW, accD) files with (accW, accD) then
+      foldl (lam accD. lam dir.
+          pathFoldDirWD pDir f accW accD dir
+        ) accD dirs
     else never
+end
+
+-- Similar to 'pathFold', but only 'accD' is accumulated for all files, while
+-- 'accW' is accumulated path-wise in the tree.
+recursive let pathFoldWD =
+  lam pDir. lam f. pathFoldDirWD pDir (lam acc. lam dirs. foldl f acc)
 end
 
 -- Get the parent directory in which 'file' resides

@@ -4,24 +4,35 @@ include "config-scanner.mc"
 include "utils.mc"
 include "common.mc"
 
-type Result = { benchmark : Benchmark
-              , data : Data
+type Result = { input : Input
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
               , ms_run : [Float]
+              -- Stdouts for each post-processing step
+              , post : [{ app: App, stdout: [String] }]
               }
 
-type Options = { nIters : Int
+type BenchmarkResult = { app: App, results: [Result] }
+
+type Options = { iters : Int
                , warmups : Int
                }
 
 -- Used as dummy data object for benchmarks without data. We could use option
 -- type in result type, but this simplifies writing to toml.
-let dataEmpty : Data = {runtime = "", argument = "", cwd = "", tags = []}
+let inputEmpty : Input = {file = None (), data = Some "", tags = [], cwd = ""}
 
-let insertArg = lam cmd. lam arg.
-  strReplace cmd "{argument}" arg
+let instantiateCmd = lam cmd. lam app.
+  match app
+  with { argument = argument, options = options, buildOptions = buildOptions }
+  then
+    foldl (lam cmd. lam f. f cmd) cmd [
+      lam cmd. strReplace cmd "{argument}" argument,
+      lam cmd. strReplace cmd "{options}" options,
+      lam cmd. strReplace cmd "{buildOptions}" buildOptions
+    ]
+  else never
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
@@ -58,103 +69,136 @@ let runCommandTime : String -> String -> Path -> Float =
     else never
 
 -- Run one benchmark
-let runBenchmark = -- ... -> [Result]
+let runBenchmark = -- ... -> BenchmarkResult
   lam benchmark : Benchmark.
-  lam datasets : Map String Data.
   lam runtimes : Map String Runtime.
   lam ops : Options.
-  match benchmark with { runtime = runtimeID, data = data,
-                         argument = argument, cwd = cwd, timing = timing } then
-    let runtime = mapFindWithExn runtimeID runtimes in
+  match benchmark with {
+    timing = timing,
+    app = app,
+    pre = pre,
+    post = post,
+    cwd = cwd,
+    input = input
+  } then
 
-    recursive let findSupportedCommand : [Command] -> Command  = lam commands.
-      match commands with [] then
-        error
-          (concat "Required executables not found for runtime" runtime.provides)
-      else match commands with [c] ++ commands then
-        if all pathIsCmd c.required_executables then c
-        else findSupportedCommand commands
-      else never
+    let findSupportedCommand: Runtime -> Command = lam runtime.
+      recursive let rec = lam commands.
+        match commands with [] then
+          error (concat
+            "Required executables not found for runtime" runtime.provides)
+        else match commands with [c] ++ commands then
+          if all pathIsCmd c.required_executables then c
+          else rec commands
+        else never
+      in
+      rec runtime.command
     in
 
-    let runOpCmd : String Option -> String -> Float Option = lam cmd. lam arg.
+    let runOpCmd : Option String -> String -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
-                   let fullCmd = insertArg cmd arg in
-                   runCommandTime fullCmd "" cwd)
+                   let fullCmd = instantiateCmd cmd app in
+                   runCommandTime fullCmd "" app.cwd)
                 cmd
     in
 
-    let benchSupportedCmd = findSupportedCommand runtime.command in
+    -- Build and run an App without timing or cleaning. Returns stoud for App.
+    let runApp: App -> String -> String =
+      lam app: App.
+      lam stdin: String.
 
-    -- Run the benchmark with a given stdin
-    let runBench : String -> (Float, [Float]) = lam stdin.
-      -- Build the benchmark
-      let buildMs = runOpCmd benchSupportedCmd.build_command argument in
-      -- Run the benchmark
-      let cmd = insertArg benchSupportedCmd.command argument in
-      match timing with Complete () then
-        let run = lam. runCommandTime cmd stdin cwd in
-        let runMany = lam n. map run (create n (lam. ())) in
-        -- Throw away the result for the warmup runs
-        runMany ops.warmups;
-        -- Now collect the measurements
-        let times = runMany ops.iters in
-        -- Run clean command
-        (if ops.clean then
-           runOpCmd benchSupportedCmd.clean_command argument
-         else ());
-        -- Return the final result
-        (buildMs, times)
-      else error "Unknown timing option"
+        let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+        let appSupportedCmd = findSupportedCommand runtime in
+        runOpCmd appSupportedCmd.build_command app;
+        let cmd = instantiateCmd appSupportedCmd.command app in
+        match runCommandFailOnExit cmd stdin app.cwd with (res, _) then
+          res.stdout
+        else never
     in
 
-    match data with [] then
-      match runBench "" with (buildMs, times) then
-        [{ benchmark = benchmark.cwd
-         , data = dataEmpty
-         , ms_build = buildMs
-         , ms_run = times
-         }]
-      else never
-    else
-      foldl (lam acc. lam dKey.
-        let d = mapFindWithExn dKey datasets in
-        match d with {argument = arg, runtime = rID, cwd = cwd} then
-          let r = mapFindWithExn rID runtimes in
-          let c = findSupportedCommand r.command in
-          runOpCmd c.build_command arg;
-          let runCmd = insertArg c.command arg in
-          -- Run the dataset program and get the stdout, use as stdin for
-          -- benchmark
-          match runCommandFailOnExit runCmd "" cwd with ({stdout = stdout}, _)
-            then
-            match runBench stdout with (buildMs, times) then
-               cons
-                 { benchmark = benchmark.cwd
-                 , data = d
-                 , ms_build = buildMs
-                 , ms_run = times
-                 }
-                 acc
-            else never
-          else never
-        else never)
-        []
-        data
+
+    -- Run the benchmark for a particular Input
+    -- let runBench : String -> (Option Float, [Float]) = lam stdin.
+    let runInput: Input -> Result =
+      lam input: Input.
+
+        let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+        let appSupportedCmd = findSupportedCommand runtime in
+
+        -- Retrieve stdin from input
+        let stdin =
+          match input with { file = Some file, data = None () } then
+            readFile (pathConcat input.cwd file)
+          else match input with { file = None (), data = Some data } then
+            data
+          else error "Invalid input entry"
+        in
+
+        -- Run preprocessor, if specified
+        let stdin = match pre with Some pre then runApp pre stdin else stdin in
+
+        -- Build the benchmark
+        let buildMs = runOpCmd appSupportedCmd.build_command app in
+
+        let cmd = instantiateCmd appSupportedCmd.command app in
+        match timing with Complete () then
+          let run = lam. runCommandFailOnExit cmd stdin app.cwd in
+          let runMany = lam n. map run (create n (lam. ())) in
+
+          -- Run warmup (and throw away results)
+          runMany ops.warmups;
+
+          -- Run the benchmark
+          let res: [(ExecResult, Float)] = runMany ops.iters in
+
+          -- Collect execution times
+          let times: [Float] = map (lam t. t.1) res in
+
+          -- Collect stdouts
+          let stdouts: [String] = map (lam t. (t.0).stdout) res in
+
+          -- Run clean command
+          (if ops.clean then
+             runOpCmd appSupportedCmd.clean_command app
+           else ());
+
+          -- Run postprocessing on stdouts
+          let post = map (lam app. {
+              app = app,
+              stdout = map (lam stdin. runApp app stdin) stdouts
+            }) post
+          in
+
+          -- Return the final Result
+          { input = input, ms_build = buildMs, ms_run = times, post = post }
+
+        else error "Unknown timing option"
+    in
+
+    { app = app
+    , results =
+        match input with [] then
+          -- If there is no input, simply run the benchmark once for some dummy
+          -- input
+          [runInput inputEmpty]
+        else
+          map runInput input
+    }
+
   else never
 
 -- Run a given list of benchmarks
-let runBenchmarks = -- ... -> [Result]
+let runBenchmarks = -- ... -> [BenchmarkResult]
   lam benchmarks : [Benchmark].
-  lam datasets : Map String Data.
   lam runtimes : Map String Runtime.
   lam ops : Options.
     foldl
       (lam acc. lam b.
-         concat (runBenchmark b datasets runtimes ops) acc)
+         cons (runBenchmark b runtimes ops) acc)
       [] benchmarks
 
 -- Convert a list of results into CSV format
+-- TODO(dlunde,2021-05-09): Not up to date
 let toCSV : [Result] -> String =
   lam results.
     let cs = lam lst. strJoin "," lst in
@@ -168,16 +212,24 @@ let toCSV : [Result] -> String =
       results
     in strJoin "\n" (cons header body)
 
--- Convert a list of results into TOML format
-let toTOML : [Result] -> String =
+-- Convert a list of benchmark results into TOML format
+let toTOML : [BenchmarkResult] -> String =
   lam results.
     -- Remove the option types from the results (not supported by TOML writer)
     let results =
-      map (lam r.
-        { benchmark = r.benchmark
-        , data = r.data
-        , ms_build = optionGetOr 0.0 r.ms_build
-        , ms_run = r.ms_run
+      map (lam br.
+        { br
+          with results =
+            map (lam r.
+                   {{ r
+                      with ms_build = optionGetOr 0.0 r.ms_build }
+                      with input =
+                        {{ r.input
+                           with
+                           file = optionGetOr "" r.input.file }
+                           with
+                           data = optionGetOr "" r.input.data } })
+              br.results
         }
       ) results in
-    tomlWrite {results = results}
+    tomlWrite { benchmark = results }

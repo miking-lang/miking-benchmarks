@@ -1,0 +1,7 @@
+provides = "Birch"
+
+[[command]]
+required_executables = ["birch"]
+build_command = "birch build"
+command = "birch {argument}"
+clean_command = "birch clean"

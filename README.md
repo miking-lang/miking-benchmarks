@@ -30,14 +30,11 @@ can be left out.
 The following shows an example directory structure for a suite of sorting
 benchmarks; merge sort, insertion sort, and bucketsort implemented in `Java` and
 `MCore`, respectively. The `.toml` files specify options for the benchmarks and
-datasets, and are explained in [Benchmark Configuration
-Files](#benchmark-configuration-files) and [Dataset Configuration
-Files](dataset-configuration-files), respectively.
+datasets, and are explained in [Configuration Files](#benchmark-configuration-files).
 
 ```
 sort
 ├── datasets
-│   ├── datasets.toml
 │   ├── random1.txt
 │   ├── reversed1.txt
 │   └── sorted1.txt
@@ -55,123 +52,103 @@ sort
 │   └── mcore
 │       ├── config.toml
 │       └── mergesort.mc
-└── bucketsort
-    ├── datasets
-    ├── ├── datasets.toml
-    ├── ├── uniform1.txt
-    ├── └── nonuniform1.txt
-    ├── java
-    ├── ├── config.toml
-    ├── └── bucketsort.java
-    └── mcore
-        ├── config.toml
-        └── bucketsort.mc
-
+├── bucketsort
+│   ├── datasets
+│   ├── ├── uniform1.txt
+│   ├── └── nonuniform1.txt
+│   ├── java
+│   ├── ├── config.toml
+│   ├── └── bucketsort.java
+│   ├── mcore
+│   │   ├── config.toml
+│   │   └── bucketsort.mc
+│   └── config.toml
+├── config.toml
+├── pre
+│   └── pre.mc
+├── post-1
+│   └── post.mc
+└── post-2
+    └── post.py
 ```
 
 #### Benchmark Configuration Files
 
 Each benchmark needs to specify:
-* `runtime`, e.g. what programming language the benchmark is written in,
-* `argument` for specifying how to run the benchmark in its runtime,
-* how `timing` of the benchmark is done, and
-* optionally: a list `additional-datasets` of directories of datasets to use in
-  addition to the implicit ones. Implicit datasets are placed in `datasets`
-  directories, see [Implicit Datasets](#implicit-datasets) for more information.
+* A list `[[app]]` of applications to benchmark, with each list item consisting of
+   * a `runtime`, e.g. what programming language the benchmark is written in,
+   * an `argument` for specifying how to run the benchmark in its runtime,
+   * an (optional) `options` for specifying command line options, and
+   * an (optional) `buildOptions` for specifying command line build options,
+   * an (optional) `base` for specifying where the application is built and run (default: the directory of the toml file),
+* how `timing` of the benchmark is done,
+* (optional) what preprocessing step `[pre]` (same internal structure as an
+  `[[app]]`) should be run on all inputs,
+* (optional) what postprocessing steps `[[post]]` (same internal structure as an
+  `[[app]]`) should be run on all outputs, and
+* (optional) a list of input data `[[input]]` that the benchmark should be run on, with each list item consisting of
+   * a `file` or a `data` entry, specifying the path to the file containing the input data, or the immediate input data, respectively, and
+   * a list `tags` (currently ignored).
 
-The information is specified via `.toml` files. The `runtime` and `argument`
+The information is specified via `.toml` files. All `runtime`
 fields must match a runtime specification in the `runtimes` directory (see
 [Runtimes](#Runtimes)).
 
 ##### Example Benchmark Configuration File
 
-The following may be a specification for the `sort/insertsort/mcore/insertsort.mc`
+The following is an example of what `sort/insertsort/mcore/config.toml` may look like for the `sort/insertsort/mcore/insertsort.mc`
 benchmark in the [example file structure](#example-file-structure) above:
 
 ```toml
+timing = "complete"    # Time the complete invocation of the benchmark (only supported option right now)
+
+[[app]]
 runtime = "MCore"
 argument = "insertsort"    # Runs via 'mi insertsort.mc'
-timing = "complete"    # Time the complete invocation of the benchmark (only supported option right now)
 ```
 
-This benchmark uses no datasets except the ones in `sort/datasets`, and there is
-therefore no need to use the `additional-dataset` option. If there had been some
-other directory with datasets, for example in `../shared-data/lists`, then the
-following specifies that `insertsort.mc` should additionally use that dataset:
+##### Hierarchical Configuration Files
 
+Configuraton files can be specified hierarchically via the directory structure.
+A benchmark will include all configuration files from all folders on its path.
+This is often useful for sharing input data, a preprocessing step, and
+postprocessing steps between benchmarks.
+
+For example, `sort/config.toml` could look like
 ```toml
-additional-datasets = ['../shared-data/lists']    # Relative path from the config file
-```
+[pre]
+runtime = "MCore"
+argument = "pre"
+base = "pre"
 
-##### Hierarchical Dataset Specification
+[[post]]
+runtime = "MCore"
+argument = "post"
+base = "post-1"
 
-Datasets can be specified hierarchically via the directory structure. A
-benchmark will include all datasets from all folders named `datasets` present in
-its current file path (starting in the benchmark's `root`). This is useful, for
-example, when some benchmarks require specialized datasets.
- 
-##### Example Hierarchical Dataset Specification
+[[post]]
+runtime = "Python"
+argument = "post"
+options = "--some-important-option"
+base = "post-2"
 
-In the [example file structure](#example-file-structure), the `bucketsort`
-directory includes a `datasets` directory. This means that `bucketsort.java` and
-`bucketsort.mc` will use datasets from both `sort/datasets` and
-`sort/bucketsort/datasets`.
-
-
-### Datasets
-
-A dataset, typically placed in a `datasets` directory, is a program that is to
-be run before the benchmark using the dataset is run. The standard output of the
-dataset program will be piped into the benchmark command after the dataset
-program has terminated.
-
-#### Implicit Datasets
-
-Datasets specified in a directory named `datasets` become implicit and
-compulsory for all the benchmarks specified at the same level or below in the
-file directory structure. That is, neither do the benchmarks have to specify
-that they use these datasets, nor can they opt out from using them. Therefore,
-such datasets need to be compatible with all its related benchmarks. See
-[Hierarchical Dataset Specification](#hierarchical-dataset-specification) for
-how implicit datasets are collected along the file path.
-
-As described in [Benchmark Configuration Files](#benchmark-configuration-files),
-benchmarks can also explicitly state which datasets to use; such datasets can be
-placed in any directory.
-
-#### Dataset Configuration Files
-
-A dataset configuration file specifies:
-* A `runtime` in which to run the benchmark program (see [Benchmark
-  Configuration Files](#benchmark-configuration-files)).
-* A sequence of `dataset` entries, one for each dataset program, having an
-  `argument` field (see [Benchmark Configuration
-  Files](#benchmark-configuration-files)) and, optionally, a list of `tags`
-  describing the dataset entry.
-
-##### Example of a Dataset Configuration File
-
-The `sort/datasets/datasets/config.toml` from the [example file
-structure](#example-file-structure) may look like this:
-
-```toml
-runtime = "text"    # must match 'provides' in a runtime
-
-[[dataset]]
+[[input]]
 tags = ["random"]
-argument = "random1.txt"
+file = "datasets/random1.txt"
 
-[[dataset]]
+[[input]]
 tags = ["sorted"]
-argument = "sorted1.txt"
+file = "datasets/sorted1.txt"
 
-[[dataset]]
+[[input]]
 tags = ["reversed"]
-argument = "reversed1.txt"
-```
+file = "datasets/reversed1.txt"
 
-Here we assume `text` is a runtime for printing the contents of a file, e.g.
-`cat` on a Unix system.
+[[input]]
+tags = ["short"]
+data = "[1,3,2]"
+```
+This configuration will be shared for all experiments under `sort` (including `sort/insertsort/mcore/insertsort.mc` from above).
 
 ### Runtimes
 

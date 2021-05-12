@@ -13,6 +13,14 @@ run-ppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
+	  --iters 2 \
+	  --output toml \
+	  --warmups 1
+
+run-test:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/test/benchmarks \
+	  --runtimes benchmark-suite/runtimes \
 	  --iters 5 \
 	  --output toml \
 	  --warmups 1
