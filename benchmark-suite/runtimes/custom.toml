@@ -1,0 +1,4 @@
+provides = "Custom"
+
+[[command]]
+command = "{argument} {options}"

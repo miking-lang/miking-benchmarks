@@ -1,0 +1,5 @@
+[[app]]
+command="npm --prefix webppl/ run"
+
+
+[[app]]
