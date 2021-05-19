@@ -1,5 +1,9 @@
 timing="complete"
+
 [[app]]
 runtime = "phywppl"
 argument="npm run wppl examples/crbd.wppl 1"
 base="phywppl"
+
+[[post]]
+runtime = "id"
