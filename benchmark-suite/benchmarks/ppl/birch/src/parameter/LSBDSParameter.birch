@@ -1,0 +1,16 @@
+class LSBDSParameter < BirthDeathParameter {
+  η:Random<Real>;
+  ν:Integer;
+  ξ:Real;
+
+  override function write(buffer:Buffer) {
+    super.write(buffer);
+    if η.hasDistribution() {
+      buffer.set("η", η.getDistribution());
+    } else {
+      buffer.set("η", η);
+    }
+    buffer.set("ν", ν);
+    buffer.set("ξ", ξ);
+  }
+}

@@ -1,0 +1,31 @@
+class JSONStdOutWriter < JSONWriter {
+  override function open(path:String) {
+    open();
+  }
+
+  function open() {
+    cpp{{
+    this->file = stdout;
+    yaml_emitter_initialize(&this->emitter);
+    yaml_emitter_set_unicode(&this->emitter, 1);
+    yaml_emitter_set_output_file(&this->emitter, this->file);
+    yaml_stream_start_event_initialize(&this->event, YAML_UTF8_ENCODING);
+    yaml_emitter_emit(&this->emitter, &this->event);
+    yaml_document_start_event_initialize(&this->event, NULL, NULL, NULL, 1);
+    yaml_emitter_emit(&this->emitter, &this->event);
+    }}
+  }
+
+  override function close() {
+    if sequential {
+      endSequence();
+    }
+    cpp{{
+    yaml_document_end_event_initialize(&this->event, 1);
+    yaml_emitter_emit(&this->emitter, &this->event);
+    yaml_stream_end_event_initialize(&this->event);
+    yaml_emitter_emit(&this->emitter, &this->event);
+    yaml_emitter_delete(&this->emitter);
+    }}
+  }
+}

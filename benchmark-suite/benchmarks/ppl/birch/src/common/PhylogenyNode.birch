@@ -1,0 +1,24 @@
+class PhylogenyNode {
+  id:Integer;
+  t:Real;
+  Δ:Real;
+  parent:PhylogenyNode?;
+  left:PhylogenyNode?;
+  right:PhylogenyNode?;
+
+  function isRoot() -> Boolean {
+    return !parent?;
+  }
+
+  function isLeaf() -> Boolean {
+    return !left? && !right?;
+  }
+
+  function noStalk() -> Boolean {
+    return !parent? && Δ < 1e-5;
+  }
+
+  function isSpeciation() -> Boolean {
+    return !isLeaf();
+  }
+}

@@ -1,0 +1,16 @@
+timing="complete"
+
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--config experiment1 --tree alcedinidae --nparticles 10000"
+
+
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--config experiment1 --tree alcedinidae --nparticles 20000"
+
+
+[[post]]
+runtime = "id"
