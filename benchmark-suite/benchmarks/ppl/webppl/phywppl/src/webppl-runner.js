@@ -113,10 +113,10 @@ executable = file.dir.replace(/[\/\\]/g, "_" ) + "_" + file.name + ".js"
 var shell = require('shelljs')
 var compile_command
 if (process.platform == "win32") {
-    compile_command = "webppl " + webppl + " --require webppl-viz" + " --require " + phylomodels + " --require " + phylodata + " --compile --out " + js + "/" + executable +  "> nul "
+    compile_command = "webppl " + webppl + " --require " + phylomodels + " --require " + phylodata + " --compile --out " + js + "/" + executable +  "> nul "
 }
 else {
-    compile_command = "webppl " + webppl + " --require webppl-viz" + " --require " + phylomodels + " --require " + phylodata + " --compile --out " + js + "/" + executable + " 1>/dev/null"
+    compile_command = "webppl " + webppl + " --require " + phylomodels + " --require " + phylodata + " --compile --out " + js + "/" + executable + " 1>/dev/null"
 }
 shell.config.silent = true;
 shell.rm(js + "/" + executable)
