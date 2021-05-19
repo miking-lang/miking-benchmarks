@@ -47,6 +47,10 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
   outputWriter:Writer?;
   if output? && output! != "" {
     outputWriter <- make_writer(output!);
+  } else {
+    writer:JSONStdOutWriter;
+    writer.open();
+    outputWriter <- writer;
   }
 
   bar:ProgressBar;
