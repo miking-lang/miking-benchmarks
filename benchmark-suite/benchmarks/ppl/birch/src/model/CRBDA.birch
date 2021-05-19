@@ -1,0 +1,39 @@
+class CRBDA < BirthDeathModel<PhylogenyNode, BirthDeathParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+  }
+
+  override function step() {
+    let r <- θ.λ.value() - θ.μ.value();
+    factor -r*ν.Δ
+        -2*log(θ.λ.value() - (θ.λ.value() - r/ρ)*exp(-r*(ν.t + ν.Δ)))
+        +2*log(θ.λ.value() - (θ.λ.value() - r/ρ)*exp(-r*ν.t));
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(θ.λ);
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  override function correctForSurvivorshipBias() {
+    let r <- θ.λ.value() - θ.μ.value();
+    factor -2*log(r) + 2*log(θ.λ.value() - (θ.λ.value() - r/ρ)*exp(-r*tree.getAge()));
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

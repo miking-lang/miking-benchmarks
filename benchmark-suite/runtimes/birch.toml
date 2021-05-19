@@ -2,6 +2,6 @@ provides = "Birch"
 
 [[command]]
 required_executables = ["birch"]
-build_command = "birch build"
-command = "birch {argument}"
+build_command = "birch build --enable-release"
+command = "BIRCH_MODE='release' birch {argument} {options}"
 clean_command = "birch clean"

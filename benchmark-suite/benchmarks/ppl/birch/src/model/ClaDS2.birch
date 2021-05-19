@@ -1,0 +1,83 @@
+class ClaDS2 < BirthDeathModel<PhylogenyNode, ClaDSParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  σ2_α:Real;
+  σ2_β:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+    θ.σ2 ~ InverseGamma(σ2_α, σ2_β);
+    θ.log_α ~ Gaussian(0.0, θ.σ2);
+    θ.ν <- ν.id;
+  }
+
+  override function step() {
+    switchParameter(θ.copy());
+    θ.ν <- ν.id;
+    let t_beg <- ν.t + ν.Δ;
+    let last <- false;
+    while !last {
+      let φ <~ Gaussian(θ.log_α, θ.σ2);
+      θ.multiplier <- θ.multiplier * exp(φ);
+      if θ.multiplier < 1e-5 || θ.multiplier > 1e5 {
+        factor -inf;
+        return;
+      }
+      let Δ <~ Exponential(θ.λ * θ.multiplier);
+      let t_end <- t_beg - Δ;
+      if t_end < ν.t {
+        last <- true;
+        t_end <- ν.t;
+      } else {
+        if survives(t_end, θ.multiplier) {
+          factor -inf;
+          return;
+        }
+        factor log(2);
+      }
+      0 ~> Poisson(θ.μ * θ.multiplier * (t_beg - t_end));
+      t_beg <- t_end;
+    }
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(θ.λ * θ.multiplier);
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  function survives(t:Real, parent_multiplier:Real) -> Boolean {
+    let φ <~ Gaussian(θ.log_α, θ.σ2);
+    let multiplier <- parent_multiplier * exp(φ);
+    if multiplier < 1e-5 || multiplier > 1e5 { return true; }
+    let Δ_b <~ Exponential(θ.λ * multiplier);
+    let Δ_d <~ Exponential(θ.μ * multiplier);
+    if Δ_b >= t && Δ_d >= t {
+      let detected <~ Bernoulli(ρ);
+      return detected;
+    }
+    if Δ_b > Δ_d {
+      return false;
+    }
+    return survives(t-Δ_b, multiplier) || survives(t-Δ_b, multiplier);
+  }
+
+  override function survives(t:Real) -> Boolean {
+    return survives(t, 1.0);
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    σ2_α <-? buffer.get<Real>("σ2_α");
+    σ2_β <-? buffer.get<Real>("σ2_β");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

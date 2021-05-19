@@ -1,0 +1,87 @@
+// Based on the sample from the standard library.
+program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
+    nsamples:Integer?, output:String?, quiet:Boolean <- true) {
+  global.seed();
+
+  let configBuffer <- slurp("config/" + config + ".yaml");
+  let inputBuffer <- slurp("input/" + tree + ".yaml");
+
+  treeReader:JSONReader;
+  treeReader.open(inputBuffer.get<String>("file")!);
+  treeBuffer:Buffer;
+  treeBuffer <- treeReader.slurp();
+  inputBuffer.set("tree", treeBuffer);
+
+  modelBuffer:Buffer;
+  modelBuffer <-? configBuffer.get("model");
+
+  let theModel <- make<BirthDeathBaseModel>(modelBuffer);
+  theModel!.read(inputBuffer);
+
+  samplerBuffer:Buffer;
+  samplerBuffer <-? configBuffer.get("sampler");
+  if !samplerBuffer.get("class")? {
+    samplerBuffer.set("class", "ParticleSampler");
+  }
+  let theSampler <- make<ParticleSampler>(samplerBuffer);
+
+  filterBuffer:Buffer;
+  filterBuffer <-? configBuffer.get("filter");
+  if !filterBuffer.get("class")? {
+    filterBuffer.set("class", "ParticleFilter");
+  }
+  if nparticles? {
+    filterBuffer.set("nparticles", nparticles!);
+  }
+  let theFilter <- make<ParticleFilter>(filterBuffer);
+
+  if !nsamples? {
+    nsamples <-? configBuffer.get<Integer>("nsamples");
+    if !nsamples? {
+      nsamples <- 1;
+    }
+  }
+
+  let nsteps <- theModel!.size();
+
+  outputWriter:Writer?;
+  if output? && output! != "" {
+    outputWriter <- make_writer(output!);
+  }
+
+  bar:ProgressBar;
+  if !quiet {
+    bar.update(0.0);
+  }
+
+  buffer:Buffer;
+  for n in 1..nsamples! {
+    theSampler!.sample(theFilter!, theModel!, buffer);
+    if !quiet {
+      bar.update((n - 1.0)/nsamples! + 1.0/(nsamples!*(nsteps + 1.0)));
+    }
+    for t in 1..nsteps {
+      theSampler!.sample(theFilter!, t, buffer);
+      if !quiet {
+        bar.update((n - 1.0)/nsamples! + (t + 1.0)/(nsamples!*(nsteps + 1.0)));
+      }
+    }
+    if outputWriter? {
+      x:Model?;
+      w:Real;
+      (x, w) <- theSampler!.draw(theFilter!);
+      outputBuffer:Buffer;
+      outputBuffer.set("lweight", w);
+      outputBuffer.push("sample", x!);
+      outputWriter!.push(outputBuffer);
+      outputWriter!.flush();
+    }
+    if !quiet {
+      bar.update(scalar<Real>(n)/nsamples!);
+    }
+  }
+
+  if outputWriter? {
+    outputWriter!.close();
+  }
+}

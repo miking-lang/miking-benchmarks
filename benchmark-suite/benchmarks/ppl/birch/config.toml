@@ -1,0 +1,4 @@
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--config experiment1 --tree alcedinidae --nparticles 20000 --output output/experiment1.json"

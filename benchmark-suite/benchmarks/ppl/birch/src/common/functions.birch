@@ -1,0 +1,8 @@
+function log_factorial(N:Integer) -> Real {
+  assert N >= 0;
+  result:Real <- 0.0;
+  for n in 2..N {
+    result <- result + log(n);
+  }
+  return result;
+}
