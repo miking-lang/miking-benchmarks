@@ -1,0 +1,134 @@
+/**
+ * @file Analytical Solution of CRBD
+ *
+ * Equations based on Section 3.4.1 in the supplementary info.
+ *
+ */
+
+
+/** 
+ * Exact Analytical Likelihood of Tree under CRBD
+ *
+ *
+ * @param tree 
+ * @param lambda
+ * @param mu
+ * @param rho
+ *
+ * @return log-probability of tree under CRBD
+ *
+ */
+var exactCRBDLikelihood = function( tree, lambda, mu, rho )
+{
+    // Compute correction factor from oriented to labelled unoriented trees
+    var numLeaves = phyjs.countLeaves(tree)
+    var corrFactor = (numLeaves - 1) * Math.log(2.0) - phyjs.lnFactorial(numLeaves)
+
+    // Non-stalked tree, unconditional likelihood
+    var ln1 = (numLeaves - 2) * Math.log(lambda)
+    var ln2 = numLeaves * Math.log(rho)
+    var ln3 = 2.0 * CRBD_lnGhat(tree.age, lambda, mu, rho )
+    var ln4 = CRBD_lnLike(tree.left, lambda, mu, rho) + CRBD_lnLike(tree.right, lambda, mu, rho)
+    var ln5 = -numLeaves*CRBD_lnGhat(0, lambda, mu, rho)
+    //var ln6 = -2.0*CRBD_lnS(tree.age, lambda, mu, rho)
+    var ln6 = 0
+
+ 
+    
+    return (corrFactor + ln1 + ln2 + ln3 + ln4 + ln5 + ln6)
+}
+
+
+var CRBD_survivorshipBias = function( tree, lambda, mu, rho ) {
+    return -2.0*CRBD_lnS(tree.age, lambda, mu, rho)
+}
+
+
+/** 
+ * Propagator g^ According to Nicolas's Notation
+ *
+ * page 11 in the SI
+ *
+ * @param t
+ * @param lambda
+ * @param mu
+ * @param rho
+ *
+ */
+var CRBD_lnGhat = function( t, lambda, mu, rho )
+{
+     var  r = lambda - mu
+
+     var eRT = Math.exp( -r*t )
+  
+     var f   = Math.log( lambda - (lambda - r/rho)*eRT )
+
+
+   
+     return( -r*t - 2.0*f )
+}
+
+
+
+
+
+
+
+
+
+
+/** 
+ * Compute Likelihood of Oriented Tree Recursively
+ *              
+ *                n-1
+ * Corresponds to  Π g^
+ *                i-2
+ *
+ * @param tree
+ * @param lambda
+ * @param mu
+ * @param rho
+ * 
+ * @return
+ */
+var CRBD_lnLike = function( tree, lambda, mu, rho )
+{
+    if ( tree.type == 'leaf' ) {	
+        return 0
+    }
+    
+     var lnLikeLeft  = CRBD_lnLike( tree.left,  lambda, mu, rho )
+     var lnLikeRight = CRBD_lnLike( tree.right, lambda, mu, rho )
+
+   
+    
+    return lnLikeLeft + lnLikeRight + CRBD_lnGhat(tree.age, lambda, mu, rho)
+}
+
+
+
+
+
+/**
+ * Probability of Lineage Starting at Time t Surviving Till Present
+ *
+ * @param t
+ * @param lambda_0
+ * @param mu_0
+ * @param z
+ * @param rho
+ *
+ * @return log-probability
+ */
+var CRBD_lnS = function(t, lambda, mu, rho)
+{
+     var r = lambda - mu
+    
+     var eRT = Math.exp(-r*t )
+     
+    
+     var lnNum = Math.log(r)
+     var lnDenom = Math.log(lambda - (lambda - r/rho)*eRT )
+
+     return (lnNum - lnDenom)
+ }

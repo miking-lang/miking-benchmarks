@@ -1,5 +1,6 @@
 [[app]]
-command="npm --prefix webppl/ run"
+runtime = "Custom"
+argument="npm --prefix phywppl/ run wppl examples/crbd.wppl 1"
 
-
-[[app]]
+[[post]]
+runtime = "id"

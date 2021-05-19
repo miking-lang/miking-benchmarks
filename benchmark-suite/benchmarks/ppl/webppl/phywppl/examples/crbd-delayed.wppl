@@ -1,0 +1,159 @@
+/** 
+ * @file 
+ *
+ * Example: Constant-Rate Birth-Death Simulation With Delayed Sampling
+ * 
+ * To run the example use:
+ * 
+ *   npm run wppl examples/crbd.wppl [N]
+ * 
+ * where [N] is the number of iterations, for example 3
+ *
+ */
+
+
+/** Tree */
+var tree = phyjs.bisse_32
+
+/** Hyper-parameters */
+var k_lambda = 1
+var theta_lambda = 0.2
+
+/** Tuning parameters */
+var particles = 10000
+var MAX_LAMBDA = 5
+var MAX_DIV = 5
+
+
+/**  Model specification */
+var model = function()
+{
+    // choice of speciation rate prior necessitated by delayed sampling
+    // To run the immediate sampling uncomment following
+    // var lambda = gamma(
+    // 	{
+    // 	    shape: k_lambda,
+    // 	    scale: theta_lambda
+    // 	}
+    // )
+    
+    var mu = 0.1
+    var rho = 1.0
+    
+    // Uncomment for immediate sampling
+    // var ret = simCRBD(tree, lambda, mu, rho) 
+    /* # result (R)
+       nc_immediate = c(-139.04121743306126,
+       -139.15005131995662,
+       -139.1898901962876,
+       -139.14127518533908,
+       -139.33797721949483,
+       -139.1810756363625,
+       -139.01603010772516,
+       -139.14016903352154,
+       -139.2667116224766,
+       -138.976395011631,
+       -139.066372904993,
+       -138.87729781378138,
+       -139.16646792546408,
+       -139.15702617827273,
+       -139.0775816257575,
+       -139.0535150503006,
+       -139.15465977780738,
+       -138.91129576179495,
+       -139.08478780410096,
+       -139.1975499665893,
+       -139.22810376070345,
+       -139.37299812674402,
+       -139.17458763032786,
+       -139.22286784870045,
+       -138.95332781993858,
+       -139.1679008018778,
+       -138.84309375469854,
+       -138.99406504871718,
+       -138.93963891040968,
+       -139.07082829954513,
+       -139.1942226017383,
+       -138.95529202180225)
+
+       > mean(nc_immediate)
+       [1] -139.1033
+       > var(nc_immediate)
+       [1] 0.01648648
+    */
+    
+
+    // simulation delayed
+    var ret_0 = simCRBD_delayed(tree, k_lambda, theta_lambda, mu, rho)
+    
+    // survivorship bias correction, for now off, not tested yet
+    //  var max_M = 10000 // defensive programming
+    //  var ret_1 = M_crbdGoesUndetected_delayed(tree.age, ret_0.k_lambda, ret_0.k_theta, rho, max_M)
+    //  factor(Math.log(ret_1.M))
+
+    var lambda = gamma({shape: ret_0.k_lambda, scale: ret_0.theta_lambda})
+    // Uncomment for immediate
+    //return lambda
+    //return ret
+}
+
+
+/**
+ * Inference
+ * tweak the number of particles if you want to */
+var dist = Infer(
+    {
+	method: 'SMC',
+	particles: particles,
+	model: model
+    }
+)
+
+
+/** 
+ *Print the distribution or the normalization constant
+ */
+// Visualization module not implemented yet
+//viz( dist, {fileName: 'delayed.svg'})
+
+dist.normalizationConstant
+/*
+c(-139.158012601327,
+-138.91132041790357,
+-139.10836762941733,
+-139.2125559538346,
+-139.0503848613293,
+-139.08897727245218,
+-138.95969177115532,
+-139.08708039801525,
+-139.09868683182492,
+-139.28021377885221,
+-139.02643058552115,
+-139.10292983198823,
+-139.0135210656669,
+-139.19712155281587,
+-139.1218496111381,
+-138.9537866375061,
+-139.06794708077607,
+-139.08952855519829,
+-139.16719303393887,
+-138.98037062080547,
+-138.97096869048121,
+-139.15679284401764,
+-139.1611732134949,
+-139.06191702561873,
+-139.02078741244324,
+-139.05278068011754,
+-138.92396707751047,
+-139.10748840767837,
+-139.17128227976193,
+-139.05228559913252,
+-139.09672748677437,
+-138.9762349009604)
+
+> mean(nc)
+[1] -139.0759
+> var(nc)
+[1] 0.007724695
+
+*/
