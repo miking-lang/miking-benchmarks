@@ -1,0 +1,5 @@
+provides = "Python3"
+
+[[command]]
+required_executables = ["python3"]
+command = "python3 {argument} {options}"
