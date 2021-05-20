@@ -14,7 +14,7 @@ To install system wide, use:
 
 Example:
 
-    BIRCH_MODE="release" birch infer --tree anatinae --model crbd --output output/anatinae_crbd.json
+    BIRCH_MODE="release" birch infer --config experiment1 --tree alcedinidae --nparticles 10000
 
 ## Version history
 

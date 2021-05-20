@@ -1,0 +1,16 @@
+timing="complete"
+
+[[app]]
+runtime = "Python3"
+argument = "main.py"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 10000"
+
+
+[[app]]
+runtime = "Python3"
+argument = "main.py"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 20000"
+
+
+[[post]]
+runtime = "id"
