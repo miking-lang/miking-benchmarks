@@ -1,5 +1,0 @@
-timing = "complete"
-
-[[input]]
-tags = ["small"]
-file = "datasets/small1.txt"

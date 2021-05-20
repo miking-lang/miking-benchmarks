@@ -7,7 +7,7 @@ include "plot.mc"
 -- runtime on the y-axis. Each benchmark using that dataset will get a separate
 -- curve within the plot.
 let plotByData = lam root. lam filename.
-  let rawResults = (tomlReadFile filename).results in
+  let rawResults = (tomlReadFile filename).benchmark in
 
   let formatPath = lam path.
     pathWithDelim (pathRel path root) "::"
@@ -16,19 +16,22 @@ let plotByData = lam root. lam filename.
   -- Group the raw results by used dataset
   let groupedResults : Map String (Map String [Result]) =
     foldl
-      (lam acc. lam result : Result.
-         let dataKey = formatPath result.data.cwd in
-         let m =
-           match mapLookup dataKey acc with Some m then m
-           else mapEmpty cmpString in
+      (lam acc. lam benchResult : BenchmarkResult.
+         (foldl
+            (lam acc. lam result : Result.
+               let inputKey = formatPath result.input.cwd in
+               let m =
+                 match mapLookup inputKey acc with Some m then m
+                 else mapEmpty cmpString in
 
-         let benchKey = formatPath result.benchmark in
-         let m =
-           match mapLookup benchKey m with Some res then
-             mapInsert benchKey (cons result res) m
-           else mapInsert benchKey [result] m
-
-         in mapInsert dataKey m acc)
+               let benchKey = formatPath benchResult.app.cwd in
+               let m =
+                 match mapLookup benchKey m with Some res then
+                   mapInsert benchKey (cons result res) m
+                 else mapInsert benchKey [result] m
+               in mapInsert inputKey m acc)
+          acc
+          benchResult.results))
       (mapEmpty cmpString)
       rawResults
   in
@@ -46,15 +49,15 @@ let plotByData = lam root. lam filename.
       create (length ticks) (lam i. i)
   in
 
-  let doPlots = lam dataKey : String. lam results : Map String [Result].
+  let doPlots = lam inputKey : String. lam results : Map String [Result].
     let doOnePlot = lam benchKey : String. lam res : [Result].
       let n = length res in
-      let xticks = map (lam r. r.data.argument) res in
+      let xticks = map (lam r. r.input.data) res in
       let xs = xAxisFromTicks xticks in
       let ys = map (lam r. mean r.ms_run) res in
       plotAddPlot benchKey xs ys xticks
     in
     map (lam r. doOnePlot r.0 r.1) (mapBindings results);
-    plotFinalizePlot plotDefaultOptions dataKey
+    plotFinalizePlot plotDefaultOptions inputKey
   in
   map (lam b. doPlots b.0 b.1) (mapBindings groupedResults)
