@@ -26,7 +26,10 @@
 
 // constants
 const MAX_ITERATIONS = 64
-const DEFAULT_ITERATIONS = 12
+const DEFAULT_ITERATIONS = 1
+const DEFAULT_TREE = "src/bisse_32.phyjson"
+const DEFAULT_RHO = 1.0
+const DEFAULT_NPART = 5000
 require('events').EventEmitter.defaultMaxListeners = MAX_ITERATIONS;
 
 
@@ -38,14 +41,19 @@ var js          // intermediate javascript directory
 var stacksize   // the stacksize to be passed to the node executable
 var iterations  // the number of iterations to be run
 var executable  // the name of the javascript executable after compilation
-
+var treefile    // filename storing the path to the tree
+var rho         // sampling fraction
+var particles   // number of particles
 
       
 // Error handling
 const errors = ["No WebPPL script provided.\nSYNOPSIS\nnpm run wppl SCRIPT [n]\n",
 		"Missing or invalid iteration number, defaulting to ".concat(DEFAULT_ITERATIONS).concat(". MAX is ").concat(MAX_ITERATIONS).concat(".\n"),
 	  "On Windows, please use double backslash \\\\ to give the full name of the WebPPL script you want to execute, as a single backslash \\ is a meta-syntactic character (escape character) in JavaScript.\n",
-	 "Failure to produce a meaningful result while running a WebPPL file.\n"]
+		"Failure to produce a meaningful result while running a WebPPL file.\n",
+		"Defaulting tree and rho and nparts.\n",
+		"Defaulting rho and nparts.\n",
+	        "Defaulting nparts.\n"]
 const error_types = ["Error", "Warning"]
 
 /**
@@ -71,25 +79,49 @@ js = phylomodels.concat("/js")
 // 2 : the stacksize
 // 3 : the webppl script that needs to be run
 // 4 : iteration number (optional)
-// Process 4 or less arguments
+// 5 : tree path (optional)
+// 6 : sampling fraction rho (optional)
+// 7 : number of particles (optional)
 stacksize = process.argv[2]
-
 if (process.argv.length < 4) {
     output_error(0, 0)
     return false
-}
-
-else if (process.argv.length == 4) {
-    // asuming the fourth parameter is the SCRIPT
-    // 1 iteration
+} else if (process.argv.length == 4) {
     webppl = process.argv[3]
     output_error(1, 1)
     iterations = DEFAULT_ITERATIONS
-}
-else {
+    treefile = DEFAULT_TREE 
+    rho = DEFAULT_RHO
+    particles = DEFAULT_NPART
+} else if (process.argv.length == 5) {
     webppl = process.argv[3]
-    iterations = process.argv[4] // fifth parameter is asumed to be the iteration number
+    iterations = process.argv[4]
+    output_error(4, 1)
+    treefile = DEFAULT_TREE
+    rho = DEFAULT_RHO
+    particles = DEFAULT_NPART
+} else if (process.argv.length == 6) {
+    webppl = process.argv[3]
+    iterations = process.argv[4]
+    treefile = process.argv[5]
+    output_error(5, 1)
+    rho = DEFAULT_RHO
+    particles = DEFAULT_NPART
+} else if (process.argv.length == 7) {
+    webppl = process.argv[3]
+    iterations = process.argv[4]
+    treefile = process.argv[5]
+    rho = process.argv[6]
+    particles = DEFAULT_NPART
 }
+else if (process.argv.length == 8) {
+    webppl = process.argv[3]
+    iterations = process.argv[4]
+    treefile = process.argv[5]
+    rho = process.argv[6]
+    particles = process.argv[7]
+}
+				    
 
 // check
 if (isNaN(iterations) || iterations < 1 || iterations > MAX_ITERATIONS) {
@@ -126,7 +158,8 @@ shell.exec(compile_command)
 
 
 // Execution
-exec_command = "node " + " --stack-size=" +   stacksize + " " + " --max-old-space-size=4096 " + js + "/" + executable
+exec_command = "node " + " --stack-size=" +   stacksize + " " + " --max-old-space-size=4096 " + js + "/" + executable + " " + treefile + " " + rho + " " + particles
+console.log(exec_command)
 
 for (i = 0; i < iterations; i++) {
     shell.exec(exec_command, {async:true} )
