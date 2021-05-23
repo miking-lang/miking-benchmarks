@@ -1,56 +1,39 @@
-class Phylogeny<NodeType> {
-  root:NodeType;
-  size:Integer;
+final class Phylogeny {
+  nodes:Array<PhylogenyNode>;
 
-  function next(node:NodeType) -> NodeType? {
-    if node.left? {
-      return node.left;
-    }
-    current:NodeType? <- node;
-    while current? && current!.parent? && current!.parent!.right? &&
-        current!.parent!.right! == current! {
-      current <- current!.parent;
-    }
-    if current? && current!.parent? {
-      current <- current!.parent!.right;
-    }
-    return current;
+  function size() -> Integer {
+    return nodes.size();
   }
 
-  function getSize() -> Integer {
-    return size;
+  operator [i:Integer] -> PhylogenyNode {
+    return nodes[i];
   }
 
-  function getAge() -> Real {
-    return root.t + root.Δ;
-  }
+  function readNode(buffer:Buffer) -> Integer {
+    nodes.pushBack();
+    let id <- nodes.size();
+    nodes[id].id <- id;
+    nodes[id].Δ <- max(0.0, buffer.get<Real>("branch_length")!);
+    nodes[id].t <- 0.0;
 
-  function readNode(buffer:Buffer) -> NodeType {
-    node:NodeType;
-    size <- size + 1;
-    node.id <- size;
-    node.Δ <- max(0.0, buffer.get<Real>("branch_length")!);
-    node.t <- 0.0;
     let childBuffer <- buffer.walk("children");
     while childBuffer.hasNext() {
       let child <- readNode(childBuffer.next());
-      child.parent <- node;
-      node.t <- child.t + child.Δ;
-      if node.left? {
-        node.right <- child;
+      nodes[child].parent <- id;
+      nodes[id].t <- nodes[child].t + nodes[child].Δ;
+      if nodes[id].left? {
+        nodes[id].right <- child;
       } else {
-        node.left <- child;
+        nodes[id].left <- child;
       }
     }
-    return node;
+    return id;
   }
 
   override function read(buffer:Buffer) {
-    size <- 0;
-    let tree <- buffer.walk("trees");
-    if tree.hasNext() {
-      // We will read the first tree in the file
-      root <- readNode(tree.next().get("root")!);
+    let iter <- buffer.walk("trees");
+    if iter.hasNext() {
+      readNode(iter.next().get("root")!);
    }
   }
 }

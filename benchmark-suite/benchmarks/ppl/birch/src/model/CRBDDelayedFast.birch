@@ -1,0 +1,66 @@
+final class CRBDDelayedFast < BirthDeathModel<CRBDFastParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  ρ:Real;
+
+  override function step() {
+    let count <- simulate_gamma_poisson(λ_k, ν.Δ*λ_θ);
+    (λ_k, λ_θ) <- (λ_k + count, λ_θ/(ν.Δ*λ_θ + 1.0));
+    for i in 1..count {
+      let t <- simulate_uniform(ν.t, ν.t + ν.Δ);
+      if survives(t) {
+        factor -inf;
+        return;
+      }
+      factor log(2);
+    }
+    factor logpdf_gamma_poisson(0, μ_k, ν.Δ*μ_θ);
+    (μ_k, μ_θ) <- (μ_k + 0, μ_θ/(ν.Δ*μ_θ + 1.0));
+    if ν.isSpeciation() {
+      factor logpdf_lomax(0.0, 1.0/λ_θ, λ_k);
+      (λ_k, λ_θ) <- (λ_k + 1.0, λ_θ);
+    }
+    if ν.isLeaf() {
+      factor logpdf_bernoulli(true, ρ);
+    }
+  }
+
+  function survives(t:Real) -> Boolean {
+    let Δ <- simulate_lomax(1.0/μ_θ, μ_k);
+    (μ_k, μ_θ) <- (μ_k + 1.0, μ_θ/(1.0 + Δ*μ_θ));
+    if Δ >= t {
+      let detected <- simulate_bernoulli(ρ);
+      if detected {
+        return true;
+      }
+      Δ <- t;
+    }
+    let count <- simulate_gamma_poisson(λ_k, Δ*λ_θ);
+    (λ_k, λ_θ) <- (λ_k + count, λ_θ/(Δ*λ_θ + 1.0));
+    for i in 1..count {
+      let t' <- simulate_uniform(t - Δ, t);
+      if survives(t') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+
+  override function write(buffer:Buffer) {
+    buffer.set("λ_k", λ_k);
+    buffer.set("λ_θ", λ_θ);
+    buffer.set("μ_k", μ_k);
+    buffer.set("μ_θ", μ_θ);
+  }
+}

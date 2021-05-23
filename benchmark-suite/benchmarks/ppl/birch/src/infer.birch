@@ -8,14 +8,12 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
 
   treeReader:JSONReader;
   treeReader.open(inputBuffer.get<String>("file")!);
-  treeBuffer:Buffer;
-  treeBuffer <- treeReader.slurp();
-  inputBuffer.set("tree", treeBuffer);
+  phylogeny:Phylogeny;
+  phylogeny.read(treeReader.slurp());
 
   modelBuffer:Buffer;
   modelBuffer <-? configBuffer.get("model");
-
-  let theModel <- make<BirthDeathBaseModel>(modelBuffer);
+  let theModel <- make<Model>(modelBuffer);
   theModel!.read(inputBuffer);
 
   samplerBuffer:Buffer;
@@ -42,8 +40,6 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
     }
   }
 
-  let nsteps <- theModel!.size();
-
   outputWriter:Writer?;
   if output? && output! != "" {
     outputWriter <- make_writer(output!);
@@ -58,13 +54,19 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
     bar.update(0.0);
   }
 
-  buffer:Buffer;
+  let nsteps <- phylogeny.size();
+
   for n in 1..nsamples! {
+    buffer:Buffer;
+    buffer.set("size", phylogeny.size());
+    buffer.set("ν", phylogeny[1]);
     theSampler!.sample(theFilter!, theModel!, buffer);
     if !quiet {
       bar.update((n - 1.0)/nsamples! + 1.0/(nsamples!*(nsteps + 1.0)));
     }
     for t in 1..nsteps {
+      buffer:Buffer;
+      buffer.set("ν", phylogeny[t]);
       theSampler!.sample(theFilter!, t, buffer);
       if !quiet {
         bar.update((n - 1.0)/nsamples! + (t + 1.0)/(nsamples!*(nsteps + 1.0)));

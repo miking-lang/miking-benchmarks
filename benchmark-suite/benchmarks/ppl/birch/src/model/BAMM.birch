@@ -1,4 +1,4 @@
-class BAMM < BirthDeathModel<PhylogenyNode, BAMMParameter> {
+class BAMM < BirthDeathModel<BAMMParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
@@ -10,10 +10,10 @@ class BAMM < BirthDeathModel<PhylogenyNode, BAMMParameter> {
   override function init() {
     θ.λ ~ Gamma(λ_k, λ_θ);
     θ.μ ~ Gamma(μ_k, μ_θ);
-    θ.η ~ Gamma(1.0, c_η/tree.getAge());
+    θ.η ~ Gamma(1.0, c_η/T);
     θ.z ~ Gaussian(0.0, z_σ2);
     θ.ν <- ν.id;
-    θ.ξ <- tree.getAge();
+    θ.ξ <- T;
   }
 
   override function step() {
@@ -32,7 +32,7 @@ class BAMM < BirthDeathModel<PhylogenyNode, BAMMParameter> {
       for i in 1..count {
         let u <~ Uniform(0.0, 1.0);
         let t <- t_beg - log(u*exp(θ.z.value()*(t_beg - t_end)) - u + 1.0)/θ.z.value();
-        if survives(t) {
+        if survives(t, θ.λ, θ.μ, θ.z, θ.ξ) {
           factor -inf;
           return;
         }
@@ -87,10 +87,6 @@ class BAMM < BirthDeathModel<PhylogenyNode, BAMMParameter> {
       return survives(t_end, λ', μ', z', t_end);
     }
     return false;
-  }
-
-  override function survives(t:Real) -> Boolean {
-    return survives(t, θ.λ, θ.μ, θ.z, θ.ξ);
   }
 
   override function read(buffer:Buffer) {

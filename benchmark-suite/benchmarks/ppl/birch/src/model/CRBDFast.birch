@@ -1,46 +1,48 @@
-class CRBD < BirthDeathModel<BirthDeathParameter> {
+final class CRBDFast < BirthDeathModel<CRBDFastParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
   μ_θ:Real;
   ρ:Real;
+  λ:Real;
+  μ:Real;
 
   override function init() {
-    θ.λ ~ Gamma(λ_k, λ_θ);
-    θ.μ ~ Gamma(μ_k, μ_θ);
+    λ <- simulate_gamma(λ_k, λ_θ);
+    μ <- simulate_gamma(μ_k, μ_θ);
   }
 
   override function step() {
-    let count <~ Poisson(θ.λ*ν.Δ);
+    let count <- simulate_poisson(λ*ν.Δ);
     for i in 1..count {
-      let t <~ Uniform(ν.t, ν.t + ν.Δ);
+      let t <- simulate_uniform(ν.t, ν.t + ν.Δ);
       if survives(t) {
         factor -inf;
         return;
       }
       factor log(2);
     }
-    0 ~> Poisson(θ.μ*ν.Δ);
+    factor logpdf_poisson(0, μ*ν.Δ);
     if ν.isSpeciation() {
-      0.0 ~> Exponential(θ.λ);
+      factor logpdf_exponential(0.0, λ);
     }
     if ν.isLeaf() {
-      true ~> Bernoulli(ρ);
+      factor logpdf_bernoulli(true, ρ);
     }
   }
 
   function survives(t:Real) -> Boolean {
-    let Δ <~ Exponential(θ.μ);
+    let Δ <- simulate_exponential(μ);
     if Δ >= t {
-      let detected <~ Bernoulli(ρ);
+      let detected <- simulate_bernoulli(ρ);
       if detected {
         return true;
       }
       Δ <- t;
     }
-    let count <~ Poisson(θ.λ*Δ);
+    let count <- simulate_poisson(λ*Δ);
     for i in 1..count {
-      let t' <~ Uniform(t - Δ, t);
+      let t' <- simulate_uniform(t - Δ, t);
       if survives(t') {
         return true;
       }
@@ -55,5 +57,10 @@ class CRBD < BirthDeathModel<BirthDeathParameter> {
     μ_k <-? buffer.get<Real>("μ_k");
     μ_θ <-? buffer.get<Real>("μ_θ");
     ρ <-? buffer.get<Real>("ρ");
+  }
+
+  override function write(buffer:Buffer) {
+    buffer.set("λ", λ);
+    buffer.set("μ", μ);
   }
 }

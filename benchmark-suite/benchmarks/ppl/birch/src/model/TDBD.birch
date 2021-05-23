@@ -1,4 +1,4 @@
-class TDBD < BirthDeathModel<PhylogenyNode, TDBDParameter> {
+class TDBD < BirthDeathModel<TDBDParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
@@ -13,8 +13,7 @@ class TDBD < BirthDeathModel<PhylogenyNode, TDBDParameter> {
   }
 
   override function step() {
-    let ξ <- tree.getAge();
-    let Δ <- (exp(θ.z*(ξ - ν.t)) - exp(θ.z*(ξ - ν.t - ν.Δ)))/θ.z;
+    let Δ <- (exp(θ.z*(T - ν.t)) - exp(θ.z*(T - ν.t - ν.Δ)))/θ.z;
     let count <~ Poisson(θ.λ*Δ);
     for i in 1..count {
       let u <~ Uniform(0.0, 1.0);
@@ -27,17 +26,16 @@ class TDBD < BirthDeathModel<PhylogenyNode, TDBDParameter> {
     }
     0 ~> Poisson(θ.μ*Δ);
     if ν.isSpeciation() {
-      0.0 ~> Exponential(θ.λ*exp(θ.z*(ξ - ν.t)));
+      0.0 ~> Exponential(θ.λ*exp(θ.z*(T - ν.t)));
     }
     if ν.isLeaf() {
       true ~> Bernoulli(ρ);
     }
   }
 
-  override function survives(t:Real) -> Boolean {
-    let ξ <- tree.getAge();
+  function survives(t:Real) -> Boolean {
     let t_end <- 0.0;
-    let Δ <- (exp(θ.z*ξ) - exp(θ.z*(ξ - t)))/θ.z;
+    let Δ <- (exp(θ.z*T) - exp(θ.z*(T - t)))/θ.z;
     let count_d <~ Poisson(θ.μ * Δ);
     if count_d == 0 {
       let detected <~ Bernoulli(ρ);
@@ -52,7 +50,7 @@ class TDBD < BirthDeathModel<PhylogenyNode, TDBDParameter> {
       }
       t_end <- t - log(u*exp(θ.z.value()*t) - u + 1.0)/θ.z.value();
     }
-    let Δ' <- (exp(θ.z*(ξ - t_end)) - exp(θ.z*(ξ - t)))/θ.z;
+    let Δ' <- (exp(θ.z*(T - t_end)) - exp(θ.z*(T - t)))/θ.z;
     let count <~ Poisson(θ.λ*Δ');
     for i in 1..count {
       let u <~ Uniform(0.0, 1.0);

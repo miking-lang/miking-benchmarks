@@ -1,9 +1,9 @@
 model:
-  class: CRBD
+  class: CRBDFast
   λ_k: 1.0
   λ_θ: 1.0
   μ_k: 1.0
   μ_θ: 0.5
 filter:
   class: ParticleFilter
-  delayed: false
+  delayed: false  # not needed as CRBDFast samples directly
