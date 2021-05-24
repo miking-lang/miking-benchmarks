@@ -10,8 +10,8 @@
 #include "../tree-utils/tree_utils.cuh"
 #include "utils/math.cuh"
 
-typedef bisse32_tree_t tree_t;
-const floating_t rhoConst = 1.0;
+typedef Alcedinidae_tree_t tree_t;
+const floating_t rhoConst = 0.5684210526315789;
 
 // typedef primate_tree_t tree_t;
 // typedef moth_div_tree_t tree_t;
