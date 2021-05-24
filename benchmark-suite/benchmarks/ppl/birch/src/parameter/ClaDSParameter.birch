@@ -1,4 +1,6 @@
-class ClaDSParameter < BirthDeathParameter {
+struct ClaDSParameter {
+  λ:Random<Real>;
+  μ:Random<Real>;
   log_α:Random<Real>;
   σ2:Random<Real>;
   multiplier:Real <- 1.0;
@@ -14,8 +16,19 @@ class ClaDSParameter < BirthDeathParameter {
     return θ;
   }
 
-  override function write(buffer:Buffer) {
-    super.write(buffer);
+  function read(buffer:Buffer) {}
+
+  function write(buffer:Buffer) {
+    if λ.hasDistribution() {
+      buffer.set("λ", λ.getDistribution());
+    } else {
+      buffer.set("λ", λ);
+    }
+    if μ.hasDistribution() {
+      buffer.set("μ", μ.getDistribution());
+    } else {
+      buffer.set("μ", μ);
+    }
     if log_α.hasDistribution() {
       buffer.set("log_α", log_α.getDistribution());
     } else {

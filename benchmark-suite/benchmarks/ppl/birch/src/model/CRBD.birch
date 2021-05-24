@@ -1,4 +1,4 @@
-class CRBD < BirthDeathModel<BirthDeathParameter> {
+class CRBD < BirthDeathModel<CRBDParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
