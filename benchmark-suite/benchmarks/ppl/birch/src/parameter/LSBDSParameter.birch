@@ -1,10 +1,23 @@
-class LSBDSParameter < BirthDeathParameter {
+struct LSBDSParameter {
+  λ:Random<Real>;
+  μ:Random<Real>;
   η:Random<Real>;
   ν:Integer;
   ξ:Real;
 
-  override function write(buffer:Buffer) {
-    super.write(buffer);
+  function read(buffer:Buffer) {}
+
+  function write(buffer:Buffer) {
+    if λ.hasDistribution() {
+      buffer.set("λ", λ.getDistribution());
+    } else {
+      buffer.set("λ", λ);
+    }
+    if μ.hasDistribution() {
+      buffer.set("μ", μ.getDistribution());
+    } else {
+      buffer.set("μ", μ);
+    }
     if η.hasDistribution() {
       buffer.set("η", η.getDistribution());
     } else {

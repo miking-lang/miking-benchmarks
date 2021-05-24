@@ -1,4 +1,4 @@
-class CRBDA < BirthDeathModel<PhylogenyNode, BirthDeathParameter> {
+class CRBDA < BirthDeathModel<CRBDParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
@@ -21,11 +21,6 @@ class CRBDA < BirthDeathModel<PhylogenyNode, BirthDeathParameter> {
     if ν.isLeaf() {
       true ~> Bernoulli(ρ);
     }
-  }
-
-  override function correctForSurvivorshipBias() {
-    let r <- θ.λ.value() - θ.μ.value();
-    factor -2*log(r) + 2*log(θ.λ.value() - (θ.λ.value() - r/ρ)*exp(-r*tree.getAge()));
   }
 
   override function read(buffer:Buffer) {

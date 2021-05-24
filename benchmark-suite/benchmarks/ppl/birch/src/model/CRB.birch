@@ -1,4 +1,4 @@
-class CRB < BirthDeathModel<PhylogenyNode, BirthDeathParameter> {
+class CRB < BirthDeathModel<CRBDParameter> {
   λ_k:Real;
   λ_θ:Real;
   ρ:Real;
@@ -26,7 +26,7 @@ class CRB < BirthDeathModel<PhylogenyNode, BirthDeathParameter> {
     }
   }
 
-  override function survives(t:Real) -> Boolean {
+  function survives(t:Real) -> Boolean {
     let detected <~ Bernoulli(ρ);
     if detected {
       return true;

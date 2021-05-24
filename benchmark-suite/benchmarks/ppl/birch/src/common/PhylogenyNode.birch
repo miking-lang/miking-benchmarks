@@ -1,10 +1,10 @@
-class PhylogenyNode {
-  id:Integer;
-  t:Real;
-  Δ:Real;
-  parent:PhylogenyNode?;
-  left:PhylogenyNode?;
-  right:PhylogenyNode?;
+struct PhylogenyNode {
+  id:Integer <- 0;
+  t:Real <- 0.0;
+  Δ:Real <- 0.0;
+  parent:Integer?;
+  left:Integer?;
+  right:Integer?;
 
   function isRoot() -> Boolean {
     return !parent?;
@@ -20,5 +20,32 @@ class PhylogenyNode {
 
   function isSpeciation() -> Boolean {
     return !isLeaf();
+  }
+
+  function read(buffer:Buffer) {
+    id <- buffer.get<Integer>("id")!;
+    t <- buffer.get<Real>("t")!;
+    Δ <- buffer.get<Real>("Δ")!;
+    parent <- nil;
+    parent <-? buffer.get<Integer>("parent");
+    left <- nil;
+    left <-? buffer.get<Integer>("left");
+    right <- nil;
+    right <-? buffer.get<Integer>("right");
+  }
+
+  function write(buffer:Buffer) {
+    buffer.set("id", id);
+    buffer.set("t", t);
+    buffer.set("Δ", Δ);
+    if parent? {
+      buffer.set("parent", parent!);
+    }
+    if left? {
+      buffer.set("left", left!);
+    }
+    if right? {
+      buffer.set("right", right!);
+    }
   }
 }

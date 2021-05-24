@@ -1,4 +1,4 @@
-class LSBDS < BirthDeathModel<PhylogenyNode, LSBDSParameter> {
+class LSBDS < BirthDeathModel<LSBDSParameter> {
   λ_k:Real;
   λ_θ:Real;
   μ_k:Real;
@@ -9,9 +9,9 @@ class LSBDS < BirthDeathModel<PhylogenyNode, LSBDSParameter> {
   override function init() {
     θ.λ ~ Gamma(λ_k, λ_θ);
     θ.μ ~ Gamma(μ_k, μ_θ);
-    θ.η ~ Gamma(1.0, c_η/tree.getAge());
+    θ.η ~ Gamma(1.0, c_η/T);
     θ.ν <- ν.id;
-    θ.ξ <- tree.getAge();
+    θ.ξ <- T;
   }
 
   override function step() {
@@ -28,7 +28,7 @@ class LSBDS < BirthDeathModel<PhylogenyNode, LSBDSParameter> {
       let count <~ Poisson(θ.λ*Δ);
       for i in 1..count {
         let t <~ Uniform(t_end, t_beg);
-        if survives(t) {
+        if survives(t, θ.λ, θ.μ) {
           factor -inf;
           return;
         }
@@ -79,10 +79,6 @@ class LSBDS < BirthDeathModel<PhylogenyNode, LSBDSParameter> {
       return survives(t_end, λ', μ');
     }
     return false;
-  }
-
-  override function survives(t:Real) -> Boolean {
-    return survives(t, θ.λ, θ.μ);
   }
 
   override function read(buffer:Buffer) {

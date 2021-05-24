@@ -1,5 +1,0 @@
-abstract class BirthDeathBaseModel < Model {
-  function size() -> Integer {
-    return 0;
-  }
-}

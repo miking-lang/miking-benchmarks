@@ -1,76 +1,53 @@
-class BirthDeathModel<NodeType, ParameterType> < BirthDeathBaseModel {
-  tree:Phylogeny<NodeType>;
+class BirthDeathModel<ParameterType> < Model {
   θs:Array<ParameterType>;
   index:Integer[_];
-
-  ν:NodeType;
   θ:ParameterType;
+  ν:PhylogenyNode;
+  size:Integer;
+  T:Real;
 
-  override function size() -> Integer {
-    return 1 + tree.getSize();
-  }
-
-  function switchParameter(θ':ParameterType) {
+  final function switchParameter(θ':ParameterType) {
     θs.pushBack(θ');
     index[ν.id] <- θs.size();
     θ <- θ';
   }
 
-  function switchParameter(node:NodeType) {
-    let i <- index[node.id];
+  final function switchParameter(nodeId:Integer) {
+    let i <- index[nodeId];
     index[ν.id] <- i;
     θ <- θs[i];
   }
 
   function init() {}
 
-  override function simulate() {
+  final override function simulate() {
     θs.clear();
-    index <- vector(0, tree.getSize());
-    ν <- tree.root;
+    T <- ν.t + ν.Δ;
+    index <- vector(0, size);
     switchParameter(θ);
     init();
-    let N <- (tree.getSize() + 1)/2;
+    let N <- (size + 1)/2;
     factor (N-1)*log(2) - log_factorial(N);
   }
 
   function step() {}
 
-  function survives(t:Real) -> Boolean {
-    return true;
-  }
-
-  function correctForSurvivorshipBias() {
-    let i <- 0;
-    while true {
-      i <- i + 1;
-      if survives(tree.getAge()) && survives(tree.getAge()) {
-        factor log(i);
-        return;
-      }
+  final override function simulate(t:Integer) {
+    if ν.parent? {
+      switchParameter(ν.parent!);
     }
-  }
-
-  override function simulate(t:Integer) {
-    if t <= tree.getSize() {
-      if t > 1 {
-        ν <- tree.next(ν)!;
-        switchParameter(ν.parent!);
-      }
-      if !ν.isRoot() || !ν.noStalk() {
-        step();
-      }
-    } else {
-      θ <- θs[1];
-      correctForSurvivorshipBias();
+    if !ν.isRoot() || !ν.noStalk() {
+      step();
     }
   }
 
   override function read(buffer:Buffer) {
-    let treeBuffer <- buffer.get("tree");
-    if treeBuffer? {
-      tree.read(treeBuffer!);
-    }
+    size <-? buffer.get<Integer>("size");
+    ν <-? buffer.get<PhylogenyNode>("ν");
+  }
+
+  override function read(t:Integer, buffer:Buffer) {
+    ν <-? buffer.get<PhylogenyNode>("ν");
   }
 
   override function write(buffer:Buffer) {

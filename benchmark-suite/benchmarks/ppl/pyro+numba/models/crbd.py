@@ -33,16 +33,6 @@ def vec_survives(t_beg, t_end, count_, λ, μ, ρ):
     return f
 
 
-@jit(cache=True)
-def vec_bias_correction(t, λ, μ, ρ):
-    c = ones(λ.shape[0])
-    for n in range(λ.shape[0]):
-        while not (survives(t, λ[n], μ[n], ρ) and \
-                   survives(t, λ[n], μ[n], ρ)):
-            c[n] += 1
-    return nplog(c)
-
-
 class CRBD:
     def init(self, state, N):
         state["λ"] = sample("λ", Gamma(1., 1./1.))
@@ -52,10 +42,7 @@ class CRBD:
             f -= log(tensor(n))
         factor("factor_orient_labeled", f)
 
-    def step(self, state, method, *args, **kwargs):
-        getattr(self, method)(state, *args, **kwargs)
-
-    def branch(self, state, branch, ρ=1.0):
+    def step(self, state, branch, ρ=1.0):
         Δ = branch["t_beg"] - branch["t_end"]
         if branch['parent_id'] is None and Δ < 1e-5:
             return
@@ -67,9 +54,6 @@ class CRBD:
             sample(f"spec_{branch['id']}", Exponential(state["λ"]), obs=tensor(1e-40))
         else:
             sample(f"obs_{branch['id']}", Bernoulli(ρ), obs=tensor(1.))
-
-    def bias_correction(self, state, t, ρ=1.0):
-        factor("factor_bias_corr", vec_bias_correction(t, state["λ"].numpy(), state["μ"].numpy(), ρ))
 
 
 class CRBDGuide:

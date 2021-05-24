@@ -12,10 +12,7 @@ class CRBD:
             f -= log(tensor(n))
         factor("factor_orient_labeled", f)
 
-    def step(self, state, method, *args, **kwargs):
-        getattr(self, method)(state, *args, **kwargs)
-
-    def branch(self, state, branch, ρ=1.0):
+    def step(self, state, branch, ρ=1.0):
         Δ = branch["t_beg"] - branch["t_end"]
         if branch['parent_id'] is None and Δ == 0:
             return
@@ -34,14 +31,6 @@ class CRBD:
             sample(f"spec_{branch['id']}", Exponential(state["λ"]), obs=tensor(1e-40))
         else:
             sample(f"obs_{branch['id']}", Bernoulli(ρ), obs=tensor(1.))
-
-    def bias_correction(self, state, t, ρ=1.0):
-        c = ones(state._num_particles)
-        for n in range(state._num_particles):
-            while not (self.survives(t, state["λ"][n], state["μ"][n], ρ) and \
-                       self.survives(t, state["λ"][n], state["μ"][n], ρ)):
-                c[n] += 1
-        factor("factor_bias_corr", log(c))
 
     def survives(self, t, λ, μ, ρ):
         t_end = t - Exponential(μ).sample()

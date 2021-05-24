@@ -23,6 +23,5 @@ smc = SMCFilter(model=CRBD(), guide=CRBDGuide(), num_particles=N, max_plate_nest
 tree = read_tree(tree_path)
 smc.init((len(tree) + 1) // 2)
 for branch in tree:
-    smc.step('branch', branch, ρ)
-smc.step('bias_correction', tree[0]['t_beg'], ρ)
+    smc.step(branch, ρ)
 print('%f' % smc.get_marginal_log_likelihood())

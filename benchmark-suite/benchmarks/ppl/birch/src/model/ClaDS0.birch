@@ -1,4 +1,4 @@
-class ClaDS0 < BirthDeathModel<PhylogenyNode, ClaDSParameter> {
+class ClaDS0 < BirthDeathModel<ClaDSParameter> {
   λ_k:Real;
   λ_θ:Real;
   σ2_α:Real;
@@ -60,10 +60,6 @@ class ClaDS0 < BirthDeathModel<PhylogenyNode, ClaDSParameter> {
       return detected;
     }
     return survives(t-Δ_b, multiplier) || survives(t-Δ_b, multiplier);
-  }
-
-  override function survives(t:Real) -> Boolean {
-    return survives(t, 1.0);
   }
 
   override function read(buffer:Buffer) {
