@@ -12,7 +12,7 @@
 * argument `-- batch`, note the space). If you run in online mode the ouput
 * of SCRIPT is printed to standard output n times (default 1 if omitted). If running
 * in batch mode, the output is stored in the `runs` directory, with the name
-* constructed from SCRIPT.
+* constructed from SCRIPT.fdfdfd
 * 
 * NOTE
 * 

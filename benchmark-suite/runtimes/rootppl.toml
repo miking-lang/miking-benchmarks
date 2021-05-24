@@ -1,0 +1,7 @@
+provides = "RootPPL"
+
+[[command]]
+required_executables = ["rootppl"]
+build_command = "rootppl {argument}"
+command = "./program {options}"
+clean_command = "rootppl clean"

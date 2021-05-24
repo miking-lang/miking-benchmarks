@@ -1,0 +1,9 @@
+timing="complete"
+
+[[app]]
+runtime = "RootPPL"
+argument = "TEMPLATE_crbd.cu"
+options = "10000 1"
+
+[[post]]
+runtime = "id"
