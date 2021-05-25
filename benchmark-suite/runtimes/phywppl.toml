@@ -1,0 +1,6 @@
+provides = "phywppl"
+[[command]]
+required_executables = ["npm","webppl"]
+build_command = "npm install"
+command = "{argument}"
+clean_command = "rm -rf node_modules; npm run clean"

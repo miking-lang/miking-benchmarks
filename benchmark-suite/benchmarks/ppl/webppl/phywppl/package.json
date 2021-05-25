@@ -1,0 +1,25 @@
+{
+   "name": "phywppl",
+   "version": "1.0.0",
+   "config": {
+      "stacksize": "1200",
+      "loglevel": "silent",
+      "nreps": "12"
+   },
+   "webppl": {
+      "wppl": [
+         "models/crbd.wppl"
+      ]
+   },
+   "scripts": {
+      "wppl": "node src/webppl-runner.js  $npm_package_config_stacksize",
+      "sim": "node src/simulations-builder.js $npm_package_config_stacksize",
+      "clean": "rm -f js/*.js",
+      "test": "echo 'this is a test'"
+   },
+   "dependencies": {
+      "phyjs": "file:../phyjs",
+      "shelljs": "^0.8.3"
+   },
+   "devDependencies": {}
+}

@@ -1,0 +1,140 @@
+/** 
+ * M Iterations to Survive
+ *  
+ * Computes M, the number of simulations needed to generate a lineage surviving
+ * to the present.
+ *
+ * @param startTime
+ * @param lambda
+ * @param mu
+ * @param rho
+ * @param max_M (integer) A guard against very deep recursions.
+ *
+ * @return M
+ */
+var M_crbdGoesUndetected = function(startTime, lambda, mu, rho, max_M)
+{
+    if ( max_M == 0 ) return NaN
+    // We need to survive twice
+    // !crbdGoesUndetected( startTime, lambda, mu, rho ) is the probability of being
+    // detected/surviving to present
+    if (!crbdGoesUndetected( startTime, lambda, mu, rho ) &&
+	!crbdGoesUndetected( startTime, lambda, mu, rho )) return 1
+    else return(1 + M_crbdGoesUndetected( startTime, lambda, mu, rho, max_M - 1 ))
+}
+
+
+/**
+ * Forward simulation from startTime to the present under CRBD
+ *
+ * Computes whether, under the CRBD model, an evolutionary lineage
+ * goes undetected, i.e. goes extinct or does not go extinct, but it 
+ * is not sampled under the random sampling procedure with probability ρ. 
+ * 
+ * @param startTime
+ * @param lambda
+ * @param mu
+ * @param rho
+ * 
+ * @return It returns probabilities of [extinction or not being detected (true)]
+ * or [survival and being detected (false)]
+ */
+var crbdGoesUndetected = function(startTime, lambda, mu, rho)
+{
+    var duration = exponential({a: mu})
+    if (duration > startTime) {
+    	if (flip(rho)) return false
+    }
+
+    var branchLength = Math.min(duration, startTime)
+    
+    // Jan's walk
+    var f = function(n) {
+	if (n==0) return true 
+	var eventTime = uniform({a: startTime - branchLength, b: startTime})
+	if (!crbdGoesUndetected(eventTime, lambda, mu, rho)) return false
+	return f(n-1)
+    }
+
+    return f(poisson({mu: lambda*branchLength})) 
+}
+
+
+/**
+ * Simulate constant rate birth-death (CRBD) model
+ * 
+ * Simulates a particle under the CRBD model and weighs the simulation according
+ * to the probability endorsed by the input parameters. Since this is a probabil-
+ * istic simulation, even with the same input parameters the weight may vary.
+ *
+ * @param tree
+ * @param lambda
+ * @param mu
+ * @param rho
+ *
+ * @return Returns [lambda, mu] but technically no need to do so.
+ */
+var simCRBD = function(tree, lambda, mu, rho)
+{
+    // Simulate process along a branch
+    // This function simulates speciation events on a branch
+    // that is known to survive through the timeperiod and
+    // computes the ln probability of the simulation.
+    var simBranch = function(startTime, stopTime, lambda, mu, rho)
+    {
+	// Jan's walk
+	var f = function(n) {
+	    if (n == 0) return 0.0
+	    var currentTime = uniform({a: stopTime, b: startTime})
+	    if (!crbdGoesUndetected(currentTime, lambda, mu, rho)) return(-Infinity)
+	    return (f(n - 1) + Math.log(2.0))
+	}
+	return f(poisson({mu: lambda*(startTime - stopTime)}))   
+    }
+    
+    // Simulate process along tree
+    var simTree = function( tree, parent, lambda, mu, rho)
+    {
+	// Factor in the probability of no extinction
+	// along the branch leading to the node
+	var lnProb1 = - mu * ( parent.age - tree.age );
+
+	// If this is an interior node, we also need to weight
+	// according to the speciation probability
+	// at the end of the branch because we need to
+	// draw exactly the waiting time until the end
+	// of the branch. Note that this effect does
+	// not occur if the branch is terminal
+	var lnProb2 = ( tree.type == 'node' ? Math.log( lambda ) : Math.log(rho) );
+
+	// Now simulate the hidden speciation events along
+	// the branch using a recursive function, accumulating ln probs
+	var lnProb3 = simBranch( parent.age, tree.age, lambda, mu, rho);
+
+	// Now is the time to reweight
+	factor( lnProb1 + lnProb2 + lnProb3 )
+
+	// Finally, if this is an interior node, recurse over
+	// the two descendant subtrees
+	if ( tree.type == 'node')
+	{
+            // Now recurse over the left and right descendants
+            simTree( tree.left,  tree, lambda, mu, rho)
+            simTree( tree.right, tree, lambda, mu, rho)
+	}
+    }
+    
+    // Convert to density on labelled unoriented trees up front
+    // to make sure the normalization constant is correct
+    var numLeaves = phyjs.countLeaves( tree )
+    var corrFactor = ( numLeaves - 1 ) * Math.log( 2.0 ) - phyjs.lnFactorial( numLeaves )
+    factor( corrFactor )
+
+    // Simulate conditionally on the tree
+    // If clause is needed to exclude stalked tree
+    simTree( tree.left,  tree, lambda, mu, rho )
+    simTree( tree.right, tree, lambda, mu, rho )
+
+    // Technically we don't need to return anything as only the weight has been changed.
+    return [ lambda, mu ];
+}

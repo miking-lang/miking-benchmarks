@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592397664077.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1572460136",
+    "id" : "DA742652",
+    "lastKnownWriteTime" : 1592397824,
+    "last_content_update" : 1592397824489,
+    "path" : "~/Dropbox/Work/ppl-phylogenetics/webppl/phywppl/plots/guards.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "2,12",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

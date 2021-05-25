@@ -1,0 +1,40 @@
+class TDBDA < BirthDeathModel<TDBDParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  z_σ2:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+    θ.z ~ Gaussian(0.0, z_σ2);
+  }
+
+  override function step() {
+    let ε <- θ.μ.value()/θ.λ.value();
+    let λ_beg <- θ.λ.value()*exp(θ.z.value()*(T - ν.t - ν.Δ));
+    let λ_end <- θ.λ.value()*exp(θ.z.value()*(T - ν.t));
+    let λ_0 <- θ.λ.value()*exp(θ.z.value()*T);
+    factor -(1 - ε)*(λ_end - λ_beg)/θ.z.value()
+        - 2*log(ρ - (ρ - 1 + ε)*exp((1 - ε)*(λ_beg - λ_0)/θ.z.value()))
+        + 2*log(ρ - (ρ - 1 + ε)*exp((1 - ε)*(λ_end - λ_0)/θ.z.value()));
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(λ_end);
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    z_σ2 <-? buffer.get<Real>("z_σ2");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

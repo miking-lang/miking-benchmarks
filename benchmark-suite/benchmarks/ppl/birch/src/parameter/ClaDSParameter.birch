@@ -1,0 +1,45 @@
+struct ClaDSParameter {
+  λ:Random<Real>;
+  μ:Random<Real>;
+  log_α:Random<Real>;
+  σ2:Random<Real>;
+  multiplier:Real <- 1.0;
+  ν:Integer;
+
+  function copy() -> ClaDSParameter {
+    θ:ClaDSParameter;
+    θ.λ <- λ;
+    θ.μ <- μ;
+    θ.log_α <- log_α;
+    θ.σ2 <- σ2;
+    θ.multiplier <- multiplier;
+    return θ;
+  }
+
+  function read(buffer:Buffer) {}
+
+  function write(buffer:Buffer) {
+    if λ.hasDistribution() {
+      buffer.set("λ", λ.getDistribution());
+    } else {
+      buffer.set("λ", λ);
+    }
+    if μ.hasDistribution() {
+      buffer.set("μ", μ.getDistribution());
+    } else {
+      buffer.set("μ", μ);
+    }
+    if log_α.hasDistribution() {
+      buffer.set("log_α", log_α.getDistribution());
+    } else {
+      buffer.set("log_α", log_α);
+    }
+    if σ2.hasDistribution() {
+      buffer.set("σ2", σ2.getDistribution());
+    } else {
+      buffer.set("σ2", σ2);
+    }
+    buffer.set("multiplier", multiplier);
+    buffer.set("ν", ν);
+  }
+}

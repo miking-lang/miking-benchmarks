@@ -1,0 +1,4 @@
+js/*.js
+.RData
+.Rhistory
+node_modules/

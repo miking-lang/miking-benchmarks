@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592396345902.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3919919051",
+    "id" : "9AB72D2B",
+    "lastKnownWriteTime" : 1592396392,
+    "last_content_update" : 1592396392580,
+    "path" : "~/Dropbox/Work/ppl-phylogenetics/webppl/phywppl/plots/crbd-input.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "45,30",
+        "scrollLine" : "35"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

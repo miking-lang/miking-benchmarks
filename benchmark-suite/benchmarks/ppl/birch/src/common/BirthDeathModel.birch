@@ -1,0 +1,56 @@
+class BirthDeathModel<ParameterType> < Model {
+  θs:Array<ParameterType>;
+  index:Integer[_];
+  θ:ParameterType;
+  ν:PhylogenyNode;
+  size:Integer;
+  T:Real;
+
+  final function switchParameter(θ':ParameterType) {
+    θs.pushBack(θ');
+    index[ν.id] <- θs.size();
+    θ <- θ';
+  }
+
+  final function switchParameter(nodeId:Integer) {
+    let i <- index[nodeId];
+    index[ν.id] <- i;
+    θ <- θs[i];
+  }
+
+  function init() {}
+
+  final override function simulate() {
+    θs.clear();
+    T <- ν.t + ν.Δ;
+    index <- vector(0, size);
+    switchParameter(θ);
+    init();
+    let N <- (size + 1)/2;
+    factor (N-1)*log(2) - log_factorial(N);
+  }
+
+  function step() {}
+
+  final override function simulate(t:Integer) {
+    if ν.parent? {
+      switchParameter(ν.parent!);
+    }
+    if !ν.isRoot() || !ν.noStalk() {
+      step();
+    }
+  }
+
+  override function read(buffer:Buffer) {
+    size <-? buffer.get<Integer>("size");
+    ν <-? buffer.get<PhylogenyNode>("ν");
+  }
+
+  override function read(t:Integer, buffer:Buffer) {
+    ν <-? buffer.get<PhylogenyNode>("ν");
+  }
+
+  override function write(buffer:Buffer) {
+    θs[1].write(buffer);
+  }
+}

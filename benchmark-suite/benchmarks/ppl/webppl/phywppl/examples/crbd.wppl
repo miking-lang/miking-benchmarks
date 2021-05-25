@@ -1,0 +1,57 @@
+/** 
+ * Constant-rate birth-death
+ * 
+ * To run the example use:
+ * 
+ * npm run wppl examples/crbd.wppl [N] [TREEPATH] [NPART]
+ * 
+ * where [N] is the number of iterations, for example 3
+ *       [TREEPATH] path to phyjson tree
+ *       [NPART] number of particles
+ *
+ * Features:
+ *   - no guards: eliminate guards with Jan's Walk
+ *   - priors: new priors (draw mu and lambda)
+ *
+ */
+var tree = phyjs.read_phyjson(argv["_"][1])
+var rho = argv["_"][2]
+var particles = argv["_"][3]
+
+var k_lambda = 1.0
+var theta_lambda = 1.0
+var k_mu = 1.0
+var theta_mu = 0.5
+
+
+/**
+ * Model specification
+ */
+var model = function()
+{
+    var lambda = gamma({
+ 	shape: k_lambda,
+ 	scale: theta_lambda
+    })
+    var mu = gamma({
+	shape: k_mu,
+	scale: theta_mu
+    })
+
+    // Simulate conditionally on the tree
+    // It returns all variables of interest
+    var ret = simCRBD(tree, lambda, mu, rho)
+
+    // Condition on detection is OFF
+    // var max_M = 10000 // abort survivorship bias if recursion is too deep
+    // var M = M_crbdGoesUndetected(tree.age, lambda, mu, rho, max_M)
+    // factor(Math.log(M))
+    
+    return lambda
+}
+
+/**
+ * Inference
+ * tweak the number of particles if you want to */
+var dist = Infer({method: 'SMC', particles: particles, model: model})
+dist.normalizationConstant

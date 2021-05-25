@@ -1,0 +1,102 @@
+class BAMM < BirthDeathModel<BAMMParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  c_η:Real;
+  z_σ2:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+    θ.η ~ Gamma(1.0, c_η/T);
+    θ.z ~ Gaussian(0.0, z_σ2);
+    θ.ν <- ν.id;
+    θ.ξ <- T;
+  }
+
+  override function step() {
+    let t_beg <- ν.t + ν.Δ;
+    let last <- false;
+    while !last {
+      let Δ <~ Exponential(θ.η);
+      let t_end <- t_beg - Δ;
+      if t_end < ν.t {
+        last <- true;
+        t_end <- ν.t;
+        Δ <- t_beg - t_end;
+      }
+      let Δ' <- (exp(θ.z*(θ.ξ - t_end)) - exp(θ.z*(θ.ξ - t_beg)))/θ.z;
+      let count <~ Poisson(θ.λ*Δ');
+      for i in 1..count {
+        let u <~ Uniform(0.0, 1.0);
+        let t <- t_beg - log(u*exp(θ.z.value()*(t_beg - t_end)) - u + 1.0)/θ.z.value();
+        if survives(t, θ.λ, θ.μ, θ.z, θ.ξ) {
+          factor -inf;
+          return;
+        }
+        factor log(2);
+      }
+      0 ~> Poisson(θ.μ*Δ);
+      t_beg <- t_end;
+      if !last {
+        θ':BAMMParameter;
+        θ'.λ ~ Gamma(λ_k, λ_θ);
+        θ'.μ ~ Gamma(μ_k, μ_θ);
+        θ'.η <- θ.η;
+        θ'.z ~ Gaussian(0.0, z_σ2);
+        θ'.ν <- ν.id;
+        θ'.ξ <- t_beg;
+        switchParameter(θ');
+      }
+    }
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(θ.λ*exp(θ.z*(θ.ξ - ν.t)));
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  function survives(t:Real, λ:Random<Real>, μ:Random<Real>, z:Random<Real>, ξ:Real) -> Boolean {
+    let Δ_rs <~ Exponential(θ.η);
+    let Δ_d <~ Exponential(μ);
+    let t_end <- 0.0;
+    if Δ_rs >= t && Δ_d >= t {
+      let detected <~ Bernoulli(ρ);
+      if detected {
+        return true;
+      }
+    } else {
+      t_end <- t - min(Δ_rs, Δ_d);
+    }
+    let Δ <- (exp(z*(ξ - t_end)) - exp(z*(ξ - t)))/z;
+    let count <~ Poisson(λ*Δ);
+    for i in 1..count {
+      let u <~ Uniform(0.0, 1.0);
+      let t' <- t - log(u*exp(z.value()*(t - t_end)) - u + 1.0)/z.value();
+      if survives(t', λ, μ, z, ξ) {
+        return true;
+      }
+    }
+    if t_end > 0.0 && Δ_rs < Δ_d {
+      let λ' ~ Gamma(λ_k, λ_θ);
+      let μ' ~ Gamma(μ_k, μ_θ);
+      let z' ~ Gaussian(0.0, z_σ2);
+      return survives(t_end, λ', μ', z', t_end);
+    }
+    return false;
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    c_η <-? buffer.get<Real>("c_η");
+    z_σ2 <-? buffer.get<Real>("z_σ2");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

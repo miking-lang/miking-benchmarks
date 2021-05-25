@@ -1,0 +1,93 @@
+class LSBDS < BirthDeathModel<LSBDSParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  c_η:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+    θ.η ~ Gamma(1.0, c_η/T);
+    θ.ν <- ν.id;
+    θ.ξ <- T;
+  }
+
+  override function step() {
+    let t_beg <- ν.t + ν.Δ;
+    let last <- false;
+    while !last {
+      let Δ <~ Exponential(θ.η);
+      let t_end <- t_beg - Δ;
+      if t_end < ν.t {
+        last <- true;
+        t_end <- ν.t;
+        Δ <- t_beg - t_end;
+      }
+      let count <~ Poisson(θ.λ*Δ);
+      for i in 1..count {
+        let t <~ Uniform(t_end, t_beg);
+        if survives(t, θ.λ, θ.μ) {
+          factor -inf;
+          return;
+        }
+        factor log(2);
+      }
+      0 ~> Poisson(θ.μ*Δ);
+      t_beg <- t_end;
+      if !last {
+        θ':LSBDSParameter;
+        θ'.λ ~ Gamma(λ_k, λ_θ);
+        θ'.μ ~ Gamma(μ_k, μ_θ);
+        θ'.η <- θ.η;
+        θ'.ν <- ν.id;
+        θ'.ξ <- t_beg;
+        switchParameter(θ');
+      }
+    }
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(θ.λ);
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  function survives(t:Real, λ:Random<Real>, μ:Random<Real>) -> Boolean {
+    let Δ_rs <~ Exponential(θ.η);
+    let Δ_d <~ Exponential(μ);
+    let t_end <- 0.0;
+    if Δ_rs >= t && Δ_d >= t {
+      let detected <~ Bernoulli(ρ);
+      if detected {
+        return true;
+      }
+    } else {
+      t_end <- t - min(Δ_rs, Δ_d);
+    }
+    let count <~ Poisson(λ*(t - t_end));
+    for i in 1..count {
+      let t' <~ Uniform(t_end, t);
+      if survives(t', λ, μ) {
+        return true;
+      }
+    }
+    if t_end > 0.0 && Δ_rs < Δ_d {
+      let λ' ~ Gamma(λ_k, λ_θ);
+      let μ' ~ Gamma(μ_k, μ_θ);
+      return survives(t_end, λ', μ');
+    }
+    return false;
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    c_η <-? buffer.get<Real>("c_η");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

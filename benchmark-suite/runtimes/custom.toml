@@ -1,0 +1,5 @@
+provides = "Custom"
+
+[[command]]
+required_executables = ""
+command = "{argument} {options}"

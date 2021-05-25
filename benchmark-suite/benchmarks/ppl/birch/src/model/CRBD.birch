@@ -1,0 +1,59 @@
+class CRBD < BirthDeathModel<CRBDParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  ρ:Real;
+
+  override function init() {
+    θ.λ ~ Gamma(λ_k, λ_θ);
+    θ.μ ~ Gamma(μ_k, μ_θ);
+  }
+
+  override function step() {
+    let count <~ Poisson(θ.λ*ν.Δ);
+    for i in 1..count {
+      let t <~ Uniform(ν.t, ν.t + ν.Δ);
+      if survives(t) {
+        factor -inf;
+        return;
+      }
+      factor log(2);
+    }
+    0 ~> Poisson(θ.μ*ν.Δ);
+    if ν.isSpeciation() {
+      0.0 ~> Exponential(θ.λ);
+    }
+    if ν.isLeaf() {
+      true ~> Bernoulli(ρ);
+    }
+  }
+
+  function survives(t:Real) -> Boolean {
+    let Δ <~ Exponential(θ.μ);
+    if Δ >= t {
+      let detected <~ Bernoulli(ρ);
+      if detected {
+        return true;
+      }
+      Δ <- t;
+    }
+    let count <~ Poisson(θ.λ*Δ);
+    for i in 1..count {
+      let t' <~ Uniform(t - Δ, t);
+      if survives(t') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+}

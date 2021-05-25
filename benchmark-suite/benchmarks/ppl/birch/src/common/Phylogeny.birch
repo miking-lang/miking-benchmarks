@@ -1,0 +1,39 @@
+final class Phylogeny {
+  nodes:Array<PhylogenyNode>;
+
+  function size() -> Integer {
+    return nodes.size();
+  }
+
+  operator [i:Integer] -> PhylogenyNode {
+    return nodes[i];
+  }
+
+  function readNode(buffer:Buffer) -> Integer {
+    nodes.pushBack();
+    let id <- nodes.size();
+    nodes[id].id <- id;
+    nodes[id].Δ <- max(0.0, buffer.get<Real>("branch_length")!);
+    nodes[id].t <- 0.0;
+
+    let childBuffer <- buffer.walk("children");
+    while childBuffer.hasNext() {
+      let child <- readNode(childBuffer.next());
+      nodes[child].parent <- id;
+      nodes[id].t <- nodes[child].t + nodes[child].Δ;
+      if nodes[id].left? {
+        nodes[id].right <- child;
+      } else {
+        nodes[id].left <- child;
+      }
+    }
+    return id;
+  }
+
+  override function read(buffer:Buffer) {
+    let iter <- buffer.walk("trees");
+    if iter.hasNext() {
+      readNode(iter.next().get("root")!);
+   }
+  }
+}
