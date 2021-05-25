@@ -6,4 +6,5 @@ model:
   μ_θ: 0.5
 filter:
   class: ParticleFilter
+  trigger: 1.0
   delayed: false  # not needed as CRBDFast samples directly
