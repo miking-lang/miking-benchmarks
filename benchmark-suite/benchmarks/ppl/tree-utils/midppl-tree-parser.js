@@ -25,13 +25,14 @@ const phyjs = require("../webppl/phyjs/index.js");
 const tree = phyjs.read_phyjson(filename);
 
 const pretty = (t) => {
+    let age = Number.isInteger(t.age) ? t.age + ".0" : t.age
     if(t.type == 'node'){
         return "Node {left = " + pretty(t.left) +
             ", right = " + pretty(t.right) +
-            ", age = " + t.age + "}";
+            ", age = " + age + "}";
     }
     else{
-        return "Leaf {age = " + t.age + "}";
+        return "Leaf {age = " + age + "}";
     }
 }
 console.log("-- This file was automatically generated based on the tree: " + filename + "\n");
