@@ -101,10 +101,20 @@ recursive let pathFoldWD =
 end
 
 -- Get the parent directory in which 'file' resides
-let pathGetParent = lam file.
-  match strLastIndex '/' file with Some idx then
-    subsequence file 0 idx
+let pathGetParent = lam path.
+  match strLastIndex '/' path with Some idx then
+    subsequence path 0 idx
   else "."
 
 utest pathGetParent "hello.txt" with "."
 utest pathGetParent "/path/to/hello.txt" with "/path/to"
+
+-- Get the file name from a path
+let pathGetFile = lam path: String.
+  match strLastIndex '/' path with Some idx then
+    subsequence path (addi idx 1) (subi (length path) 1)
+  else path
+
+utest pathGetFile "hello.txt" with "hello.txt"
+utest pathGetFile "/path/to/hello.txt" with "hello.txt"
+utest pathGetFile "/path/to/" with ""

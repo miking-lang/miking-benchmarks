@@ -29,6 +29,7 @@ type Runtime = { provides : String
 
 -- An instantiation of a runtime with a particular argument within a benchmark
 type App = { runtime : String
+           , fileName: String
            , argument : String
            , options : String
            , buildOptions : String
@@ -168,6 +169,7 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
       let cwd = pathGetParent configFile in
       let constructApp = lam tomlApp.
         { runtime = tomlApp.runtime
+        , fileName = pathGetFile configFile
         , argument = match tomlApp with { argument = a } then a else ""
         , options = match tomlApp with { options = o } then o else ""
         , buildOptions = match tomlApp with { buildOptions = o } then o else ""
