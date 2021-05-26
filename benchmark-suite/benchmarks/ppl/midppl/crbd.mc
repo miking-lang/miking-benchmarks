@@ -5,7 +5,6 @@ mexpr
 
 let uniform = lam a. lam b. 0. in
 let poisson = lam. 0. in
-let gamma = lam. lam. 0 in
 let exponential = lam. 0 in
 
 type Tree in
@@ -88,8 +87,8 @@ in
 
 let rho = 0.5684210526315789 in
 
-let lambda = assume (gamma 1.0 1.0) in
-let mu = assume (gamma 1.0 0.5) in
+let lambda = assume (Gamma 1.0 1.0) in
+let mu = assume (Gamma 1.0 0.5) in
 
 
 let numLeaves = countLeaves tree in
