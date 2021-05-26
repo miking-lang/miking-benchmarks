@@ -1,13 +1,19 @@
+------------------------------------------------
+-- The Constant-Rate Birth-Death (CRBD) model --
+------------------------------------------------
 
 -- The prelude includes a few PPL helper functions
 include "pplprelude.mc"
--- The tree.mc file defines a tree structure
+
+-- The tree.mc file defines the general tree structure
 include "tree.mc"
--- The tree-instance.mc file includes the actual tree
+
+-- The tree-instance.mc file includes the actual tree and the rho constant
 include "tree-instance.mc"
+
 mexpr
 
--- CRDB goes undetected, including iterations. Mutually recursive functions.
+-- CRBD goes undetected, including iterations. Mutually recursive functions.
 recursive
   let iter = lam n. lam startTime. lam branchLength. lam lambda. lam mu. lam rho.
     if eqi n 0 then
@@ -56,8 +62,8 @@ let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
   weight (addf lnProb1 (addf lnProb2 lnProb3));
 
   match tree with Node _ then
-    simTree tree.left tree lambda mu rho;
-    simTree tree.right tree lambda mu rho
+    simTree (getLeft tree) tree lambda mu rho;
+    simTree (getRight tree) tree lambda mu rho
   else ()
 in
 
@@ -71,8 +77,8 @@ let corrFactor = subf (mulf (subf numLeaves 1.) (log 2.)) (lnFactorial numLeaves
 weight corrFactor;
 
 -- Start of the simulation along the two branches
-simTree tree.left tree lambda mu rho;
-simTree tree.right tree lambda mu rho;
+simTree (getLeft tree) tree lambda mu rho;
+simTree (getRight tree) tree lambda mu rho;
 
 -- Returns the posterior for the lambda
 lambda
