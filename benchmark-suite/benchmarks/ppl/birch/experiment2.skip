@@ -3,41 +3,41 @@ timing="complete"
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 8192"
+options = "--config experiment2 --tree tittyranrest --nparticles 8192"
 
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 16384"
+options = "--config experiment2 --tree tittyranrest --nparticles 16384"
 
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 32768"
+options = "--config experiment2 --tree tittyranrest --nparticles 32768"
 
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 65536"
+options = "--config experiment2 --tree tittyranrest --nparticles 65536"
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 131072"
+options = "--config experiment2 --tree tittyranrest --nparticles 131072"
 
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 262144"
+options = "--config experiment2 --tree tittyranrest --nparticles 262144"
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree tittyranrest --nparticles 524288"
+options = "--config experiment2 --tree tittyranrest --nparticles 524288"
 
 
 
