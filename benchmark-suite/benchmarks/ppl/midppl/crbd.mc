@@ -4,7 +4,6 @@ mexpr
 
 
 let uniform = lam a. lam b. 0. in
-let poisson = lam. 0. in
 
 type Tree in
 con Node : {left : Tree, right : Tree, age : Float } -> Tree in
@@ -48,7 +47,7 @@ recursive
        false
      else
        let branchLength = if ltf duration startTime then duration else startTime in
-       let n = assume (poisson (mulf lambda branchLength)) in
+       let n = assume (Poisson (mulf lambda branchLength)) in
        iter n startTime branchLength lambda mu rho
 in
 
@@ -73,7 +72,7 @@ let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
 
   let startTime = getAge parent in
   let stopTime = getAge tree in
-  let n = assume (poisson (mulf lambda (subf startTime stopTime))) in
+  let n = assume (Poisson (mulf lambda (subf startTime stopTime))) in
   let lnProb3 = simBranch n startTime stopTime lambda mu rho in
 
   weight (addf lnProb1 (addf lnProb2 lnProb3));
