@@ -27,7 +27,7 @@ recursive
 
   let crbdGoesUndetected = lam startTime. lam lambda. lam mu. lam rho.
      let duration = assume (Exponential mu) in
-     if and (gtf duration startTime) (eqi (assume (Bernoulli 0.5)) 1) then
+     if and (gtf duration startTime) (eqi (assume (Bernoulli rho)) 1) then
        false
      else
        let branchLength = if ltf duration startTime then duration else startTime in
