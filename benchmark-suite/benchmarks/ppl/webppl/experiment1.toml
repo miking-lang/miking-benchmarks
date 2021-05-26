@@ -2,14 +2,18 @@ timing="complete"
 
 [[app]]
 runtime = "phywppl"
-argument="npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 1000"
+argument="npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 8192"
 base="phywppl"
 
 [[app]]
 runtime = "phywppl"
-argument="npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 5000"
+argument="npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 4096"
 base="phywppl"
 
+[[app]]
+runtime = "phywppl"
+argument="npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 2048"
+base="phywppl"
 
 
 [[post]]

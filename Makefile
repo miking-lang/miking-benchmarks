@@ -12,7 +12,47 @@ run-ppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 2 \
+	  --iters 25 \
+	  --output toml \
+	  --warmups 1
+
+run-rootppl:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/rootppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 1 \
+	  --output toml \
+	  --warmups 1
+
+run-birch:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/birch \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 1 \
+	  --output toml \
+	  --warmups 1
+
+run-pyro:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/pyro \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 3 \
+	  --output toml \
+	  --warmups 1
+
+run-pyro-numpy:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/pyro+numpy \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 3 \
+	  --output toml \
+	  --warmups 1
+
+run-pyro-numba:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/pyro+numba \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 3 \
 	  --output toml \
 	  --warmups 1
 

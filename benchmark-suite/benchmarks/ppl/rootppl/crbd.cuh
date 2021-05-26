@@ -32,10 +32,10 @@ BBLOCK_HELPER(crbdGoesUndetected, {
     floating_t duration = SAMPLE(exponential, mu);
 
     if (duration > startTime) {
-      return (!SAMPLE(bernoulli, rho));
+      if (SAMPLE(bernoulli, rho)) return false;
     }
 
-    floating_t branchLength = std::min(duration, startTime);
+    floating_t branchLength = MIN(duration, startTime);
 
     floating_t nSpPoints = SAMPLE(poisson, lambda*branchLength);
 
@@ -49,7 +49,7 @@ BBLOCK_HELPER(crbdGoesUndetected, {
 
 
 // uses Jan's walk
-BBLOCK_HELPER(simBranch, {
+BBLOCK_HELPER(simBranch, { 
     floating_t nSpPoints = SAMPLE(poisson, lambda*(startTime - stopTime));
 
     for (int n = 0; n < nSpPoints; n++) {

@@ -2,6 +2,6 @@ provides = "RootPPL"
 
 [[command]]
 required_executables = ["rootppl"]
-build_command = "rootppl clean; rootppl {argument}"
+build_command = "rootppl clean; rootppl {argument} {buildOptions}"
 command = "./program {options}"
 clean_command = "rm program; rm log_norm_const.txt; rm ess.txt"

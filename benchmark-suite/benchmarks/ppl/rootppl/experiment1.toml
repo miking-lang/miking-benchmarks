@@ -3,12 +3,174 @@ timing="complete"
 [[app]]
 runtime = "RootPPL"
 argument = "Alcedinidae_crbd.cu"
-options = "10000 1"
+options = "8192 1"
+buildOptions = ""
 
 [[app]]
 runtime = "RootPPL"
 argument = "Alcedinidae_crbd.cu"
-options = "20000 1"
+options = "8192 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "8192 1"
+buildOptions = "--omp -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "65536 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "65536 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "65536 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "131072 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "131072 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "131072 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "262144 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "262144 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "262144 1"
+buildOptions = "--omp -j 32"
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "524288 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "524288 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "524288 1"
+buildOptions = "--omp -j 32"
+
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "1048576 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "1048576 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "1048576 1"
+buildOptions = "--omp -j 32"
+
+
 
 
 [[post]]
