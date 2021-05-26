@@ -5,7 +5,6 @@ mexpr
 
 let uniform = lam a. lam b. 0. in
 let poisson = lam. 0. in
-let exponential = lam. 0 in
 
 type Tree in
 con Node : {left : Tree, right : Tree, age : Float } -> Tree in
@@ -44,7 +43,7 @@ recursive
         false
 
   let crbdGoesUndetected = lam startTime. lam lambda. lam mu. lam rho.
-     let duration = assume (exponential mu) in
+     let duration = assume (Exponential mu) in
      if and (gtf duration startTime) (eqi (assume (Bernoulli 0.5)) 1) then
        false
      else
