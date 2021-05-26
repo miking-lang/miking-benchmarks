@@ -61,8 +61,7 @@ let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
   else ()
 in
 
--- Parameter setup and priors
-let rho = 0.5684210526315789 in
+-- Priors
 let lambda = assume (Gamma 1.0 1.0) in
 let mu = assume (Gamma 1.0 0.5) in
 
