@@ -18,8 +18,10 @@
       "test": "echo 'this is a test'"
    },
    "dependencies": {
+      "global": "^4.4.0",
       "phyjs": "file:../phyjs",
-      "shelljs": "^0.8.3"
+      "shelljs": "^0.8.4",
+      "webppl": "^0.9.15"
    },
    "devDependencies": {}
 }
