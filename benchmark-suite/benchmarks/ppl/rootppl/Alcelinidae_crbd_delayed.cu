@@ -17,11 +17,6 @@
 
 typedef Alcedinidae_tree_t tree_t;
 const floating_t rhoConst = 0.5684210526315789;
-
-// typedef bisse32_tree_t tree_t;
-// typedef primate_tree_t tree_t;
-// typedef moth_div_tree_t tree_t;
-//typedef Accipitridae_tree_t tree_t;
  
 const floating_t kMu = 1;
 const floating_t thetaMu = 0.5;

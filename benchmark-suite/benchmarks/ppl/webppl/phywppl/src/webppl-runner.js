@@ -12,7 +12,7 @@
 * argument `-- batch`, note the space). If you run in online mode the ouput
 * of SCRIPT is printed to standard output n times (default 1 if omitted). If running
 * in batch mode, the output is stored in the `runs` directory, with the name
-* constructed from SCRIPT.fdfdfd
+* constructed from SCRIPT.
 * 
 * NOTE
 * 
@@ -157,12 +157,13 @@ shell.exec(compile_command)
 
 
 
-// Execution
-exec_command = "node " + " --stack-size=" +   stacksize + " " + " --max-old-space-size=4096 " + js + "/" + executable + " " + treefile + " " + rho + " " + particles
+//Execution
+// exec_command = "node " + " --stack-size=" +   stacksize + " " + " --max-old-space-size=4096 " + js + "/" + executable + " " + treefile + " " + rho + " " + particles
+// console.log(exec_command)
 
-for (i = 0; i < iterations; i++) {
-    shell.exec(exec_command, {async:true} )
-}
+// for (i = 0; i < iterations; i++) {
+//     shell.exec(exec_command, {async:true} )
+// }
 
 
 

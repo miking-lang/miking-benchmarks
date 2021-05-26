@@ -37,23 +37,6 @@ options = "16384 1"
 buildOptions = "--omp -j 32"
 
 
-[[app]]
-runtime = "RootPPL"
-argument = "Alcedinidae_crbd.cu"
-options = "16384 1"
-buildOptions = ""
-
-[[app]]
-runtime = "RootPPL"
-argument = "Alcedinidae_crbd.cu"
-options = "16384 1"
-buildOptions = "--arch 75 -j 32"
-
-[[app]]
-runtime = "RootPPL"
-argument = "Alcedinidae_crbd.cu"
-options = "16384 1"
-buildOptions = "--omp -j 32"
 
 
 [[app]]
@@ -170,6 +153,25 @@ argument = "Alcedinidae_crbd.cu"
 options = "1048576 1"
 buildOptions = "--omp -j 32"
 
+
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "2097152 1"
+buildOptions = ""
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "2097152 1"
+buildOptions = "--arch 75 -j 32"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "2097152 1"
+buildOptions = "--omp -j 32"
 
 
 
