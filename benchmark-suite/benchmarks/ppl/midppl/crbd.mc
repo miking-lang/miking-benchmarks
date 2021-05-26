@@ -1,41 +1,19 @@
 
+-- The prelude includes a few PPL helper functions
 include "pplprelude.mc"
+-- The tree.mc file defines a tree structure
+include "tree.mc"
+-- The tree-instance.mc file includes the actual tree
+include "tree-instance.mc"
 mexpr
 
-
-let uniform = lam a. lam b. 0. in
-
-type Tree in
-con Node : {left : Tree, right : Tree, age : Float } -> Tree in
-con Leaf : {age : Float} -> Tree in
-
-let getAge = lam n. match n with Node r then r.age else
-                 match n with Leaf r then r.age else
-                 never in
-
-let tree = Node {left = Leaf {age = 0.}, right = Leaf {age = 0.}, age = 5.0} in
-
-recursive
-let countLeaves = lam tree.
-  match tree with Node r then
-    addf (countLeaves r.left) (countLeaves r.right)
-  else 1.
-in
-
-
-recursive
-let lnFactorial = lam n.
-  if eqi n 1 then 0.
-  else addf (log (int2float n)) (lnFactorial (subi n 1))
-in
-
-
+-- CRDB goes undetected, including iterations. Mutually recursive functions.
 recursive
   let iter = lam n. lam startTime. lam branchLength. lam lambda. lam mu. lam rho.
     if eqi n 0 then
       true
     else
-      let eventTime = assume (uniform (subf startTime branchLength) startTime) in
+      let eventTime = assume (Uniform (subf startTime branchLength) startTime) in
       if crbdGoesUndetected eventTime lambda mu rho then
         iter (subi n 1) startTime branchLength lambda mu rho
       else
@@ -51,12 +29,12 @@ recursive
        iter n startTime branchLength lambda mu rho
 in
 
-
+-- Simulation of branch
 recursive
 let simBranch = lam n. lam startTime. lam stopTime. lam lambda. lam mu. lam rho.
   if eqi n 0 then 0.
   else
-    let currentTime = assume (uniform stopTime startTime) in
+    let currentTime = assume (Uniform stopTime startTime) in
     if crbdGoesUndetected currentTime lambda mu rho then
       let v = simBranch (subf n 1) startTime stopTime lambda mu rho in
       addf v (log 2.)
@@ -64,7 +42,7 @@ let simBranch = lam n. lam startTime. lam stopTime. lam lambda. lam mu. lam rho.
       negf inf
 in
 
-
+-- Simulating along the tree structure
 recursive
 let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
   let lnProb1 = mulf (negf mu) (subf (getAge parent) (getAge tree)) in
@@ -83,18 +61,19 @@ let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
   else ()
 in
 
+-- Parameter setup and priors
 let rho = 0.5684210526315789 in
-
 let lambda = assume (Gamma 1.0 1.0) in
 let mu = assume (Gamma 1.0 0.5) in
 
-
+-- Adjust for normalizing constant
 let numLeaves = countLeaves tree in
 let corrFactor = subf (mulf (subf numLeaves 1.) (log 2.)) (lnFactorial numLeaves) in
 weight corrFactor;
 
-
+-- Start of the simulation along the two branches
 simTree tree.left tree lambda mu rho;
 simTree tree.right tree lambda mu rho;
 
+-- Returns the posterior for the lambda
 lambda
