@@ -1,22 +1,20 @@
 timing="complete"
 
+
 [[app]]
 runtime = "Birch"
 argument = "infer"
 options = "--config experiment2 --tree tittyranrest --nparticles 8192"
-
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
 options = "--config experiment2 --tree tittyranrest --nparticles 16384"
 
-
 [[app]]
 runtime = "Birch"
 argument = "infer"
 options = "--config experiment2 --tree tittyranrest --nparticles 32768"
-
 
 [[app]]
 runtime = "Birch"
@@ -28,7 +26,6 @@ runtime = "Birch"
 argument = "infer"
 options = "--config experiment2 --tree tittyranrest --nparticles 131072"
 
-
 [[app]]
 runtime = "Birch"
 argument = "infer"
@@ -38,10 +35,6 @@ options = "--config experiment2 --tree tittyranrest --nparticles 262144"
 runtime = "Birch"
 argument = "infer"
 options = "--config experiment2 --tree tittyranrest --nparticles 524288"
-
-
-
-
 
 
 [[post]]
