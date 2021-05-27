@@ -14,7 +14,7 @@ let int2float: Int -> Float = lam. 1.0
 
 -- Help function that is needed in models
 recursive
-let lnFactorial = lam n.
+let lnFactorial: Int -> Float = lam n: Int.
   if eqi n 1 then 0.
   else addf (log (int2float n)) (lnFactorial (subi n 1))
 end
