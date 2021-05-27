@@ -7,7 +7,7 @@ include "math.mc"
 -- The CorePPL to RootPPL compiler should translate this
 -- to the correct functions.
 let log: Float -> Float = lam x: Float. x
-let int2float: Int -> Float = lam. 1.0
+let int2float: Int -> Float = lam x: Int. (x; 1.0)
 
 -- Other functions that might need special treatment are:
 --  'and', 'inf',

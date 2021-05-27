@@ -10,17 +10,13 @@ let getAge = lam n: Tree. match n with Node r then r.age else
                  match n with Leaf r then r.age else
                  never
 
--- Project the left or right child tree, assuming that it is of a node type
-let getLeft = lam t. match t with Node r then r.left else error "Not a node"
-let getRight = lam t. match t with Node r then r.right else error "Not a node"
-
 
 -- Count the number of leaves in a tree
 recursive
-let countLeaves = lam tree.
+let countLeaves: Tree -> Int = lam tree: Tree.
   match tree with Node r then
-    addf (countLeaves r.left) (countLeaves r.right)
-  else 1.
+    addi (countLeaves r.left) (countLeaves r.right)
+  else 1
 end
 
 
