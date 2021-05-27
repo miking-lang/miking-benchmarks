@@ -6,7 +6,7 @@ con Leaf : {age : Float} -> Tree
 
 
 -- Project the age from a tree
-let getAge = lam n. match n with Node r then r.age else
+let getAge = lam n: Tree. match n with Node r then r.age else
                  match n with Leaf r then r.age else
                  never
 

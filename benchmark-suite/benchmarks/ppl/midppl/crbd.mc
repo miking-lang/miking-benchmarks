@@ -15,56 +15,77 @@ mexpr
 
 -- CRBD goes undetected, including iterations. Mutually recursive functions.
 recursive
-  let iter = lam n. lam startTime. lam branchLength. lam lambda. lam mu. lam rho.
-    if eqi n 0 then
-      true
-    else
-      let eventTime = assume (Uniform (subf startTime branchLength) startTime) in
-      if crbdGoesUndetected eventTime lambda mu rho then
-        iter (subi n 1) startTime branchLength lambda mu rho
+  let iter =
+    lam n: Int.
+    lam startTime: Float.
+    lam branchLength: Float.
+    lam lambda: Float.
+    lam mu: Float.
+    lam rho: Float.
+      if eqi n 0 then
+        true
       else
-        false
+        let eventTime = assume (Uniform (subf startTime branchLength) startTime) in
+        if crbdGoesUndetected eventTime lambda mu rho then
+          iter (subi n 1) startTime branchLength lambda mu rho
+        else
+          false
 
-  let crbdGoesUndetected = lam startTime. lam lambda. lam mu. lam rho.
-     let duration = assume (Exponential mu) in
-     if and (gtf duration startTime) (eqi (assume (Bernoulli rho)) 1) then
-       false
-     else
-       let branchLength = if ltf duration startTime then duration else startTime in
-       let n = assume (Poisson (mulf lambda branchLength)) in
-       iter n startTime branchLength lambda mu rho
+  let crbdGoesUndetected =
+    lam startTime: Float.
+    lam lambda: Float.
+    lam mu: Float.
+    lam rho: Float.
+      let duration = assume (Exponential mu) in
+      if and (gtf duration startTime) (eqi (assume (Bernoulli rho)) 1) then
+        false
+      else
+        let branchLength = if ltf duration startTime then duration else startTime in
+        let n = assume (Poisson (mulf lambda branchLength)) in
+        iter n startTime branchLength lambda mu rho
 in
 
 -- Simulation of branch
 recursive
-let simBranch = lam n. lam startTime. lam stopTime. lam lambda. lam mu. lam rho.
-  if eqi n 0 then 0.
-  else
-    let currentTime = assume (Uniform stopTime startTime) in
-    if crbdGoesUndetected currentTime lambda mu rho then
-      let v = simBranch (subf n 1) startTime stopTime lambda mu rho in
-      addf v (log 2.)
+let simBranch =
+  lam n: Int.
+  lam startTime: Float.
+  lam stopTime: Float.
+  lam lambda: Float.
+  lam mu: Float.
+  lam rho: Float.
+    if eqi n 0 then 0.
     else
-      negf inf
+      let currentTime = assume (Uniform stopTime startTime) in
+      if crbdGoesUndetected currentTime lambda mu rho then
+        let v = simBranch (subf n 1) startTime stopTime lambda mu rho in
+        addf v (log 2.)
+      else
+        negf inf
 in
 
 -- Simulating along the tree structure
 recursive
-let simTree = lam tree. lam parent. lam lambda. lam mu. lam rho.
-  let lnProb1 = mulf (negf mu) (subf (getAge parent) (getAge tree)) in
-  let lnProb2 = match tree with Node _ then log lambda else log rho in
+let simTree =
+  lam tree: Tree.
+  lam parent: Tree.
+  lam lambda: Double.
+  lam mu: Double.
+  lam rho: Double.
+    let lnProb1 = mulf (negf mu) (subf (getAge parent) (getAge tree)) in
+    let lnProb2 = match tree with Node _ then log lambda else log rho in
 
-  let startTime = getAge parent in
-  let stopTime = getAge tree in
-  let n = assume (Poisson (mulf lambda (subf startTime stopTime))) in
-  let lnProb3 = simBranch n startTime stopTime lambda mu rho in
+    let startTime = getAge parent in
+    let stopTime = getAge tree in
+    let n = assume (Poisson (mulf lambda (subf startTime stopTime))) in
+    let lnProb3 = simBranch n startTime stopTime lambda mu rho in
 
-  weight (addf lnProb1 (addf lnProb2 lnProb3));
+    weight (addf lnProb1 (addf lnProb2 lnProb3));
 
-  match tree with Node _ then
-    simTree (getLeft tree) tree lambda mu rho;
-    simTree (getRight tree) tree lambda mu rho
-  else ()
+    match tree with Node _ then
+      simTree (getLeft tree) tree lambda mu rho;
+      simTree (getRight tree) tree lambda mu rho
+    else ()
 in
 
 -- Priors
