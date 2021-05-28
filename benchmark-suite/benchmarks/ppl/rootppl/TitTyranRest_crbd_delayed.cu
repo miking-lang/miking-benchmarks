@@ -29,7 +29,7 @@ MAIN(
     ADD_BBLOCK(simCRBD)
     ADD_BBLOCK(simTree)
     //ADD_BBLOCK(survivorshipBias) needs to be implemented
-    ADD_BBLOCK(sampleFinalLambda)
+    //ADD_BBLOCK(sampleFinalLambda)
     
     //SMC(saveResults)
     SMC(NULL)

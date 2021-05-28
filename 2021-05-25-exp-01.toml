@@ -1,0 +1,1233 @@
+boot eval tool/main/main.mc -- \
+  --benchmarks benchmark-suite/benchmarks/ppl \
+  --runtimes benchmark-suite/runtimes \
+  --iters 25 \
+  --output toml \
+  --warmups 1
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 39239.81787109375, 38848.08203125, 39129.7919921875, 39486.741943359375, 38775.72412109375, 39062.580078125, 38988.201171875, 39554.43603515625, 39326.12890625, 38845.383056640625, 38878.3408203125, 38865.564208984375, 39790.763916015625, 39324.068115234375, 38717.94287109375, 38997.25, 39250.89794921875, 39145.160888671875, 39114.605712890625, 39205.2470703125, 39469.046875, 38835.556884765625, 39113.26416015625, 39578.534912109375, 39057.305908203125,]
+ms_build = 33403.978759765625
+[[benchmark.results.post]]
+stdout = [ "-307.265875418882\n", "-307.293105787064\n", "-307.387778771521\n", "-307.381782319331\n", "-307.177599549471\n", "-307.335112635322\n", "-307.283057301198\n", "-307.282457483781\n", "-307.418396287188\n", "-307.298075602662\n", "-307.251684672391\n", "-307.234529829834\n", "-307.27549341733\n", "-307.244943825257\n", "-307.289668736411\n", "-307.395589167278\n", "-307.349734755059\n", "-307.159057443748\n", "-307.165909976579\n", "-307.382786210305\n", "-307.2541324281\n", "-307.337178610786\n", "-307.253118111102\n", "-307.255591946115\n", "-307.289309148408\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 1048576"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 19450.485107421875, 19367.689208984375, 19318.147216796875, 19734.22802734375, 19531.242919921875, 19429.4638671875, 19592.923095703125, 19461.31005859375, 19822.84814453125, 19408.072998046875, 19412.0400390625, 19561.95703125, 19400.548828125, 19775.052001953125, 19240.902099609375, 19502.781005859375, 19357.400146484375, 19288.81201171875, 19199.071044921875, 19253.200927734375, 19404.194091796875, 19126.794921875, 19480.101318359375, 19349.88916015625, 19596.604736328125,]
+ms_build = 33540.81689453125
+[[benchmark.results.post]]
+stdout = [ "-307.268915065934\n", "-307.240042151278\n", "-307.179027163853\n", "-307.287735919434\n", "-307.322937481352\n", "-307.156576049143\n", "-307.508585196291\n", "-307.347217740294\n", "-307.390320983227\n", "-306.954265327126\n", "-307.522237512272\n", "-307.485215341881\n", "-307.05565407824\n", "-307.323524500943\n", "-307.280214699233\n", "-307.158130111493\n", "-307.075095406857\n", "-307.196930161577\n", "-306.97326102151\n", "-307.205788058862\n", "-307.295022090867\n", "-307.189109317629\n", "-307.309325938677\n", "-307.489546479063\n", "-307.477864380357\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 524288"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 9890.1630859375, 9987.962890625, 9861.11865234375, 9869.947998046875, 10067.718994140625, 9797.752197265625, 9923.717041015625, 9802.656982421875, 9988.341796875, 9904.94384765625, 9859.568115234375, 9970.308837890625, 10080.52099609375, 9836.1259765625, 10019.030029296875, 9807.193115234375, 9689.366943359375, 9850.451171875, 9922.591064453125, 9882.10791015625, 9863.0849609375, 9943.518798828125, 9865.1591796875, 9817.005859375, 9958.537109375,]
+ms_build = 33317.6328125
+[[benchmark.results.post]]
+stdout = [ "-307.540942640898\n", "-307.576676798523\n", "-307.330403581974\n", "-307.224405790728\n", "-308.149633616168\n", "-307.244199558736\n", "-307.122376085147\n", "-307.189697101726\n", "-307.134304576449\n", "-307.283195566898\n", "-307.226042532341\n", "-307.294410253497\n", "-307.945690676885\n", "-307.458151409967\n", "-307.293079377888\n", "-307.125192738304\n", "-307.362219003544\n", "-307.238565875889\n", "-307.192606439957\n", "-307.444954309719\n", "-307.154346476532\n", "-307.580848246426\n", "-307.381492228358\n", "-307.446483051099\n", "-307.322591455978\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 262144"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 16737.406005859375, 5678.38427734375, 4964.03515625, 4927.7890625, 4876.30517578125, 4914.864990234375, 4776.828125, 4923.827880859375, 4987.379150390625, 4981.69580078125, 4917.119140625, 49102.69873046875, 4978.1708984375, 4807.402099609375, 4818.3740234375, 4935.283935546875, 4777.39990234375, 4924.739990234375, 4953.712158203125, 4876.041015625, 4956.7890625, 4944.599853515625, 5038.6220703125, 4945.1279296875, 5055.841796875,]
+ms_build = 33673.302001953125
+[[benchmark.results.post]]
+stdout = [ "-307.641554712473\n", "-307.258011381445\n", "-307.144667698635\n", "-307.346932598023\n", "-306.800779855016\n", "-307.645852007102\n", "-307.376606500647\n", "-307.364636142834\n", "-307.390300879292\n", "-307.692193471319\n", "-307.224557021149\n", "-307.159478008185\n", "-307.769498045173\n", "-307.156695777392\n", "-307.027541709052\n", "-307.477955477619\n", "-307.522349710351\n", "-307.704728948087\n", "-307.533082978586\n", "-307.110730196842\n", "-307.364483403808\n", "-307.382252984943\n", "-307.516152466281\n", "-307.213726650054\n", "-307.370321635938\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 131072"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2594.594970703125, 2569.4638671875, 2538.329833984375, 2592.820068359375, 2541.7490234375, 2600.42919921875, 2541.89404296875, 2513.509033203125, 2594.807861328125, 2562.3623046875, 2578.67919921875, 2608.343994140625, 2669.5390625, 2588.06689453125, 2572.10302734375, 2565.623046875, 2576.39697265625, 2650.22900390625, 2643.821044921875, 2632.385009765625, 2608.35888671875, 2661.106201171875, 2580.61083984375, 2627.721923828125, 3348.005126953125,]
+ms_build = 33253.754150390625
+[[benchmark.results.post]]
+stdout = [ "-307.02636508346\n", "-307.166771797597\n", "-307.791361610632\n", "-306.94111497364\n", "-307.462745000408\n", "-306.970432224181\n", "-307.179432731984\n", "-307.118747882738\n", "-307.480030277163\n", "-307.056687545318\n", "-307.895276652449\n", "-307.50444826334\n", "-307.443202213473\n", "-307.49269481541\n", "-307.382771282084\n", "-307.58097232725\n", "-307.18413758428\n", "-307.081850553467\n", "-307.248972870863\n", "-307.116896865931\n", "-307.253352687881\n", "-307.31801761391\n", "-307.458379177277\n", "-307.776979852273\n", "-307.686745538766\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 65536"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1317.819091796875, 1366.684326171875, 1307.73095703125, 1293.7548828125, 1329.680908203125, 1322.2138671875, 1295.760009765625, 1307.364013671875, 1290.609130859375, 1287.656982421875, 1318.135986328125, 1360.30908203125, 1376.697021484375, 1321.7900390625, 1284.125, 1317.246826171875, 1361.393310546875, 1338.250732421875, 1307.265869140625, 1293.7119140625, 1306.06591796875, 1315.22802734375, 1272.53515625, 1335.0419921875, 1296.931884765625,]
+ms_build = 33526.980712890625
+[[benchmark.results.post]]
+stdout = [ "-306.814638888485\n", "-307.439890330328\n", "-307.246801449791\n", "-308.373010160145\n", "-306.789772772182\n", "-307.381859063503\n", "-307.389491983235\n", "-307.704566779379\n", "-307.111507434789\n", "-306.340771454849\n", "-307.102462084982\n", "-307.11827659735\n", "-306.832078287972\n", "-308.381873188867\n", "-307.310790520908\n", "-307.822703829554\n", "-307.890358720421\n", "-307.343981533324\n", "-307.367608186526\n", "-307.986186117098\n", "-306.80472567913\n", "-307.232257935273\n", "-307.0974739179\n", "-307.084414395924\n", "-307.409371266425\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 32768"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 683.4609375, 656.052001953125, 698.931884765625, 701.4599609375, 702.432373046875, 701.56201171875, 730.9609375, 671.576904296875, 666.797119140625, 668.18994140625, 672.7998046875, 671.333740234375, 778.11181640625, 672.987060546875, 703.944091796875, 666.773193359375, 665.83203125, 691.43017578125, 734.266845703125, 652.498046875, 676.68701171875, 682.373046875, 692.68994140625, 662.5419921875, 674.700927734375,]
+ms_build = 33160.089111328125
+[[benchmark.results.post]]
+stdout = [ "-306.787709307059\n", "-307.499410297235\n", "-308.015727443307\n", "-306.892069732764\n", "-308.856479403215\n", "-307.397704257106\n", "-307.060297174674\n", "-306.194792028627\n", "-306.825110326255\n", "-306.968123413404\n", "-306.797035538485\n", "-306.904997469359\n", "-308.435564188237\n", "-308.374658184743\n", "-307.095157733403\n", "-308.765495205857\n", "-307.781601528576\n", "-306.634473145438\n", "-307.070608192852\n", "-307.803571853754\n", "-307.039175903021\n", "-306.587619066334\n", "-306.643013478128\n", "-307.040729316836\n", "-307.62821178535\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 16384"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 354.885009765625, 345.58203125, 341.744873046875, 359.6328125, 346.970703125, 359.18896484375, 364.0341796875, 356.529052734375, 355.0947265625, 360.84423828125, 355.427001953125, 358.5068359375, 362.197998046875, 349.817138671875, 373.322021484375, 386.847900390625, 357.7958984375, 350.02294921875, 381.97802734375, 360.52001953125, 795.95166015625, 363.92724609375, 345.06201171875, 362.992919921875, 348.691162109375,]
+ms_build = 33183.468994140625
+[[benchmark.results.post]]
+stdout = [ "-306.978363992171\n", "-308.27458305241\n", "-308.709404002675\n", "-308.466029099599\n", "-307.740417337269\n", "-308.390398559541\n", "-306.570787012758\n", "-306.465628920571\n", "-306.66213465564\n", "-306.670255675644\n", "-308.167703651427\n", "-307.306453378516\n", "-308.483861094411\n", "-306.104878180112\n", "-307.927948480458\n", "-308.042443830352\n", "-308.12611732138\n", "-306.587480047598\n", "-307.677120589224\n", "-308.696637328941\n", "-308.186722759344\n", "-308.278517524088\n", "-307.795210796431\n", "-309.375667862066\n", "-306.534114274558\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment1 --tree alcedinidae --nparticles 8192"
+runtime = "Birch"
+argument = "infer"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 6394.81005859375, 7549.573974609375, 6792.205078125, 6547.260009765625, 8196.162109375, 6366.778076171875, 6236.05908203125, 6905.618896484375, 8344.712158203125, 6755.453857421875, 7580.490234375, 6390.970947265625, 7323.2900390625, 6651.32080078125, 6020.130126953125, 7126.93505859375, 6416.722900390625, 6155.9296875, 6523.2939453125, 6442.419189453125, 6287.951904296875, 7837.383056640625, 6639.814208984375, 7476.01416015625, 10089.35009765625,]
+ms_build = 1238.755859375
+[[benchmark.results.post]]
+stdout = [ "-311.0672221153138\n\n", "-314.0414953327528\n\n", "-308.3339306196347\n\n", "-306.6526734681845\n\n", "-314.6823301904221\n\n", "-307.11993166822396\n\n", "-310.9295478571429\n\n", "-307.08974901191385\n\n", "-311.0467833628717\n\n", "-306.8915796845329\n\n", "-316.83040956124836\n\n", "-307.41175331208086\n\n", "-307.5027038962178\n\n", "-309.6605426179004\n\n", "-307.63562710396144\n\n", "-315.6644347685468\n\n", "-308.5651113198508\n\n", "-305.8624237696924\n\n", "-307.7660971701328\n\n", "-304.87496044290725\n\n", "-307.4602403496444\n\n", "-312.71620451296286\n\n", "-307.71852668613184\n\n", "-309.91839229472464\n\n", "-323.1016028039949\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl/phywppl"
+options = ""
+runtime = "phywppl"
+argument = "npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 2048"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 17213.05419921875, 22132.7109375, 19480.32275390625, 15826.32177734375, 15332.936279296875, 16733.0849609375, 16835.56396484375, 17177.233154296875, 17038.52197265625, 16982.482177734375, 19908.735107421875, 19293.651611328125, 19762.33984375, 16552.68994140625, 17414.7080078125, 15918.722900390625, 20624.895263671875, 20124.894775390625, 15792.67578125, 16595.031982421875, 17965.02001953125, 16345.297119140625, 15857.05126953125, 15808.22900390625, 16572.394287109375,]
+ms_build = 1279.265869140625
+[[benchmark.results.post]]
+stdout = [ "-308.5128930328736\n\n", "-311.05231788401954\n\n", "-310.6295382419876\n\n", "-306.58129618105664\n\n", "-307.69169239103036\n\n", "-308.44052738887524\n\n", "-307.4379881121304\n\n", "-307.18088467691354\n\n", "-307.63310311192896\n\n", "-308.0071873477226\n\n", "-310.6611522986676\n\n", "-310.11723371072713\n\n", "-311.134040628211\n\n", "-305.64444907218314\n\n", "-307.4807056207772\n\n", "-307.31583353681003\n\n", "-310.7006131328893\n\n", "-311.05041190656004\n\n", "-306.0221173826762\n\n", "-306.9767680591334\n\n", "-309.3142644392428\n\n", "-308.74658089379295\n\n", "-306.79950777287013\n\n", "-306.42502297773314\n\n", "-307.39207925548874\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl/phywppl"
+options = ""
+runtime = "phywppl"
+argument = "npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 4096"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 50613.57373046875, 52784.2900390625, 49795.160888671875, 63721.177001953125, 49155.56396484375, 52902.636962890625, 47361.3330078125, 50771.451904296875, 50653.364013671875, 52879.27294921875, 54245.90478515625, 49875.01220703125, 57118.404052734375, 52740.5263671875, 51684.412841796875, 52879.342041015625, 55419.516845703125, 52139.924072265625, 50831.912109375, 48271.280029296875, 48119.91796875, 49803.2998046875, 56624.162109375, 55059.0087890625, 54262.662109375,]
+ms_build = 677.89404296875
+[[benchmark.results.post]]
+stdout = [ "-305.5692585088228\n\n", "-306.942688372983\n\n", "-306.79538183053364\n\n", "-308.59088804516534\n\n", "-306.1435982267736\n\n", "-306.67945284057015\n\n", "-306.43506295496707\n\n", "-306.9271945592203\n\n", "-308.2040532534501\n\n", "-308.30204538155954\n\n", "-307.3270566744801\n\n", "-307.2485841380006\n\n", "-309.15678872816636\n\n", "-307.3433138185452\n\n", "-307.3006322037977\n\n", "-307.50781806086087\n\n", "-306.63926063717224\n\n", "-307.3437417368996\n\n", "-306.43137442551625\n\n", "-308.34652123598477\n\n", "-307.0026258769699\n\n", "-306.7679057167769\n\n", "-308.114513696797\n\n", "-307.4251271997365\n\n", "-308.37357646677657\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/webppl/phywppl"
+options = ""
+runtime = "phywppl"
+argument = "npm run wppl examples/crbd.wppl 1 ../../input-data/Alcedinidae.phyjson 0.5684210526315789 8192"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 10291.411865234375, 9303.65087890625, 9635.958984375, 9736.90380859375, 9622.7939453125, 9234.693115234375, 10130.26513671875, 9185.137939453125, 9617.072998046875, 9390.305908203125, 8864.037841796875, 8880.53564453125, 10566.85009765625, 9363.93896484375, 8913.173095703125, 10041.589111328125, 9256.947021484375, 9153.31591796875, 9158.670166015625, 10229.35498046875, 10190.240234375, 9909.821044921875, 9197.06103515625, 9109.570068359375, 9437.69091796875,]
+ms_build = 478.06884765625
+[[benchmark.results.post]]
+stdout = [ "-307.261921\n", "-307.336152\n", "-307.232464\n", "-307.342232\n", "-307.324399\n", "-307.192408\n", "-307.197193\n", "-307.249260\n", "-307.346680\n", "-307.250826\n", "-307.320657\n", "-307.266422\n", "-307.389420\n", "-307.316284\n", "-307.231078\n", "-307.186680\n", "-307.284887\n", "-307.401928\n", "-307.307096\n", "-307.187740\n", "-307.257409\n", "-307.373699\n", "-307.348818\n", "-307.411083\n", "-307.240356\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "1048576 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 5711.85302734375, 5741.659912109375, 6071.552978515625, 6343.198974609375, 7040.139892578125, 5775.8291015625, 6154.547119140625, 5657.47314453125, 7334.60791015625, 5896.257080078125, 5699.4609375, 5657.277099609375, 10161.972900390625, 5784.030029296875, 5980.069091796875, 5585.88818359375, 6013.722900390625, 5926.553955078125, 5770.107177734375, 5809.297119140625, 5827.4931640625, 5856.957763671875, 6099.1640625, 5892.016845703125, 5804.77685546875,]
+ms_build = 4926.164794921875
+[[benchmark.results.post]]
+stdout = [ "-307.210774\n", "-307.366409\n", "-307.326127\n", "-307.122226\n", "-307.267487\n", "-307.296720\n", "-307.254815\n", "-307.208753\n", "-307.423113\n", "-307.295238\n", "-307.420872\n", "-307.268293\n", "-306.893808\n", "-307.212595\n", "-307.439171\n", "-307.285418\n", "-307.096724\n", "-307.210365\n", "-307.229557\n", "-307.238905\n", "-307.262171\n", "-307.305732\n", "-307.298426\n", "-307.411673\n", "-307.345861\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "1048576 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 21951.1162109375, 21027.77099609375, 24746.420166015625, 21311.615966796875, 24239.084228515625, 21303.5830078125, 21867.649169921875, 22406.140869140625, 23451.861083984375, 21775.766845703125, 21683.675048828125, 21298.224853515625, 21796.694091796875, 22800.955078125, 22664.558837890625, 21888.5498046875, 21571.389892578125, 21879.005126953125, 20863.702880859375, 24576.291259765625, 21605.317626953125, 21778.6201171875, 21518.1240234375, 20954.421875, 22798.921142578125,]
+ms_build = 2579.645263671875
+[[benchmark.results.post]]
+stdout = [ "-307.180001\n", "-307.300798\n", "-307.284370\n", "-307.390359\n", "-307.367416\n", "-307.307789\n", "-307.224131\n", "-307.339983\n", "-307.237856\n", "-307.357153\n", "-307.280510\n", "-307.329670\n", "-307.353427\n", "-307.226804\n", "-307.156729\n", "-307.193467\n", "-307.296118\n", "-307.292508\n", "-307.356213\n", "-307.156186\n", "-307.325190\n", "-307.389405\n", "-307.354525\n", "-307.267695\n", "-307.325374\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "1048576 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 4404.908935546875, 4809.6279296875, 4594.2548828125, 4571.048095703125, 4628.0341796875, 4718.0, 4628.4931640625, 4720.380859375, 4667.443115234375, 4795.580078125, 4863.90478515625, 6253.100830078125, 4730.8349609375, 5440.5830078125, 4665.527099609375, 4813.14013671875, 4652.263671875, 5017.64794921875, 4775.85302734375, 5543.491943359375, 4824.89599609375, 4766.94189453125, 5550.826171875, 5747.583984375, 5187.9609375,]
+ms_build = 476.02392578125
+[[benchmark.results.post]]
+stdout = [ "-307.189414\n", "-307.172743\n", "-307.231061\n", "-307.069861\n", "-307.411651\n", "-307.208911\n", "-307.188488\n", "-307.378203\n", "-307.175005\n", "-307.480705\n", "-307.269021\n", "-307.259458\n", "-307.249120\n", "-307.410809\n", "-307.184172\n", "-307.323535\n", "-307.290884\n", "-307.309919\n", "-307.174917\n", "-307.174301\n", "-307.554572\n", "-307.462265\n", "-307.362096\n", "-307.449403\n", "-307.220862\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2597.677001953125, 2581.87109375, 2796.3837890625, 2731.1708984375, 2679.113037109375, 2726.797119140625, 2530.462890625, 23316.7919921875, 2588.553955078125, 3073.11376953125, 2847.140869140625, 2634.94091796875, 3091.11328125, 2588.854248046875, 2581.849853515625, 2507.0859375, 23981.39697265625, 2732.1630859375, 2492.83837890625, 2603.466796875, 2561.005859375, 2647.50927734375, 2790.12109375, 2586.89794921875, 2490.51220703125,]
+ms_build = 4928.52880859375
+[[benchmark.results.post]]
+stdout = [ "-307.168294\n", "-307.198025\n", "-307.423546\n", "-307.033245\n", "-307.514852\n", "-307.221167\n", "-307.083827\n", "-307.274337\n", "-307.142997\n", "-307.226191\n", "-307.092684\n", "-307.318442\n", "-307.382691\n", "-307.127057\n", "-307.077982\n", "-307.389684\n", "-307.307463\n", "-307.415863\n", "-307.176201\n", "-307.262641\n", "-307.234803\n", "-307.329822\n", "-307.127136\n", "-307.149619\n", "-307.301502\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 10933.805908203125, 11374.73974609375, 13322.14990234375, 9988.0390625, 10121.845947265625, 11119.376953125, 11799.97119140625, 10931.6328125, 11433.787841796875, 11602.216064453125, 11355.613037109375, 10742.9072265625, 11314.01513671875, 11525.708251953125, 10835.273193359375, 10816.8837890625, 10646.400146484375, 10786.999755859375, 11089.2021484375, 11503.9560546875, 10810.85205078125, 11934.215087890625, 11920.025146484375, 12117.078125, 10949.10888671875,]
+ms_build = 2588.126953125
+[[benchmark.results.post]]
+stdout = [ "-307.465457\n", "-307.398359\n", "-307.911950\n", "-307.101555\n", "-307.424430\n", "-307.356759\n", "-306.988649\n", "-307.239213\n", "-307.329914\n", "-307.143522\n", "-307.375361\n", "-307.330030\n", "-307.178856\n", "-307.370662\n", "-307.321706\n", "-307.326657\n", "-307.379862\n", "-307.477276\n", "-307.464732\n", "-307.530766\n", "-307.202011\n", "-307.467945\n", "-307.460031\n", "-307.228345\n", "-307.285109\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2620.68603515625, 2416.362060546875, 2785.572998046875, 2508.970947265625, 2520.49267578125, 2546.2802734375, 2450.60791015625, 2480.27294921875, 2413.81298828125, 2609.794189453125, 2424.86767578125, 2650.424072265625, 2488.828125, 2348.035888671875, 2801.38671875, 2412.06005859375, 2571.3681640625, 3216.662109375, 2536.77001953125, 2583.919921875, 2372.3349609375, 2622.783935546875, 2726.049072265625, 2690.68212890625, 2592.267822265625,]
+ms_build = 478.074951171875
+[[benchmark.results.post]]
+stdout = [ "-307.322147\n", "-307.379891\n", "-307.420350\n", "-307.449347\n", "-307.128631\n", "-307.251565\n", "-307.341776\n", "-307.218916\n", "-307.320514\n", "-307.180182\n", "-307.233623\n", "-307.094973\n", "-307.629545\n", "-307.677662\n", "-307.436033\n", "-307.503647\n", "-307.349868\n", "-308.064931\n", "-307.118922\n", "-307.290617\n", "-307.184030\n", "-306.754771\n", "-307.328051\n", "-307.266762\n", "-307.266665\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1357.375, 1097.2529296875, 1141.851806640625, 1051.84326171875, 1105.630859375, 1078.635986328125, 1072.343994140625, 1070.2880859375, 1174.967041015625, 1055.024169921875, 1002.684814453125, 1110.84814453125, 1031.818359375, 1032.9140625, 1123.86083984375, 1240.851806640625, 1038.88671875, 1300.877197265625, 1066.366943359375, 1285.893798828125, 1070.643798828125, 1177.18505859375, 1104.859130859375, 986.026123046875, 1034.57421875,]
+ms_build = 4857.221923828125
+[[benchmark.results.post]]
+stdout = [ "-307.441699\n", "-307.329843\n", "-307.395719\n", "-307.279545\n", "-307.351195\n", "-307.098926\n", "-307.316014\n", "-307.490626\n", "-307.238494\n", "-307.410477\n", "-307.159261\n", "-307.002930\n", "-307.479483\n", "-307.344694\n", "-307.319015\n", "-307.819618\n", "-307.276198\n", "-307.324677\n", "-307.208111\n", "-307.311667\n", "-307.170257\n", "-307.462619\n", "-307.328973\n", "-307.243219\n", "-307.249975\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 5434.202880859375, 5713.763916015625, 5111.06494140625, 7332.06884765625, 5256.873779296875, 5445.9072265625, 5727.706787109375, 5483.6630859375, 5200.2880859375, 5582.08984375, 5142.358154296875, 5117.9931640625, 5268.7900390625, 5705.816162109375, 6316.882080078125, 5402.655029296875, 5270.8720703125, 5417.7998046875, 5825.2119140625, 5078.906982421875, 5603.765869140625, 5314.469970703125, 6622.389892578125, 5676.98388671875, 5298.01513671875,]
+ms_build = 2598.36376953125
+[[benchmark.results.post]]
+stdout = [ "-307.430332\n", "-307.467555\n", "-307.347194\n", "-307.280370\n", "-307.082644\n", "-307.387080\n", "-307.486451\n", "-307.428951\n", "-307.119829\n", "-307.518337\n", "-307.254054\n", "-307.496787\n", "-307.371841\n", "-307.633324\n", "-307.166177\n", "-307.154158\n", "-307.095080\n", "-307.443201\n", "-306.974230\n", "-307.061868\n", "-307.456717\n", "-307.441509\n", "-307.081685\n", "-307.226396\n", "-307.487779\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1204.81298828125, 1175.326904296875, 1307.10205078125, 1341.656982421875, 1347.1767578125, 1139.401123046875, 1291.263916015625, 1217.7060546875, 1289.252197265625, 1167.007080078125, 1244.788818359375, 1152.218017578125, 1238.7109375, 1223.338134765625, 1234.144287109375, 1184.43896484375, 1273.02587890625, 1264.97412109375, 1503.027099609375, 1183.927978515625, 1239.81103515625, 1280.853759765625, 1965.48193359375, 1277.819091796875, 1410.2060546875,]
+ms_build = 483.0322265625
+[[benchmark.results.post]]
+stdout = [ "-307.629280\n", "-307.347585\n", "-307.175517\n", "-307.460871\n", "-307.281094\n", "-306.853297\n", "-307.187533\n", "-307.109548\n", "-306.972595\n", "-307.249789\n", "-307.121832\n", "-307.206263\n", "-306.944830\n", "-307.088783\n", "-307.217414\n", "-307.451442\n", "-307.118994\n", "-306.963334\n", "-307.096678\n", "-307.487104\n", "-306.897759\n", "-307.148272\n", "-306.842750\n", "-307.509810\n", "-307.308317\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 636.0478515625, 860.963134765625, 672.013916015625, 644.288818359375, 636.73291015625, 620.81884765625, 645.037841796875, 733.52685546875, 678.635986328125, 619.77392578125, 888.838134765625, 603.336181640625, 609.488037109375, 614.72607421875, 672.9150390625, 624.7412109375, 619.008056640625, 604.28271484375, 638.47509765625, 713.570068359375, 628.898193359375, 612.985107421875, 617.689208984375, 638.68212890625, 624.066650390625,]
+ms_build = 5013.7373046875
+[[benchmark.results.post]]
+stdout = [ "-307.158265\n", "-307.270172\n", "-307.168896\n", "-307.162781\n", "-307.072172\n", "-307.224291\n", "-307.292442\n", "-307.475354\n", "-307.361092\n", "-307.222467\n", "-306.959386\n", "-307.161299\n", "-306.948624\n", "-307.400115\n", "-306.960551\n", "-307.271205\n", "-307.431492\n", "-307.519743\n", "-307.073459\n", "-307.495395\n", "-307.239841\n", "-307.185884\n", "-307.488643\n", "-307.301377\n", "-307.258510\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2716.14892578125, 2690.076904296875, 2770.01513671875, 2670.329833984375, 2951.849853515625, 3000.4111328125, 2805.57421875, 2698.451904296875, 2621.49169921875, 2773.669189453125, 2877.966796875, 2779.406005859375, 2677.13037109375, 2713.752197265625, 2807.97705078125, 2839.921875, 2659.20703125, 2530.77392578125, 2656.80419921875, 2723.90087890625, 2673.170654296875, 2462.794921875, 2850.52294921875, 2809.666015625, 2818.831298828125,]
+ms_build = 2568.60595703125
+[[benchmark.results.post]]
+stdout = [ "-307.471925\n", "-307.428174\n", "-307.183935\n", "-307.058341\n", "-307.328283\n", "-306.920832\n", "-307.536800\n", "-307.461296\n", "-307.294612\n", "-307.016356\n", "-307.384377\n", "-307.663815\n", "-307.176650\n", "-307.232276\n", "-307.259974\n", "-307.203143\n", "-307.524737\n", "-307.092230\n", "-307.379767\n", "-307.440624\n", "-307.457970\n", "-307.240844\n", "-307.248236\n", "-307.567089\n", "-307.243796\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 701.24609375, 612.353271484375, 678.825927734375, 703.5419921875, 833.98681640625, 624.5146484375, 658.192138671875, 633.203857421875, 658.93408203125, 736.468017578125, 609.52392578125, 751.796875, 664.0830078125, 621.14306640625, 610.64794921875, 845.121337890625, 632.31689453125, 689.048095703125, 661.9638671875, 684.843994140625, 734.337158203125, 747.1669921875, 610.305908203125, 603.316650390625, 669.215087890625,]
+ms_build = 482.899169921875
+[[benchmark.results.post]]
+stdout = [ "-307.423369\n", "-307.162415\n", "-306.893948\n", "-306.902430\n", "-307.888293\n", "-307.583186\n", "-307.159409\n", "-307.432945\n", "-308.226967\n", "-308.170720\n", "-306.982192\n", "-307.414754\n", "-306.908038\n", "-307.096159\n", "-307.371667\n", "-306.975602\n", "-306.809409\n", "-307.262071\n", "-307.159668\n", "-307.536669\n", "-307.381786\n", "-306.726195\n", "-307.519552\n", "-307.022871\n", "-307.162255\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 418.69775390625, 411.609130859375, 412.946044921875, 423.22314453125, 414.34375, 418.03515625, 441.936767578125, 432.6201171875, 447.324951171875, 422.3369140625, 451.56005859375, 441.10693359375, 430.79296875, 431.02294921875, 431.242919921875, 429.4541015625, 406.703125, 456.849853515625, 443.693115234375, 415.5859375, 451.440185546875, 408.4306640625, 445.651123046875, 420.406982421875, 434.38720703125,]
+ms_build = 4909.927001953125
+[[benchmark.results.post]]
+stdout = [ "-307.588637\n", "-306.889985\n", "-307.187418\n", "-307.635609\n", "-307.157836\n", "-307.397531\n", "-307.354080\n", "-307.105725\n", "-307.165919\n", "-307.249348\n", "-306.711286\n", "-306.873024\n", "-307.574885\n", "-308.119411\n", "-307.609647\n", "-307.441582\n", "-307.203622\n", "-307.402453\n", "-307.205652\n", "-306.874215\n", "-307.389588\n", "-307.257835\n", "-307.405813\n", "-306.790663\n", "-307.473138\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1402.515869140625, 1483.36083984375, 1357.428955078125, 1376.846923828125, 1276.826904296875, 1415.555908203125, 1347.11083984375, 1417.153076171875, 1316.950927734375, 1287.296142578125, 1267.322021484375, 1360.130859375, 1261.90625, 1371.041015625, 1418.470703125, 1450.84814453125, 1395.9638671875, 1363.35888671875, 1388.065185546875, 1242.65283203125, 1324.262939453125, 1291.328125, 1304.2919921875, 1383.262939453125, 1282.69091796875,]
+ms_build = 2539.950927734375
+[[benchmark.results.post]]
+stdout = [ "-306.990675\n", "-307.205257\n", "-307.288269\n", "-307.158863\n", "-307.081203\n", "-307.667144\n", "-307.271684\n", "-307.641292\n", "-307.616471\n", "-307.184261\n", "-307.071892\n", "-307.120812\n", "-307.049007\n", "-307.155030\n", "-306.885066\n", "-307.573613\n", "-306.916452\n", "-307.342026\n", "-307.240675\n", "-306.789702\n", "-307.554531\n", "-307.258449\n", "-307.538008\n", "-307.382675\n", "-306.665089\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 370.603271484375, 369.43115234375, 349.02294921875, 363.590087890625, 362.01904296875, 385.25390625, 400.6689453125, 352.01220703125, 365.2939453125, 342.072021484375, 359.1572265625, 346.7939453125, 347.255126953125, 345.712890625, 353.177001953125, 412.0751953125, 351.997802734375, 327.38720703125, 409.595947265625, 356.396728515625, 378.664794921875, 335.883056640625, 343.775146484375, 411.588134765625, 322.300048828125,]
+ms_build = 489.246826171875
+[[benchmark.results.post]]
+stdout = [ "-308.101390\n", "-308.550926\n", "-307.749530\n", "-307.328945\n", "-307.065261\n", "-307.919696\n", "-307.885297\n", "-307.763666\n", "-307.826689\n", "-306.361193\n", "-307.007199\n", "-307.032852\n", "-307.546957\n", "-307.070967\n", "-306.937238\n", "-307.462912\n", "-307.669517\n", "-307.220964\n", "-307.523543\n", "-306.746357\n", "-307.348280\n", "-308.208241\n", "-307.453477\n", "-307.148044\n", "-307.088809\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 299.0830078125, 288.489990234375, 274.11279296875, 285.114013671875, 283.65380859375, 305.06884765625, 314.969970703125, 302.72021484375, 285.605712890625, 292.373046875, 289.545166015625, 285.877197265625, 293.904052734375, 286.613037109375, 279.09912109375, 289.43701171875, 292.623046875, 280.592041015625, 278.71923828125, 270.34814453125, 289.97607421875, 273.775146484375, 296.22998046875, 285.40087890625, 291.51904296875,]
+ms_build = 4944.722900390625
+[[benchmark.results.post]]
+stdout = [ "-306.859629\n", "-307.704219\n", "-307.812820\n", "-307.271509\n", "-307.892203\n", "-307.127113\n", "-308.846669\n", "-307.184051\n", "-307.215882\n", "-307.699093\n", "-307.412494\n", "-307.198754\n", "-307.337161\n", "-307.343698\n", "-307.455995\n", "-307.086638\n", "-307.061493\n", "-307.484235\n", "-307.435006\n", "-307.493355\n", "-307.550928\n", "-307.009774\n", "-307.513533\n", "-306.513351\n", "-307.060521\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 699.658203125, 735.574951171875, 731.239013671875, 757.8037109375, 641.662109375, 642.01611328125, 653.40380859375, 629.159912109375, 645.72998046875, 743.756103515625, 670.968994140625, 681.375, 694.2529296875, 698.263916015625, 663.28076171875, 661.60302734375, 642.90087890625, 674.797119140625, 701.492919921875, 715.055908203125, 663.749267578125, 682.421875, 670.101318359375, 648.359130859375, 672.895751953125,]
+ms_build = 2548.820068359375
+[[benchmark.results.post]]
+stdout = [ "-307.870025\n", "-307.784189\n", "-307.784189\n", "-307.090508\n", "-307.764228\n", "-307.221778\n", "-307.221778\n", "-306.743438\n", "-306.743438\n", "-307.505423\n", "-306.956131\n", "-307.539874\n", "-307.539874\n", "-307.301757\n", "-306.996331\n", "-306.996331\n", "-307.647899\n", "-308.114466\n", "-308.114466\n", "-307.339441\n", "-307.719566\n", "-307.719566\n", "-306.976449\n", "-307.177888\n", "-307.177888\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 197.128173828125, 211.742919921875, 186.678955078125, 217.347900390625, 183.3818359375, 235.80419921875, 172.927001953125, 206.115966796875, 204.656005859375, 191.520751953125, 266.289794921875, 206.81103515625, 191.343017578125, 201.655029296875, 197.80419921875, 217.54296875, 196.019775390625, 205.675048828125, 213.687744140625, 499.7919921875, 203.101318359375, 192.874755859375, 206.9140625, 199.957763671875, 196.215087890625,]
+ms_build = 488.947265625
+[[benchmark.results.post]]
+stdout = [ "-307.757014\n", "-307.249252\n", "-307.190733\n", "-308.121454\n", "-308.276283\n", "-308.913370\n", "-307.323863\n", "-307.215419\n", "-307.357432\n", "-308.000567\n", "-307.423867\n", "-309.342608\n", "-307.337301\n", "-307.120573\n", "-308.256466\n", "-306.825271\n", "-308.025041\n", "-307.330058\n", "-307.266015\n", "-306.878684\n", "-307.457448\n", "-306.941030\n", "-308.267078\n", "-308.001902\n", "-307.229124\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 246.681884765625, 233.635009765625, 225.55078125, 241.924072265625, 243.224853515625, 230.77783203125, 236.06591796875, 223.74072265625, 249.2607421875, 233.710205078125, 224.76416015625, 222.058837890625, 249.39111328125, 223.69189453125, 231.72900390625, 230.1650390625, 224.848876953125, 233.4541015625, 231.70703125, 230.158203125, 238.015869140625, 243.39892578125, 230.968994140625, 222.43798828125, 233.05810546875,]
+ms_build = 5016.804931640625
+[[benchmark.results.post]]
+stdout = [ "-307.324292\n", "-307.753330\n", "-307.132980\n", "-308.906352\n", "-307.752456\n", "-307.565663\n", "-307.655712\n", "-306.588628\n", "-307.329713\n", "-307.169296\n", "-306.570139\n", "-306.324704\n", "-307.376827\n", "-307.201100\n", "-306.681984\n", "-307.852776\n", "-306.012652\n", "-307.594456\n", "-307.614512\n", "-307.565458\n", "-307.325530\n", "-307.645159\n", "-306.510196\n", "-308.108869\n", "-307.427301\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 342.968017578125, 317.81103515625, 319.69677734375, 338.841064453125, 337.740966796875, 325.111083984375, 325.111328125, 336.543212890625, 330.23388671875, 343.91796875, 324.644775390625, 322.921875, 329.861083984375, 365.363037109375, 361.180908203125, 380.296875, 443.866943359375, 447.4208984375, 345.22509765625, 341.423095703125, 336.56689453125, 337.43798828125, 326.2900390625, 313.257080078125, 333.8857421875,]
+ms_build = 2557.428955078125
+[[benchmark.results.post]]
+stdout = [ "-306.955056\n", "-307.760569\n", "-307.760569\n", "-307.760569\n", "-306.660402\n", "-306.660402\n", "-306.660402\n", "-307.044706\n", "-307.044706\n", "-307.044706\n", "-307.209200\n", "-307.209200\n", "-307.209200\n", "-307.956131\n", "-307.956131\n", "-307.956131\n", "-307.009058\n", "-307.009058\n", "-307.405475\n", "-307.405475\n", "-307.405475\n", "-307.148033\n", "-307.148033\n", "-307.148033\n", "-307.490304\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 244.7509765625, 199.254150390625, 201.990966796875, 189.48291015625, 194.646240234375, 201.80322265625, 199.3330078125, 209.40087890625, 212.797119140625, 208.697998046875, 236.56396484375, 205.43017578125, 217.961181640625, 223.339111328125, 192.4599609375, 259.01806640625, 157.127685546875, 191.44580078125, 203.65185546875, 197.684814453125, 232.60302734375, 180.376953125, 212.595947265625, 231.7958984375, 217.079833984375,]
+ms_build = 491.3349609375
+[[benchmark.results.post]]
+stdout = [ "-306.565900\n", "-306.731288\n", "-307.208727\n", "-307.011127\n", "-307.587359\n", "-307.329948\n", "-307.267159\n", "-308.618929\n", "-307.955743\n", "-306.702592\n", "-306.923003\n", "-307.295315\n", "-307.362488\n", "-307.220144\n", "-308.386699\n", "-307.700875\n", "-306.858784\n", "-307.271669\n", "-308.038450\n", "-307.192029\n", "-307.322450\n", "-307.027578\n", "-307.721356\n", "-308.304116\n", "-307.475759\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 259.970947265625, 231.31298828125, 230.321044921875, 237.1240234375, 237.086669921875, 222.935791015625, 234.2900390625, 234.157958984375, 232.224853515625, 251.116943359375, 219.515625, 237.096923828125, 240.677734375, 244.2900390625, 228.031005859375, 227.543701171875, 237.32177734375, 228.871826171875, 229.36376953125, 242.215087890625, 227.64501953125, 223.321044921875, 233.484130859375, 224.44287109375, 246.811279296875,]
+ms_build = 4901.6767578125
+[[benchmark.results.post]]
+stdout = [ "-308.435778\n", "-307.475711\n", "-307.070706\n", "-306.278097\n", "-306.805792\n", "-307.076823\n", "-307.944864\n", "-307.574085\n", "-306.651744\n", "-306.871074\n", "-306.850740\n", "-307.324538\n", "-309.607980\n", "-306.975351\n", "-307.465127\n", "-306.737484\n", "-307.137947\n", "-307.992987\n", "-307.816966\n", "-308.198254\n", "-306.599375\n", "-306.188892\n", "-308.143987\n", "-306.792411\n", "-309.521229\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 330.138916015625, 339.44775390625, 326.566162109375, 318.325927734375, 321.510986328125, 315.710205078125, 309.701904296875, 329.13134765625, 337.30322265625, 330.902099609375, 338.84912109375, 340.908935546875, 347.76611328125, 347.0009765625, 346.296875, 353.48779296875, 352.727783203125, 351.5771484375, 410.697998046875, 409.760009765625, 403.553955078125, 341.176025390625, 336.68212890625, 330.512939453125, 342.76806640625,]
+ms_build = 2584.16015625
+[[benchmark.results.post]]
+stdout = [ "-307.600083\n", "-307.600083\n", "-307.600083\n", "-307.120893\n", "-307.120893\n", "-307.120893\n", "-307.120893\n", "-306.716489\n", "-306.716489\n", "-306.716489\n", "-307.502102\n", "-307.502102\n", "-307.502102\n", "-307.666867\n", "-307.666867\n", "-306.863393\n", "-306.863393\n", "-306.863393\n", "-307.880135\n", "-307.880135\n", "-307.880135\n", "-307.470906\n", "-307.470906\n", "-307.470906\n", "-307.105057\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 121.84326171875, 110.77490234375, 172.860107421875, 124.281982421875, 110.003173828125, 117.659912109375, 128.807861328125, 123.0810546875, 125.736083984375, 112.675048828125, 144.751953125, 130.141845703125, 118.22021484375, 156.1689453125, 152.868896484375, 143.97802734375, 123.108154296875, 114.994873046875, 126.55810546875, 125.034912109375, 113.103759765625, 119.93017578125, 121.911865234375, 106.302978515625, 120.39404296875,]
+ms_build = 490.970947265625
+[[benchmark.results.post]]
+stdout = [ "-306.917174\n", "-306.449019\n", "-311.100369\n", "-307.966179\n", "-305.952959\n", "-307.265447\n", "-309.465792\n", "-307.501964\n", "-307.296984\n", "-309.936434\n", "-308.434384\n", "-305.940468\n", "-306.819236\n", "-307.614394\n", "-307.591172\n", "-308.878975\n", "-308.308832\n", "-306.329580\n", "-307.763335\n", "-306.987882\n", "-307.693856\n", "-307.031413\n", "-307.066643\n", "-306.628461\n", "-308.603501\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 238.9072265625, 227.72900390625, 207.052001953125, 206.85498046875, 224.84716796875, 216.847900390625, 221.551025390625, 220.433837890625, 216.916015625, 217.47412109375, 219.081787109375, 217.87109375, 217.334228515625, 224.742919921875, 216.987060546875, 225.419921875, 222.3388671875, 215.44091796875, 212.378173828125, 222.36181640625, 230.038818359375, 217.525146484375, 214.227783203125, 228.3818359375, 229.958984375,]
+ms_build = 4977.35205078125
+[[benchmark.results.post]]
+stdout = [ "-308.374232\n", "-308.541520\n", "-306.552276\n", "-306.123208\n", "-306.725946\n", "-307.802162\n", "-309.054556\n", "-307.346955\n", "-307.289229\n", "-307.202898\n", "-306.469596\n", "-307.422393\n", "-307.960019\n", "-307.340601\n", "-308.336011\n", "-308.018326\n", "-308.296605\n", "-308.116113\n", "-306.344809\n", "-309.406673\n", "-308.132333\n", "-308.664117\n", "-307.925341\n", "-308.088121\n", "-307.878535\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 199.104248046875, 198.4580078125, 175.910888671875, 175.40185546875, 175.677978515625, 175.423095703125, 172.9951171875, 166.88525390625, 163.005126953125, 165.91015625, 166.384033203125, 163.571044921875, 166.890869140625, 174.511962890625, 172.839111328125, 168.955078125, 174.344970703125, 173.971923828125, 174.800048828125, 178.09619140625, 175.67578125, 174.142822265625, 175.975830078125, 176.395263671875, 171.83984375,]
+ms_build = 2540.27587890625
+[[benchmark.results.post]]
+stdout = [ "-308.092932\n", "-308.092932\n", "-306.548810\n", "-306.548810\n", "-306.548810\n", "-306.548810\n", "-306.548810\n", "-307.088415\n", "-307.088415\n", "-307.088415\n", "-307.088415\n", "-307.088415\n", "-307.088415\n", "-307.210783\n", "-307.210783\n", "-307.210783\n", "-307.210783\n", "-307.210783\n", "-307.210783\n", "-307.962650\n", "-307.962650\n", "-307.962650\n", "-307.962650\n", "-307.962650\n", "-307.962650\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1438.487060546875, 1419.4990234375, 1392.8349609375, 1512.338134765625, 1397.154296875, 1417.195068359375, 1383.423828125, 1380.998046875, 1440.3251953125, 1391.911865234375, 1430.464111328125, 1450.712890625, 1423.269775390625, 1443.14501953125, 1350.56103515625, 1401.492919921875, 1437.3271484375, 1421.818115234375, 1640.8828125, 1441.22021484375, 1628.297119140625, 1384.555908203125, 1456.62890625, 1423.434814453125, 1446.794189453125,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-307.536865\n\n", "-307.567169\n\n", "-307.082947\n\n", "-308.842407\n\n", "-306.959442\n\n", "-307.574768\n\n", "-307.127289\n\n", "-307.353912\n\n", "-307.693085\n\n", "-307.331909\n\n", "-307.783539\n\n", "-306.360107\n\n", "-307.541992\n\n", "-306.838806\n\n", "-306.923309\n\n", "-307.266602\n\n", "-308.353302\n\n", "-306.975433\n\n", "-307.711029\n\n", "-307.468903\n\n", "-309.626221\n\n", "-306.577454\n\n", "-307.940033\n\n", "-306.845367\n\n", "-307.730286\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 32768"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1078.806884765625, 1081.9140625, 1110.97509765625, 1110.74609375, 1102.872802734375, 1083.793701171875, 1076.952392578125, 1102.1201171875, 1053.794921875, 1144.337158203125, 1068.98388671875, 1079.22802734375, 1077.21923828125, 1052.785888671875, 1087.663818359375, 1079.5068359375, 1103.70703125, 1066.35595703125, 1054.439208984375, 1073.607177734375, 1141.48291015625, 1105.44921875, 1089.64111328125, 1090.026123046875, 1115.06396484375,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-307.436890\n\n", "-307.849274\n\n", "-306.955139\n\n", "-307.419739\n\n", "-306.932404\n\n", "-308.218750\n\n", "-306.856354\n\n", "-308.290710\n\n", "-307.220367\n\n", "-308.246399\n\n", "-307.168152\n\n", "-306.013794\n\n", "-307.080994\n\n", "-307.360291\n\n", "-307.862976\n\n", "-306.878235\n\n", "-307.584869\n\n", "-306.294891\n\n", "-308.208862\n\n", "-308.093628\n\n", "-309.058289\n\n", "-306.220551\n\n", "-308.905884\n\n", "-307.163910\n\n", "-307.576080\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 16384"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 959.1669921875, 976.070068359375, 994.302001953125, 973.718994140625, 997.2177734375, 968.89892578125, 977.340087890625, 977.571044921875, 951.34765625, 989.040771484375, 981.701904296875, 983.7109375, 974.418212890625, 984.237060546875, 964.69921875, 962.813232421875, 1093.069091796875, 969.52490234375, 995.440185546875, 1001.93408203125, 994.766845703125, 983.55517578125, 1003.65673828125, 964.072021484375, 964.62109375,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-307.621307\n\n", "-307.926300\n\n", "-307.000916\n\n", "-307.712769\n\n", "-307.018768\n\n", "-307.456879\n\n", "-306.960754\n\n", "-307.823303\n\n", "-306.623444\n\n", "-306.504791\n\n", "-306.305267\n\n", "-308.554016\n\n", "-306.311096\n\n", "-309.636627\n\n", "-308.325897\n\n", "-306.973755\n\n", "-316.836792\n\n", "-306.332581\n\n", "-309.094391\n\n", "-308.042877\n\n", "-307.127197\n\n", "-308.044464\n\n", "-309.394470\n\n", "-307.231140\n\n", "-305.868103\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numba"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 8192"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 44050.60009765625, 46380.128173828125, 47221.77490234375, 44048.636962890625, 50301.40673828125, 44960.86865234375, 52004.901123046875, 43402.424072265625, 49092.542724609375, 46021.156982421875, 47848.22021484375, 49907.96484375, 47534.693115234375, 46444.43896484375, 50187.2470703125, 51178.26123046875, 46364.865966796875, 55247.064697265625, 52594.499755859375, 60575.873779296875, 42683.85009765625, 42127.5009765625, 46885.6962890625, 48779.15380859375, 42909.18017578125,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-307.979156\n\n", "-306.906647\n\n", "-307.237549\n\n", "-307.380066\n\n", "-306.200684\n\n", "-307.235870\n\n", "-307.472595\n\n", "-307.383545\n\n", "-307.164337\n\n", "-307.086517\n\n", "-306.893250\n\n", "-307.419830\n\n", "-307.217896\n\n", "-307.303406\n\n", "-306.893860\n\n", "-307.766724\n\n", "-306.454193\n\n", "-308.140747\n\n", "-307.210052\n\n", "-307.680542\n\n", "-307.319214\n\n", "-306.974884\n\n", "-307.748749\n\n", "-307.274231\n\n", "-307.356384\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 32768"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 24526.72412109375, 23274.69677734375, 21882.155029296875, 24813.72509765625, 22953.229736328125, 28855.30810546875, 21388.426025390625, 25972.4951171875, 22530.23095703125, 24688.43896484375, 24221.503173828125, 24140.83984375, 22587.7060546875, 24712.01806640625, 24716.10498046875, 21936.503173828125, 23025.796875, 24484.85888671875, 21087.719970703125, 24469.7109375, 22386.720703125, 22661.2939453125, 27070.569091796875, 31436.55810546875, 22201.364013671875,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-308.195587\n\n", "-307.169708\n\n", "-307.060547\n\n", "-307.422882\n\n", "-308.158691\n\n", "-307.096741\n\n", "-306.836639\n\n", "-307.011169\n\n", "-307.486908\n\n", "-308.337280\n\n", "-308.194458\n\n", "-307.304596\n\n", "-307.523834\n\n", "-307.261139\n\n", "-307.050903\n\n", "-307.522308\n\n", "-307.542847\n\n", "-307.433990\n\n", "-306.625031\n\n", "-307.895691\n\n", "-307.403839\n\n", "-307.409027\n\n", "-308.971313\n\n", "-307.645050\n\n", "-308.129578\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 16384"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 13491.677978515625, 12341.390869140625, 10862.501953125, 13071.123779296875, 11626.23095703125, 12641.912109375, 10988.841064453125, 11855.475830078125, 15319.251953125, 13757.234130859375, 10662.06591796875, 12733.6259765625, 10551.35205078125, 11290.610107421875, 12802.216796875, 11720.771240234375, 15448.2587890625, 11422.92578125, 10572.7880859375, 11127.152099609375, 12519.613037109375, 12919.60791015625, 17891.914306640625, 12663.96484375, 11501.85400390625,]
+ms_build = 0.0
+[[benchmark.results.post]]
+stdout = [ "-308.310822\n\n", "-306.879120\n\n", "-307.092773\n\n", "-308.545990\n\n", "-308.045593\n\n", "-307.641296\n\n", "-306.917664\n\n", "-307.823669\n\n", "-308.414825\n\n", "-307.413788\n\n", "-307.065918\n\n", "-306.828186\n\n", "-306.450348\n\n", "-308.248077\n\n", "-308.152802\n\n", "-307.552094\n\n", "-307.950989\n\n", "-307.584808\n\n", "-307.608765\n\n", "-307.346069\n\n", "-308.420502\n\n", "-307.905579\n\n", "-310.219482\n\n", "-307.666016\n\n", "-308.328918\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = ""
+runtime = "id"
+argument = ""
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/pyro+numpy"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 8192"
+runtime = "Python3"
+argument = "main.py"
+buildOptions = ""
+
+
