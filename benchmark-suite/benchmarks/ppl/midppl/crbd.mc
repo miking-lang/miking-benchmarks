@@ -81,6 +81,7 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> () =
     let lnProb3 = simBranch n startTime stopTime lambda mu rho in
 
     weight (addf lnProb1 (addf lnProb2 lnProb3));
+    resample;
 
     match tree with Node { left = left, right = right } then
       simTree left tree lambda mu rho;
@@ -97,6 +98,7 @@ let numLeaves = countLeaves tree in
 let corrFactor =
   subf (mulf (subf (int2float numLeaves) 1.) (log 2.)) (lnFactorial numLeaves) in
 weight corrFactor;
+resample;
 
 -- Start of the simulation along the two branches
 (match tree with Node { left = left, right = right } then
