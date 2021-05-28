@@ -3,8 +3,7 @@ import getopt
 from infer.smcfilter import SMCFilter
 #from pyro.infer import SMCFilter
 from utils.phyjson import read_tree
-from models.crbd import CRBD, CRBDGuide
-
+from models.crbd_delayed import CRBD, CRBDGuide
 
 tree_path = None
 ρ = 1.0
@@ -19,7 +18,7 @@ for option, value in options:
     if option == '--nparticles':
         N = int(value)
 
-smc = SMCFilter(model=CRBD(), guide=CRBDGuide(), num_particles=N, max_plate_nesting=0, ess_threshold=1.0)
+smc = SMCFilter(model=CRBD(), guide=CRBDGuide(), num_particles=N, max_plate_nesting=0)
 tree = read_tree(tree_path)
 smc.init((len(tree) + 1) // 2)
 for branch in tree:

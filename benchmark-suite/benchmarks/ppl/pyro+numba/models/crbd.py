@@ -3,7 +3,7 @@ from pyro import sample, factor
 from pyro.distributions import Gamma, Poisson, Exponential, Bernoulli
 from numpy import log as nplog, inf, ones
 from numpy.random import poisson, exponential, uniform
-from numba import jit
+from numba import jit, prange
 
 
 @jit(cache=True)
@@ -21,10 +21,10 @@ def survives(t, λ, μ, ρ):
     return False
 
 
-@jit(cache=True)
+@jit(cache=True, parallel=True)
 def vec_survives(t_beg, t_end, count_, λ, μ, ρ):
     f = nplog(2) * count_
-    for n in range(count_.size):
+    for n in prange(count_.size):
         for hs in range(int(count_[n])):
             t = uniform(t_end, t_beg)
             if survives(t, λ[n], μ[n], ρ):
