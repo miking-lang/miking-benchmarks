@@ -1,0 +1,15 @@
+class ClaDSDelayedFastParameter {
+  multiplier:Real <- 1.0;
+  ν:Integer <- 1;
+
+  function copy() -> ClaDSDelayedFastParameter {
+    θ:ClaDSDelayedFastParameter;
+    θ.multiplier <- multiplier;
+    return θ;
+  }
+
+  override function write(buffer:Buffer) {
+    buffer.set("multiplier", multiplier);
+    buffer.set("ν", ν);
+  }
+}

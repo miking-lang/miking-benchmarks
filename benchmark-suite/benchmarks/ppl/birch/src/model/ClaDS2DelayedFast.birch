@@ -1,0 +1,110 @@
+class ClaDS2DelayedFast < BirthDeathModel<ClaDSDelayedFastParameter> {
+  λ_k:Real;
+  λ_θ:Real;
+  μ_k:Real;
+  μ_θ:Real;
+  σ2α_ν:Real <- 0.0;
+  σ2α_λ:Real <- 1.0;
+  σ2α_α:Real;
+  σ2α_β:Real;
+  ρ:Real;
+
+  function update_σ2α(x:Real) {
+    σ2α_α <- σ2α_α + 0.5;
+    σ2α_β <- σ2α_β + 0.5*(
+      x*x + σ2α_ν*σ2α_ν/σ2α_λ - (σ2α_ν + x)*(σ2α_ν + x)/(σ2α_λ + 1)
+    );
+    σ2α_λ <- σ2α_λ + 1;
+    σ2α_ν <- σ2α_ν + x;
+  }
+
+  function simulate_σ2α() -> Real {
+    return simulate_normal_inverse_gamma_gaussian(
+      σ2α_ν, σ2α_λ, σ2α_α, σ2α_β, 1.0
+    );
+  }
+
+  override function step() {
+    switchParameter(θ.copy());
+    θ.ν <- ν.id;
+    let t_beg <- ν.t + ν.Δ;
+    let last <- false;
+    while !last {
+      let φ <- simulate_σ2α();
+      update_σ2α(φ);
+      θ.multiplier <- θ.multiplier * exp(φ);
+      if θ.multiplier < 1e-5 || θ.multiplier > 1e5 {
+        factor -inf;
+        return;
+      }
+      let Δ <- simulate_lomax(1.0/λ_θ/θ.multiplier, λ_k);
+      (λ_k, λ_θ) <- (λ_k + 1.0, λ_θ/(1.0 + Δ*λ_θ*θ.multiplier));
+      let t_end <- t_beg - Δ;
+      if t_end < ν.t {
+        last <- true;
+        t_end <- ν.t;
+      } else {
+        if survives(t_end, θ.multiplier) {
+          factor -inf;
+          return;
+        }
+        factor log(2);
+      }
+      factor logpdf_gamma_poisson(0, μ_k, μ_θ*θ.multiplier*(t_beg - t_end));
+      (μ_k, μ_θ) <- (μ_k, μ_θ/(1.0 + μ_θ*θ.multiplier*(t_beg - t_end)));
+      t_beg <- t_end;
+    }
+    if ν.isSpeciation() {
+      factor logpdf_lomax(0.0, 1.0/λ_θ/θ.multiplier, λ_k);
+      (λ_k, λ_θ) <- (λ_k + 1.0, λ_θ);
+    }
+    if ν.isLeaf() {
+      factor logpdf_bernoulli(true, ρ);
+    }
+  }
+
+  function survives(t:Real, parent_multiplier:Real) -> Boolean {
+    let φ <- simulate_σ2α();
+    update_σ2α(φ);
+    let multiplier <- parent_multiplier * exp(φ);
+    if multiplier < 1e-5 || multiplier > 1e5 { return true; }
+    let Δ_b <- simulate_lomax(1.0/λ_θ/multiplier, λ_k);
+    (λ_k, λ_θ) <- (λ_k + 1.0, λ_θ/(1.0 + Δ_b*λ_θ*multiplier));
+    let Δ_d <- simulate_lomax(1.0/μ_θ/multiplier, μ_k);
+    (μ_k, μ_θ) <- (μ_k + 1.0, μ_θ/(1.0 + Δ_d*μ_θ*multiplier));
+    if Δ_b >= t && Δ_d >= t {
+      let detected <- simulate_bernoulli(ρ);
+      return detected;
+    }
+    if Δ_b > Δ_d {
+      return false;
+    }
+    return survives(t-Δ_b, multiplier) || survives(t-Δ_b, multiplier);
+  }
+
+  override function survives(t:Real) -> Boolean {
+    return survives(t, 1.0);
+  }
+
+  override function read(buffer:Buffer) {
+    super.read(buffer);
+    λ_k <-? buffer.get<Real>("λ_k");
+    λ_θ <-? buffer.get<Real>("λ_θ");
+    μ_k <-? buffer.get<Real>("μ_k");
+    μ_θ <-? buffer.get<Real>("μ_θ");
+    σ2α_α <-? buffer.get<Real>("σ2_α");
+    σ2α_β <-? buffer.get<Real>("σ2_β");
+    ρ <-? buffer.get<Real>("ρ");
+  }
+
+  override function write(buffer:Buffer) {
+    buffer.set("λ_k", λ_k);
+    buffer.set("λ_θ", λ_θ);
+    buffer.set("μ_k", μ_k);
+    buffer.set("μ_θ", μ_θ);
+    buffer.set("σ2α_ν", σ2α_ν);
+    buffer.set("σ2α_λ", σ2α_λ);
+    buffer.set("σ2α_α", σ2α_α);
+    buffer.set("σ2α_β", σ2α_β);
+  }
+}
