@@ -12,7 +12,7 @@ run-ppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 100 \
+	  --iters 50 \
 	  --output toml \
 	  --warmups 1
 
