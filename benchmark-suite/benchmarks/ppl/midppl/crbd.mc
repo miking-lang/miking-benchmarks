@@ -37,7 +37,14 @@ recursive
     lam mu: Float.
     lam rho: Float.
       let duration = assume (Exponential mu) in
-      if and (gtf duration startTime) (eqBool (assume (Bernoulli rho)) true) then
+      let cond =
+        -- `and` does not use short-circuiting: using `if` as below is more
+        -- efficient
+        if (gtf duration startTime) then
+          (eqBool (assume (Bernoulli rho)) true)
+        else false
+      in
+      if cond then
         false
       else
         let branchLength = if ltf duration startTime then duration else startTime in
