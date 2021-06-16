@@ -1,0 +1,7 @@
+provides = "CorePPL"
+
+[[command]]
+required_executables = ["midppl", "rootppl"]
+build_command = "{build}; midppl {argument} -m rootppl-smc; rootppl out.cu {buildOptions}"
+command = "./program {options}"
+clean_command = "{clean}; rootppl clean; rm -rf ess.txt log_norm_const.txt out.cu program"

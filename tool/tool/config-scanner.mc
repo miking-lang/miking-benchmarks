@@ -30,11 +30,26 @@ type Runtime = { provides : String
 -- An instantiation of a runtime with a particular argument within a benchmark
 type App = { runtime : String
            , fileName: String
-           , argument : String
-           , options : String
-           , buildOptions : String
+           , options : [{name: String, contents: String}]
            , cwd : Path
            }
+
+-- Manual list of options to check for
+-- NOTE(dlunde,2021-06-16): This is only necessary due to the Python
+-- dictionaries being converted to records in the TOML parsing (should be
+-- converted to proper maps instead).
+let options = lam tomlApp. [
+  match tomlApp with { argument = a } then
+    Some { name = "argument", contents = a } else None (),
+  match tomlApp with { options = a } then
+    Some { name = "options", contents = a } else None (),
+  match tomlApp with { buildOptions = a } then
+    Some { name = "buildOptions", contents = a } else None (),
+  match tomlApp with { buildExtra = a } then
+    Some { name = "buildExtra", contents = a } else None (),
+  match tomlApp with { cleanExtra = a } then
+    Some { name = "cleanExtra", contents = a } else None ()
+]
 
 -- Input for a benchmark
 type Input = { file : Option String
@@ -170,9 +185,9 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
       let constructApp = lam tomlApp.
         { runtime = tomlApp.runtime
         , fileName = pathGetFile configFile
-        , argument = match tomlApp with { argument = a } then a else ""
-        , options = match tomlApp with { options = o } then o else ""
-        , buildOptions = match tomlApp with { buildOptions = o } then o else ""
+        , options =
+            foldl (lam acc. lam arg. optionMapOr acc (snoc acc) arg)
+              [] (options tomlApp)
         , cwd = match tomlApp with { base = base }
                 then pathConcat cwd base else cwd
         }

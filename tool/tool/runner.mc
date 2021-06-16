@@ -25,13 +25,11 @@ let inputEmpty : Input = {file = None (), data = Some "", tags = [], cwd = ""}
 
 let instantiateCmd = lam cmd. lam app.
   match app
-  with { argument = argument, options = options, buildOptions = buildOptions }
+  with { options = options }
   then
-    foldl (lam cmd. lam f. f cmd) cmd [
-      lam cmd. strReplace cmd "{argument}" argument,
-      lam cmd. strReplace cmd "{options}" options,
-      lam cmd. strReplace cmd "{buildOptions}" buildOptions
-    ]
+    foldl (lam cmd. lam opt.
+      strReplace cmd (join ["{",opt.name,"}"]) opt.contents
+    ) cmd options
   else never
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
