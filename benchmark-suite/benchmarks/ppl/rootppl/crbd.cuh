@@ -49,7 +49,7 @@ BBLOCK_HELPER(crbdGoesUndetected, {
 
 
 // uses Jan's walk
-BBLOCK_HELPER(simBranch, { 
+BBLOCK_HELPER(simBranch, {
     floating_t nSpPoints = SAMPLE(poisson, lambda*(startTime - stopTime));
 
     for (int n = 0; n < nSpPoints; n++) {

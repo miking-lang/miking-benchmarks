@@ -1,0 +1,15 @@
+timing="complete"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "10000 1"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "20000 1"
+
+
+[[post]]
+runtime = "id"
