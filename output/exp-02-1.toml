@@ -1,0 +1,855 @@
+boot eval tool/main/main.mc -- \
+  --benchmarks benchmark-suite/benchmarks/ppl \
+  --runtimes benchmark-suite/runtimes \
+  --iters 20 \
+  --output toml \
+  --warmups 1
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 130778.9990234375, 129748.34814453125, 131580.73803710938, 147060.048828125, 148909.42895507812, 131421.98217773438, 131409.32299804688, 131266.0419921875, 129792.80102539062, 130596.7001953125, 131473.28491210938, 130768.1064453125, 127613.92407226562, 134482.248046875, 129044.44702148438, 131525.47387695312, 129703.9169921875, 130147.19897460938, 129053.61206054688, 128900.63720703125,]
+ms_build = 33363.519775390625
+[[benchmark.results.post]]
+stdout = [ "-2277.58794424135\n", "-2277.68484401771\n", "-2277.58615747945\n", "-2277.67459178217\n", "-2277.75701507222\n", "-2277.37118495089\n", "-2277.58107418812\n", "-2276.96699607934\n", "-2277.67425258858\n", "-2277.43239535639\n", "-2277.666257583\n", "-2277.78300919595\n", "-2277.44143636771\n", "-2277.74379400558\n", "-2277.53774950447\n", "-2276.82297961635\n", "-2277.8242746755\n", "-2276.98717733207\n", "-2277.7443355911\n", "-2277.24888025418\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 524288"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 65897.76391601562, 65921.35913085938, 65713.9169921875, 65400.328125, 66573.36206054688, 64781.838134765625, 65338.06396484375, 65226.382080078125, 65039.277099609375, 66199.83984375, 65534.713134765625, 65049.31005859375, 65771.60302734375, 65557.97802734375, 65285.096923828125, 65684.13891601562, 65469.777099609375, 65466.893798828125, 65661.47094726562, 64949.912841796875,]
+ms_build = 33657.6669921875
+[[benchmark.results.post]]
+stdout = [ "-2277.85977036248\n", "-2277.50294565257\n", "-2277.5994682241\n", "-2277.69308903501\n", "-2277.36649682798\n", "-2277.54798717812\n", "-2277.43090037732\n", "-2277.08072565076\n", "-2277.98123464603\n", "-2277.35133236258\n", "-2278.00533604983\n", "-2277.68961430024\n", "-2276.84812826574\n", "-2277.66456887392\n", "-2277.55636275072\n", "-2277.15164074371\n", "-2278.04981199867\n", "-2278.15133777388\n", "-2277.78156806983\n", "-2277.99794224516\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 262144"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 33044.156982421875, 32705.570068359375, 32814.88623046875, 33557.11083984375, 33439.55908203125, 33425.56787109375, 32808.828125, 32708.909912109375, 32745.960205078125, 32555.887939453125, 32897.55810546875, 34157.529052734375, 34232.777099609375, 33138.489990234375, 32872.287841796875, 32828.47900390625, 33005.777099609375, 33313.055908203125, 32812.382080078125, 32945.35595703125,]
+ms_build = 33577.075927734375
+[[benchmark.results.post]]
+stdout = [ "-2276.4811833668\n", "-2277.96337112726\n", "-2277.59795923238\n", "-2277.98918926889\n", "-2277.98046178673\n", "-2277.58389611309\n", "-2278.14965465279\n", "-2278.19074882139\n", "-2277.39685570502\n", "-2278.07058663547\n", "-2277.95128007106\n", "-2277.72127258481\n", "-2275.61740802521\n", "-2277.89180841577\n", "-2278.3862139415\n", "-2277.69230196831\n", "-2277.43080308892\n", "-2278.08391727469\n", "-2276.98722162145\n", "-2278.21595850043\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 131072"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 16873.791015625, 17604.892822265625, 16979.103271484375, 16549.531005859375, 16439.57421875, 16509.5751953125, 16509.89208984375, 16137.31103515625, 16372.597900390625, 16200.083984375, 16395.93701171875, 16374.305908203125, 16482.998779296875, 16334.10791015625, 16290.406005859375, 16772.7529296875, 16217.265869140625, 16466.587890625, 16684.572021484375, 16436.48583984375,]
+ms_build = 33801.364990234375
+[[benchmark.results.post]]
+stdout = [ "-2277.76852469674\n", "-2277.76317989828\n", "-2278.31896894216\n", "-2278.36174128953\n", "-2277.53210089631\n", "-2277.63335179427\n", "-2278.25421626701\n", "-2277.91000367691\n", "-2278.00593416921\n", "-2278.03623744528\n", "-2277.30823659274\n", "-2277.6598252747\n", "-2278.14319660717\n", "-2278.01096544074\n", "-2277.21603197182\n", "-2277.79168427301\n", "-2277.7733682308\n", "-2279.00206651684\n", "-2277.81725657108\n", "-2276.29849051438\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 65536"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 8273.360107421875, 8220.979736328125, 8243.105224609375, 8369.248779296875, 8183.3662109375, 8303.516845703125, 8134.988037109375, 8085.6640625, 8037.294921875, 8281.662109375, 8245.163818359375, 8231.824951171875, 8099.260986328125, 8025.10693359375, 8089.6748046875, 8312.597900390625, 8308.8671875, 8057.759033203125, 8073.43408203125, 8245.5087890625,]
+ms_build = 33429.0830078125
+[[benchmark.results.post]]
+stdout = [ "-2277.79198215435\n", "-2277.96053805269\n", "-2278.25348618422\n", "-2276.43728967273\n", "-2278.22686258397\n", "-2278.3174990621\n", "-2277.96136730974\n", "-2277.74363013944\n", "-2278.37201443547\n", "-2276.78818951197\n", "-2278.0063481679\n", "-2278.3242050282\n", "-2278.11924687128\n", "-2277.69514408264\n", "-2278.11782706256\n", "-2278.05502414556\n", "-2277.78089413685\n", "-2275.12532772191\n", "-2274.86539102538\n", "-2277.04939787663\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 32768"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 3807.7578125, 3895.10791015625, 3686.583984375, 3843.4140625, 3792.625244140625, 3766.031982421875, 3844.58984375, 3659.6591796875, 3643.887939453125, 3759.197021484375, 3679.819091796875, 3661.496826171875, 3701.321044921875, 3632.843017578125, 3739.156005859375, 3792.70703125, 3848.0830078125, 3812.8740234375, 3794.64013671875, 3719.56201171875,]
+ms_build = 33631.27685546875
+[[benchmark.results.post]]
+stdout = [ "-2277.86167437515\n", "-2278.56117886261\n", "-2275.48634569994\n", "-2278.61259051497\n", "-2278.02598233815\n", "-2278.01008013002\n", "-2278.61279562329\n", "-2278.11864041569\n", "-2276.89603879003\n", "-2277.15338435958\n", "-2278.95595809837\n", "-2278.71903111619\n", "-2277.44079996776\n", "-2276.20950749578\n", "-2277.93572590652\n", "-2278.31884697995\n", "-2279.12573794067\n", "-2278.62822971179\n", "-2278.26016467076\n", "-2277.70379678475\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 16384"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1601.991943359375, 1684.93798828125, 1579.353271484375, 1650.87890625, 1624.682861328125, 1629.484130859375, 1590.6630859375, 1614.6650390625, 1656.9169921875, 1700.252197265625, 1573.18115234375, 1586.5791015625, 1574.4541015625, 1699.712158203125, 1630.77978515625, 1689.22998046875, 1597.713134765625, 1542.852783203125, 1614.197998046875, 1594.50927734375,]
+ms_build = 33610.964111328125
+[[benchmark.results.post]]
+stdout = [ "-2278.37525461099\n", "-2276.09725238302\n", "-2277.02831606734\n", "-2282.45044562463\n", "-2278.68812232617\n", "-2282.30761582011\n", "-2280.7356559577\n", "-2277.17625351276\n", "-2279.21020828807\n", "-2277.24555697146\n", "-2277.41585236975\n", "-2278.07463901553\n", "-2274.90536347455\n", "-2278.33182517548\n", "-2278.87245398662\n", "-2278.4162339044\n", "-2278.64736617595\n", "-2275.80181181662\n", "-2279.08272053429\n", "-2277.05560147955\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = ""
+runtime = "Python3"
+argument = "logz.py"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/birch"
+options = "--config experiment2 --tree tittyranrest --nparticles 8192"
+runtime = "Birch"
+argument = "infer"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 23625.7138671875, 24468.869140625, 25449.48095703125, 23848.009765625, 35723.911865234375, 25336.26904296875, 25232.31787109375, 25571.02099609375, 25198.56494140625, 36551.489013671875, 27220.263916015625, 25283.87109375, 25320.908935546875, 24205.4541015625, 25377.2119140625, 24441.240966796875, 25999.947265625, 24037.795166015625, 25710.922119140625, 25581.68310546875,]
+ms_build = 485.02490234375
+[[benchmark.results.post]]
+stdout = [ "-2277.296397\n", "-2277.697305\n", "-2277.577177\n", "-2277.683441\n", "-2277.289969\n", "-2277.182229\n", "-2277.240685\n", "-2277.702666\n", "-2277.858721\n", "-2277.090846\n", "-2277.065609\n", "-2277.783442\n", "-2277.489745\n", "-2277.525165\n", "-2277.693655\n", "-2277.500947\n", "-2277.278212\n", "-2277.732038\n", "-2277.873631\n", "-2277.139246\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 12927.845947265625, 11699.89013671875, 14160.02978515625, 11657.2939453125, 13057.5517578125, 12088.492919921875, 12654.864990234375, 12372.2978515625, 12117.10498046875, 11957.889892578125, 12014.44921875, 12769.6689453125, 12287.566162109375, 16514.595947265625, 12460.97998046875, 13807.93701171875, 12759.06201171875, 12202.55322265625, 13558.968994140625, 12400.238037109375,]
+ms_build = 4943.492919921875
+[[benchmark.results.post]]
+stdout = [ "-2277.464900\n", "-2277.669317\n", "-2276.819193\n", "-2277.431637\n", "-2277.788147\n", "-2277.827061\n", "-2277.109316\n", "-2276.472489\n", "-2277.754742\n", "-2276.233363\n", "-2278.038831\n", "-2277.456470\n", "-2277.329226\n", "-2277.776951\n", "-2277.535417\n", "-2277.966124\n", "-2277.254768\n", "-2277.318371\n", "-2277.116857\n", "-2277.229815\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 66072.966796875, 68474.18994140625, 68271.13110351562, 69752.76293945312, 68147.3779296875, 88360.69702148438, 68554.1240234375, 67236.38500976562, 70650.6982421875, 70711.52490234375, 72843.6220703125, 68834.22998046875, 68785.77099609375, 68895.46411132812, 67615.083984375, 71259.1279296875, 70122.80102539062, 68855.39477539062, 70146.70288085938, 66395.13305664062,]
+ms_build = 2522.2412109375
+[[benchmark.results.post]]
+stdout = [ "-2277.441033\n", "-2277.476572\n", "-2277.290777\n", "-2277.784005\n", "-2275.980434\n", "-2277.947466\n", "-2277.291323\n", "-2277.667803\n", "-2277.385339\n", "-2277.453307\n", "-2277.360212\n", "-2277.677087\n", "-2277.137752\n", "-2277.498226\n", "-2277.029835\n", "-2277.521441\n", "-2277.587710\n", "-2277.682737\n", "-2277.556049\n", "-2277.309079\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "524288 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 12655.201904296875, 12706.246337890625, 11284.9169921875, 11218.162109375, 11684.331787109375, 14074.054931640625, 11013.386962890625, 11474.47119140625, 11764.743896484375, 10396.1328125, 11999.09912109375, 11097.9169921875, 11442.92626953125, 11438.2509765625, 11241.676025390625, 12210.95703125, 11426.35009765625, 11528.37939453125, 11748.47021484375, 11837.9736328125,]
+ms_build = 477.788818359375
+[[benchmark.results.post]]
+stdout = [ "-2277.076588\n", "-2277.976028\n", "-2277.821517\n", "-2277.970097\n", "-2277.149198\n", "-2278.248731\n", "-2277.144774\n", "-2277.154018\n", "-2277.913268\n", "-2277.807853\n", "-2277.812384\n", "-2276.833986\n", "-2278.286517\n", "-2278.102486\n", "-2277.383733\n", "-2277.452183\n", "-2276.706175\n", "-2277.171932\n", "-2277.835293\n", "-2277.679434\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 7185.94873046875, 6198.322998046875, 6685.459228515625, 8855.52685546875, 9151.9560546875, 6777.1298828125, 6192.14013671875, 6883.9267578125, 15131.55712890625, 6313.70703125, 6645.294921875, 5950.337890625, 6207.73095703125, 6391.885009765625, 6695.9150390625, 7535.8388671875, 6180.987060546875, 7230.86279296875, 6741.903076171875, 6431.1328125,]
+ms_build = 4899.823974609375
+[[benchmark.results.post]]
+stdout = [ "-2277.434381\n", "-2277.638048\n", "-2277.599847\n", "-2276.698878\n", "-2277.092587\n", "-2278.082897\n", "-2277.101040\n", "-2277.230544\n", "-2279.350191\n", "-2277.955644\n", "-2277.219093\n", "-2277.286965\n", "-2277.636846\n", "-2277.384453\n", "-2277.393501\n", "-2277.222301\n", "-2277.801969\n", "-2277.071952\n", "-2278.018241\n", "-2278.031681\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 34580.004150390625, 35774.457763671875, 33305.966064453125, 33517.871826171875, 35653.89306640625, 33529.392822265625, 35653.61181640625, 35445.528076171875, 34372.68994140625, 35468.56298828125, 34949.3232421875, 34613.0830078125, 34329.870849609375, 34038.183837890625, 35587.3330078125, 34428.30712890625, 34532.84912109375, 35212.0869140625, 35112.012939453125, 33655.300048828125,]
+ms_build = 2577.36181640625
+[[benchmark.results.post]]
+stdout = [ "-2277.658928\n", "-2277.866834\n", "-2277.998826\n", "-2278.029682\n", "-2277.662458\n", "-2276.974467\n", "-2278.005726\n", "-2277.777165\n", "-2277.646255\n", "-2276.245795\n", "-2278.230950\n", "-2277.008657\n", "-2277.532459\n", "-2278.068153\n", "-2277.388237\n", "-2276.985051\n", "-2277.803491\n", "-2277.779564\n", "-2277.699469\n", "-2277.705248\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "262144 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 5961.431884765625, 6098.58203125, 6119.3310546875, 5578.149169921875, 5417.471923828125, 6355.51904296875, 5792.30517578125, 9046.05517578125, 7634.303955078125, 5897.376708984375, 5738.655029296875, 6273.98486328125, 6021.52099609375, 6285.158935546875, 5642.30712890625, 6011.805908203125, 5784.569091796875, 5827.720947265625, 5721.38623046875, 7172.685302734375,]
+ms_build = 486.1279296875
+[[benchmark.results.post]]
+stdout = [ "-2278.090525\n", "-2279.041026\n", "-2277.922821\n", "-2278.905849\n", "-2278.574827\n", "-2276.224450\n", "-2278.283341\n", "-2277.591339\n", "-2277.502078\n", "-2277.007266\n", "-2278.845277\n", "-2278.082940\n", "-2276.054027\n", "-2278.023421\n", "-2277.603773\n", "-2278.025279\n", "-2277.035163\n", "-2276.349762\n", "-2277.677354\n", "-2276.716755\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 3419.43603515625, 4027.193115234375, 3938.158935546875, 4400.253173828125, 4455.048828125, 3501.831787109375, 4058.173828125, 3599.07373046875, 4342.224853515625, 3731.535888671875, 3996.864990234375, 3916.082763671875, 3808.22705078125, 3397.47412109375, 3722.635009765625, 41919.68603515625, 5109.48095703125, 3983.07373046875, 3469.933837890625, 4062.306884765625,]
+ms_build = 4983.859130859375
+[[benchmark.results.post]]
+stdout = [ "-2278.314862\n", "-2278.128341\n", "-2278.028009\n", "-2276.958483\n", "-2277.791501\n", "-2277.122019\n", "-2276.682720\n", "-2277.594513\n", "-2277.506739\n", "-2277.652917\n", "-2277.717503\n", "-2278.110125\n", "-2277.641360\n", "-2276.405919\n", "-2277.711783\n", "-2277.582742\n", "-2277.849045\n", "-2277.713311\n", "-2278.368021\n", "-2277.561318\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 16637.922119140625, 16524.5087890625, 17381.740966796875, 16169.328125, 17104.630126953125, 16420.305908203125, 17521.471923828125, 17583.954833984375, 17261.219970703125, 16761.31494140625, 16430.971923828125, 16259.4951171875, 18407.0302734375, 16716.992919921875, 18142.093017578125, 16686.64111328125, 16507.714111328125, 16878.728759765625, 16848.204833984375, 17233.031982421875,]
+ms_build = 2547.249267578125
+[[benchmark.results.post]]
+stdout = [ "-2278.044161\n", "-2276.994252\n", "-2277.327850\n", "-2277.321925\n", "-2277.547780\n", "-2276.604517\n", "-2278.026937\n", "-2277.187306\n", "-2277.757990\n", "-2278.109470\n", "-2276.954140\n", "-2276.458084\n", "-2277.655218\n", "-2278.496276\n", "-2276.991391\n", "-2277.906547\n", "-2276.789154\n", "-2277.691922\n", "-2278.513862\n", "-2278.355464\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "131072 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 3526.748291015625, 3292.133056640625, 3040.616943359375, 3070.53125, 2948.705078125, 2976.448974609375, 2879.254638671875, 2851.5419921875, 3104.6669921875, 2999.39306640625, 2829.9951171875, 3167.2841796875, 3039.825927734375, 3028.890869140625, 2827.486083984375, 2958.466064453125, 2883.29296875, 2826.843017578125, 2970.419189453125, 2909.555908203125,]
+ms_build = 477.449951171875
+[[benchmark.results.post]]
+stdout = [ "-2279.260099\n", "-2278.305047\n", "-2276.778779\n", "-2276.691565\n", "-2276.091420\n", "-2278.370953\n", "-2279.713425\n", "-2277.783812\n", "-2277.536574\n", "-2278.718397\n", "-2277.070117\n", "-2279.483268\n", "-2277.897642\n", "-2276.041830\n", "-2278.210859\n", "-2277.075081\n", "-2278.854981\n", "-2276.379083\n", "-2278.144242\n", "-2276.709865\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2371.903076171875, 2477.85986328125, 2377.756103515625, 2383.968994140625, 2305.995849609375, 2146.921875, 2492.074951171875, 2446.902099609375, 2647.791015625, 2400.7060546875, 3701.19189453125, 3073.801025390625, 2218.380126953125, 2458.066162109375, 2343.92724609375, 2380.5322265625, 2616.8740234375, 2665.419921875, 2308.921142578125, 2907.759765625,]
+ms_build = 4895.18212890625
+[[benchmark.results.post]]
+stdout = [ "-2278.659348\n", "-2276.939576\n", "-2279.466384\n", "-2276.992128\n", "-2278.645542\n", "-2277.126838\n", "-2277.351913\n", "-2277.244984\n", "-2275.384225\n", "-2278.620236\n", "-2278.011125\n", "-2277.595762\n", "-2276.577234\n", "-2276.635003\n", "-2278.794336\n", "-2278.478578\n", "-2277.150722\n", "-2277.989357\n", "-2278.135522\n", "-2278.859651\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 8320.1201171875, 8396.97998046875, 9040.06982421875, 8215.83203125, 8670.613037109375, 8481.444091796875, 8501.099853515625, 8281.0830078125, 8456.4111328125, 8070.264892578125, 9573.80126953125, 8702.187255859375, 8113.152099609375, 8181.06298828125, 8120.4052734375, 8423.719970703125, 8340.2529296875, 8883.083251953125, 8000.322998046875, 8960.510986328125,]
+ms_build = 2538.64208984375
+[[benchmark.results.post]]
+stdout = [ "-2277.461318\n", "-2279.892484\n", "-2277.183088\n", "-2277.900852\n", "-2277.661878\n", "-2276.342063\n", "-2279.183834\n", "-2278.235341\n", "-2278.322586\n", "-2278.255731\n", "-2277.911044\n", "-2277.531932\n", "-2277.439717\n", "-2277.142028\n", "-2276.241965\n", "-2276.485396\n", "-2277.466475\n", "-2278.432171\n", "-2279.006608\n", "-2278.905520\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "65536 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1621.2431640625, 1651.59814453125, 1552.173095703125, 1382.187255859375, 1483.05419921875, 1559.625, 1521.3447265625, 1734.3388671875, 1568.31298828125, 1415.546875, 1443.15087890625, 1576.223876953125, 1779.797119140625, 1358.076904296875, 1526.267822265625, 1525.072021484375, 1740.316162109375, 1563.404052734375, 1470.4169921875, 1530.4638671875,]
+ms_build = 483.913818359375
+[[benchmark.results.post]]
+stdout = [ "-2278.156417\n", "-2277.832650\n", "-2280.023601\n", "-2276.974430\n", "-2277.821459\n", "-2278.255277\n", "-2279.054273\n", "-2280.313877\n", "-2277.478943\n", "-2278.634621\n", "-2275.723822\n", "-2278.216789\n", "-2277.292098\n", "-2277.504542\n", "-2277.777503\n", "-2275.894780\n", "-2279.635904\n", "-2278.008382\n", "-2278.088881\n", "-2278.261123\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1393.170166015625, 1946.28076171875, 1485.626953125, 2198.851318359375, 1383.870849609375, 1785.96875, 1428.092041015625, 1449.928955078125, 1859.39013671875, 1970.865234375, 1645.55615234375, 1491.822021484375, 1303.1650390625, 2174.77294921875, 1333.947021484375, 1386.137939453125, 1407.887939453125, 1687.847900390625, 1482.31591796875, 1506.433837890625,]
+ms_build = 4963.599853515625
+[[benchmark.results.post]]
+stdout = [ "-2279.211952\n", "-2277.852993\n", "-2276.287737\n", "-2277.478144\n", "-2275.331178\n", "-2276.537930\n", "-2279.104896\n", "-2276.396515\n", "-2278.641291\n", "-2280.378410\n", "-2278.939556\n", "-2278.004282\n", "-2277.540768\n", "-2279.418855\n", "-2279.473339\n", "-2277.240452\n", "-2277.122940\n", "-2280.248155\n", "-2278.641077\n", "-2277.401736\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 4100.0390625, 4100.513916015625, 4133.16796875, 4343.43017578125, 4156.864990234375, 4189.257080078125, 4053.672119140625, 4143.831787109375, 4378.321044921875, 4177.80322265625, 4224.21826171875, 4219.601806640625, 4178.5712890625, 4165.635009765625, 4191.44921875, 4272.407958984375, 5036.585205078125, 4191.14306640625, 4082.607177734375, 4303.421875,]
+ms_build = 2541.75
+[[benchmark.results.post]]
+stdout = [ "-2279.259387\n", "-2278.337812\n", "-2276.902407\n", "-2279.101729\n", "-2276.944592\n", "-2278.644492\n", "-2276.951768\n", "-2277.170087\n", "-2278.978049\n", "-2277.127362\n", "-2279.681634\n", "-2278.828070\n", "-2275.921359\n", "-2279.838699\n", "-2276.772071\n", "-2278.099800\n", "-2282.766340\n", "-2277.743433\n", "-2277.931788\n", "-2278.005825\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "32768 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 820.85791015625, 814.80419921875, 762.004150390625, 797.1689453125, 774.794921875, 808.43896484375, 809.763916015625, 863.97412109375, 748.275146484375, 851.79296875, 772.98193359375, 780.185791015625, 799.551025390625, 758.796875, 820.81298828125, 873.89794921875, 874.22412109375, 763.084228515625, 846.904052734375, 768.802978515625,]
+ms_build = 483.155029296875
+[[benchmark.results.post]]
+stdout = [ "-2277.283243\n", "-2277.283243\n", "-2277.113523\n", "-2277.327646\n", "-2279.975553\n", "-2280.586739\n", "-2280.586739\n", "-2277.588944\n", "-2277.756955\n", "-2278.815480\n", "-2287.370077\n", "-2287.370077\n", "-2278.403156\n", "-2278.780413\n", "-2278.299127\n", "-2279.050212\n", "-2279.050212\n", "-2277.433541\n", "-2277.903268\n", "-2274.594796\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2279.255126953125, 1007.162841796875, 891.9248046875, 1066.822998046875, 1126.505126953125, 1012.994140625, 990.24609375, 1095.611083984375, 1053.636962890625, 930.083984375, 910.8349609375, 1053.591064453125, 1217.07275390625, 1027.9228515625, 943.7890625, 843.635986328125, 1136.6611328125, 933.18603515625, 1053.534912109375, 1239.61474609375,]
+ms_build = 4865.55712890625
+[[benchmark.results.post]]
+stdout = [ "-2280.573698\n", "-2278.847428\n", "-2278.616901\n", "-2279.797476\n", "-2278.874462\n", "-2279.147487\n", "-2276.686812\n", "-2276.818195\n", "-2280.081623\n", "-2278.973613\n", "-2279.745664\n", "-2278.273765\n", "-2277.677671\n", "-2279.596093\n", "-2279.896431\n", "-2278.216407\n", "-2279.552507\n", "-2282.997906\n", "-2280.149499\n", "-2277.842475\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2125.81982421875, 2100.4970703125, 2308.805908203125, 2131.372802734375, 2090.594970703125, 2159.174072265625, 2127.63818359375, 2164.113037109375, 2080.791015625, 2355.18896484375, 2273.725830078125, 2301.4189453125, 2053.648193359375, 2156.619140625, 2059.7880859375, 2088.922119140625, 2294.1640625, 2233.228759765625, 2012.534912109375, 2047.897216796875,]
+ms_build = 2544.96728515625
+[[benchmark.results.post]]
+stdout = [ "-2278.745367\n", "-2278.615006\n", "-2285.146117\n", "-2278.192698\n", "-2277.325469\n", "-2275.988691\n", "-2278.539913\n", "-2276.452380\n", "-2278.041908\n", "-2280.289749\n", "-2280.768599\n", "-2278.524950\n", "-2279.715722\n", "-2279.334349\n", "-2277.116050\n", "-2276.984602\n", "-2280.575684\n", "-2276.821432\n", "-2283.949597\n", "-2276.315780\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "16384 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 398.928955078125, 413.5849609375, 459.7451171875, 402.10009765625, 400.690185546875, 420.0966796875, 416.039794921875, 446.8291015625, 440.0830078125, 462.7822265625, 424.2060546875, 434.741943359375, 419.343017578125, 424.87890625, 403.557861328125, 405.665771484375, 400.56298828125, 402.0419921875, 405.989013671875, 394.468994140625,]
+ms_build = 480.99609375
+[[benchmark.results.post]]
+stdout = [ "-2276.664360\n", "-2276.664360\n", "-2276.664360\n", "-2278.022779\n", "-2278.022779\n", "-2280.061975\n", "-2280.061975\n", "-2283.468823\n", "-2283.468823\n", "-2283.468823\n", "-2279.614813\n", "-2279.614813\n", "-2281.016111\n", "-2281.016111\n", "-2279.034540\n", "-2279.034540\n", "-2279.034540\n", "-2277.918512\n", "-2277.918512\n", "-2278.424151\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--omp -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 700.01708984375, 751.526123046875, 711.347900390625, 783.330078125, 718.863037109375, 895.64404296875, 807.9619140625, 898.152099609375, 876.2998046875, 741.196044921875, 813.474853515625, 773.545166015625, 886.846923828125, 817.320068359375, 637.9580078125, 644.225830078125, 826.862060546875, 819.837158203125, 806.55908203125, 627.337890625,]
+ms_build = 4934.109130859375
+[[benchmark.results.post]]
+stdout = [ "-2274.088799\n", "-2280.026697\n", "-2281.112071\n", "-2279.993148\n", "-2279.285999\n", "-2283.844040\n", "-2277.782364\n", "-2282.691693\n", "-2281.173514\n", "-2281.059168\n", "-2278.801017\n", "-2281.811519\n", "-2282.793776\n", "-2281.700639\n", "-2277.258566\n", "-2279.755933\n", "-2280.457475\n", "-2279.093090\n", "-2288.044322\n", "-2281.503636\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = "--arch 75 -j 32"
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1027.35693359375, 1076.737060546875, 1110.4609375, 1185.216064453125, 1021.77099609375, 999.56298828125, 1125.140869140625, 1030.269775390625, 1064.85009765625, 1128.763427734375, 1060.2900390625, 1050.522216796875, 1062.38818359375, 1073.7529296875, 1022.875, 1061.238037109375, 1093.904052734375, 1099.364990234375, 1120.53515625, 1043.153076171875,]
+ms_build = 2560.203125
+[[benchmark.results.post]]
+stdout = [ "-2280.101196\n", "-2278.246365\n", "-2280.719001\n", "-2283.725301\n", "-2274.957895\n", "-2283.524972\n", "-2283.969811\n", "-2277.979371\n", "-2278.054683\n", "-2280.016851\n", "-2281.133603\n", "-2280.548656\n", "-2279.093128\n", "-2278.745138\n", "-2278.867515\n", "-2279.754853\n", "-2279.518032\n", "-2280.872296\n", "-2277.598876\n", "-2278.987118\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = ""
+runtime = "id"
+argument = ""
+fileName = "experiment2.toml"
+buildOptions = ""
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/rootppl"
+options = "8192 1"
+runtime = "RootPPL"
+argument = "TitTyranRest_crbd_delayed.cu"
+fileName = "experiment2.toml"
+buildOptions = ""
+
+

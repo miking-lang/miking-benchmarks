@@ -1,0 +1,10 @@
+timing = "complete"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Lari_clads2_delayed.cu"
+options = "20000 1"
+buildOptions = ""
+
+[[post]]
+runtime = "id"

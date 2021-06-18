@@ -1,0 +1,608 @@
+boot eval tool/main/main.mc -- \
+  --benchmarks benchmark-suite/benchmarks/ppl \
+  --runtimes benchmark-suite/runtimes \
+  --iters 1 \
+  --output toml \
+  --warmups 1
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+make[1]: Entering directory '/home/viktor/.local/lib/rootppl'
+rm -f out/*.o
+make[1]: Leaving directory '/home/viktor/.local/lib/rootppl'
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 20056.879150390625,]
+ms_build = 7976.032958984375
+[[benchmark.results.post]]
+stdout = [ "-306.818970\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "262144"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 41811.203857421875,]
+ms_build = 7868.829833984375
+[[benchmark.results.post]]
+stdout = [ "-306.718431\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "262144"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 10544.972900390625,]
+ms_build = 7982.7451171875
+[[benchmark.results.post]]
+stdout = [ "-307.026439\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "131072"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 20928.1162109375,]
+ms_build = 8001.93896484375
+[[benchmark.results.post]]
+stdout = [ "-307.121470\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "131072"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 6057.06005859375,]
+ms_build = 7784.090087890625
+[[benchmark.results.post]]
+stdout = [ "-307.055480\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "65536"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 10430.43896484375,]
+ms_build = 7791.1728515625
+[[benchmark.results.post]]
+stdout = [ "-306.656963\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "65536"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 3007.131103515625,]
+ms_build = 7892.889892578125
+[[benchmark.results.post]]
+stdout = [ "-307.727295\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "32768"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 5251.169921875,]
+ms_build = 7919.7568359375
+[[benchmark.results.post]]
+stdout = [ "-306.684521\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "32768"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1943.26904296875,]
+ms_build = 7954.676025390625
+[[benchmark.results.post]]
+stdout = [ "-305.774024\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "16384"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 2649.595947265625,]
+ms_build = 7837.81298828125
+[[benchmark.results.post]]
+stdout = [ "-307.128246\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "16384"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 563.43505859375,]
+ms_build = 7833.83984375
+[[benchmark.results.post]]
+stdout = [ "-307.617148\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "8192"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "--omp -j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+[[benchmark]]
+
+[[benchmark.results]]
+ms_run = [ 1314.51025390625,]
+ms_build = 7883.2880859375
+[[benchmark.results.post]]
+stdout = [ "-307.415694\n\n",]
+
+[benchmark.results.post.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+options = ""
+runtime = "id"
+fileName = "experiment1.toml"
+
+[benchmark.results.input]
+cwd = ""
+data = ""
+file = ""
+tags = ""
+[benchmark.app]
+cwd = "/home/viktor/ownCloud/miking-benchmarks/benchmark-suite/benchmarks/ppl/midppl"
+runtime = "CorePPL"
+fileName = "experiment1.toml"
+[[benchmark.app.options]]
+name = "argument"
+contents = "crbd.mc"
+
+[[benchmark.app.options]]
+name = "options"
+contents = "8192"
+
+[[benchmark.app.options]]
+name = "buildOptions"
+contents = "-j 32 --stack_size 100000"
+
+[[benchmark.app.options]]
+name = "buildExtra"
+contents = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson 0.5 > tree-instance.mc"
+
+[[benchmark.app.options]]
+name = "cleanExtra"
+contents = "rm -f tree-instance.mc; rootppl clean"
+
+
+

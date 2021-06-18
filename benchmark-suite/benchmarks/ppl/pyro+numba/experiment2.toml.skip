@@ -1,0 +1,41 @@
+timing="complete"
+
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 8192"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 16384"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 32768"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 65536"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 131072"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 262144"
+
+[[app]]
+runtime = "Python3"
+argument = "experiment2.py"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 524288"
+
+
+[[post]]
+runtime = "id"
