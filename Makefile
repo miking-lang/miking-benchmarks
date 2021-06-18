@@ -17,6 +17,15 @@ run-ppl:
 	  --warmups 1
 
 
+run-test-ppl:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 1 \
+	  --output toml \
+	  --warmups 1
+
+
 run-webppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/webppl \
@@ -33,6 +42,15 @@ run-rootppl:
 	  --iters 100 \
 	  --output toml \
 	  --warmups 1
+
+run-midppl:
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl/midppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 1 \
+	  --output toml \
+	  --warmups 1
+
 
 run-birch:
 	boot eval tool/main/main.mc -- \
