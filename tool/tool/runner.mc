@@ -10,7 +10,7 @@ type Result = { input : Input
               -- Time for running the benchmark, in ms
               , ms_run : [Float]
               -- Stdouts for each post-processing step
-              , post : [{ app: App, stdout: [String] }]
+              , post : [{ app: App, output: [String] }]
               }
 
 type BenchmarkResult = { app: App, results: [Result] }
@@ -62,7 +62,7 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
 -- Like 'runCommandFailOnExit' but only returns the elapsed time.
 let runCommandTime : String -> String -> Path -> Float =
   lam cmd. lam stdin. lam cwd.
-    match runCommandFailOnExit cmd stdin cwd with (_, ms)
+    match runCommand cmd stdin cwd with (_, ms)
     then ms
     else never
 
@@ -109,8 +109,8 @@ let runBenchmark = -- ... -> BenchmarkResult
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
-        match runCommandFailOnExit cmd stdin app.cwd with (res, _) then
-          res.stdout
+        match runCommand cmd stdin app.cwd with (res, _) then
+          if eqi res.returncode 0 then res.stdout else res.stderr
         else never
     in
 
@@ -140,7 +140,7 @@ let runBenchmark = -- ... -> BenchmarkResult
 
         let cmd = instantiateCmd appSupportedCmd.command app in
         match timing with Complete () then
-          let run = lam. runCommandFailOnExit cmd stdin app.cwd in
+          let run = lam. runCommand cmd stdin app.cwd in
           let runMany = lam n. map run (create n (lam. ())) in
 
           -- Run warmup (and throw away results)
@@ -152,18 +152,20 @@ let runBenchmark = -- ... -> BenchmarkResult
           -- Collect execution times
           let times: [Float] = map (lam t. t.1) res in
 
-          -- Collect stdouts
-          let stdouts: [String] = map (lam t. (t.0).stdout) res in
+          -- Collect outputs
+          let stdouts: [String] = map (lam t.
+            if eqi (t.0).returncode 0 then (t.0).stdout else (t.0).stderr
+          ) res in
 
           -- Run clean command
           (if ops.clean then
              runOpCmd appSupportedCmd.clean_command app
            else ());
 
-          -- Run postprocessing on stdouts
+          -- Run postprocessing on outputs
           let post = map (lam app. {
               app = app,
-              stdout = map (lam stdin. runApp app stdin) stdouts
+              output = map (lam stdin. runApp app stdin) stdouts
             }) post
           in
 
