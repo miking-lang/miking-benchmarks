@@ -39,7 +39,7 @@ run-rootppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/rootppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 100 \
+	  --iters 720 \
 	  --output toml \
 	  --warmups 1
 
