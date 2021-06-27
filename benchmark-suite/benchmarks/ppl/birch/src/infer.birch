@@ -75,12 +75,15 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
     if outputWriter? {
       x:Model?;
       w:Real;
-      (x, w) <- theSampler!.draw(theFilter!);
-      outputBuffer:Buffer;
-      outputBuffer.set("lweight", w);
-      outputBuffer.push("sample", x!);
-      outputWriter!.push(outputBuffer);
-      outputWriter!.flush();
+      for s in 1..5 {
+        theFilter!.b <- ancestor(theFilter!.w);
+        (x, w) <- theSampler!.draw(theFilter!);
+        outputBuffer:Buffer;
+        outputBuffer.set("lweight", w);
+        outputBuffer.push("sample", x!);
+        outputWriter!.push(outputBuffer);
+        outputWriter!.flush();
+      }
     }
     if !quiet {
       bar.update(scalar<Real>(n)/nsamples!);

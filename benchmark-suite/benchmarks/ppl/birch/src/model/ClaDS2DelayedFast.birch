@@ -82,7 +82,7 @@ class ClaDS2DelayedFast < BirthDeathModel<ClaDSDelayedFastParameter> {
     return survives(t-Δ_b, multiplier) || survives(t-Δ_b, multiplier);
   }
 
-  override function survives(t:Real) -> Boolean {
+  function survives(t:Real) -> Boolean {
     return survives(t, 1.0);
   }
 
