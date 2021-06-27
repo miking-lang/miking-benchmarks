@@ -12,25 +12,15 @@ run-ppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 50 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
-
-
-run-test-ppl:
-	boot eval tool/main/main.mc -- \
-	  --benchmarks benchmark-suite/benchmarks/ppl \
-	  --runtimes benchmark-suite/runtimes \
-	  --iters 1 \
-	  --output toml \
-	  --warmups 1
-
 
 run-webppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/webppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 1 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -39,7 +29,7 @@ run-rootppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/rootppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 720 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -47,7 +37,7 @@ run-midppl:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/midppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 1 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -56,7 +46,7 @@ run-birch:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/birch \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 1 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -64,7 +54,7 @@ run-pyro:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/pyro \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 3 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -72,7 +62,7 @@ run-pyro-numpy:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/pyro+numpy \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 3 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -80,7 +70,7 @@ run-pyro-numba:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/pyro+numba \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 3 \
+	  --iters 2 \
 	  --output toml \
 	  --warmups 1
 
@@ -92,6 +82,7 @@ run-test:
 	  --output toml \
 	  --warmups 1
 
+
 plot:
 	boot eval tool/main/main.mc -- \
 	--benchmarks benchmark-suite/benchmarks \
@@ -100,3 +91,32 @@ plot:
 
 test:
 	boot eval --test tool/tool
+
+
+
+run-experiment-CRBD:
+	cp benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml
+	cp benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 100 \
+	  --output toml \
+	  --warmups 1
+	rm benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml  benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
+
+
+run-experiment-clads:
+	cp benchmark-suite/benchmarks/ppl/rootppl/experiment3.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment3.toml 
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 720 \
+	  --output toml \
+	  --warmups 1
+	rm benchmark-suite/benchmarks/ppl/rootppl/experiment3.toml
