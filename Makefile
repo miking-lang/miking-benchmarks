@@ -43,12 +43,14 @@ run-midppl:
 
 
 run-birch:
+	cp benchmark-suite/benchmarks/ppl/birch/example.toml.skip benchmark-suite/benchmarks/ppl/birch/example.toml 
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl/birch \
 	  --runtimes benchmark-suite/runtimes \
 	  --iters 2 \
 	  --output toml \
 	  --warmups 1
+	rm benchmark-suite/benchmarks/ppl/birch/example.toml 
 
 run-pyro:
 	boot eval tool/main/main.mc -- \
@@ -97,7 +99,6 @@ test:
 run-experiment-CRBD:
 	cp benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml
 	cp benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml
 	cp benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml
 	cp benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml
 	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml
@@ -108,7 +109,7 @@ run-experiment-CRBD:
 	  --iters 100 \
 	  --output toml \
 	  --warmups 1
-	rm benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml  benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
+	rm benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
 
 
 run-experiment-clads:

@@ -75,7 +75,7 @@ program infer(config:String, tree:String, filter:String?, nparticles:Integer?,
     if outputWriter? {
       x:Model?;
       w:Real;
-      for s in 1..5 {
+      for s in 1..1 {
         theFilter!.b <- ancestor(theFilter!.w);
         (x, w) <- theSampler!.draw(theFilter!);
         outputBuffer:Buffer;
