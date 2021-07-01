@@ -1,6 +1,3 @@
-timing="complete"
-
-
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"

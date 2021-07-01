@@ -12,7 +12,7 @@
 #include <math.h>
 
 #include "inference/smc/smc.cuh"
-#include "../tree-utils/tree_utils.cuh"
+#include "phyrppl/tree-utils/tree_utils.cuh"
 #include "utils/math.cuh"
 
 typedef TitTyranRest_tree_t tree_t;
@@ -23,14 +23,13 @@ const floating_t thetaMu = 0.5;
 const floating_t kLambda = 1;
 const floating_t thetaLambda = 1.0;
 
-#include "crbd_delayed.cuh"
+#include "phyrppl/models/crbd_delayed.cuh"
 
 MAIN(    
     ADD_BBLOCK(simCRBD)
     ADD_BBLOCK(simTree)
     //ADD_BBLOCK(survivorshipBias) needs to be implemented
     //ADD_BBLOCK(sampleFinalLambda)
-    
     //SMC(saveResults)
     SMC(NULL)
 )
