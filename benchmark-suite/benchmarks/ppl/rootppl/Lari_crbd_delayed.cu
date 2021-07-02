@@ -15,28 +15,23 @@
 #include "../tree-utils/tree_utils.cuh"
 #include "utils/math.cuh"
 
- typedef bisse32_tree_t tree_t;
-// typedef primate_tree_t tree_t;
-// typedef moth_div_tree_t tree_t;
-//typedef Accipitridae_tree_t tree_t;
+typedef Lari_tree_t tree_t;
+const floating_t rhoConst = 0.8410596026490066;
  
 const floating_t kMu = 1;
 const floating_t thetaMu = 0.5;
 const floating_t kLambda = 1;
 const floating_t thetaLambda = 1.0;
 
-const floating_t rhoConst = 1.0;
-//floating_t rhoConst      = 0.7142857142857143;
-
-
-#include "../crbd/crbd_delayed.cuh"
+#include "crbd_delayed.cuh"
 
 MAIN(    
     ADD_BBLOCK(simCRBD)
     ADD_BBLOCK(simTree)
     //ADD_BBLOCK(survivorshipBias) needs to be implemented
-    ADD_BBLOCK(sampleFinalLambda)
+    //ADD_BBLOCK(sampleFinalLambda)
     
-    SMC(saveResults)
+    //SMC(saveResults)
+    SMC(NULL)
 )
   

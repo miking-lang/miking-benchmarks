@@ -1,4 +1,2 @@
-struct CRBDFastParameter {
-  function read(buffer:Buffer) {}
-  function write(buffer:Buffer) {}
+class CRBDFastParameter {
 }
