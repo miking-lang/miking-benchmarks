@@ -1,0 +1,165 @@
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "8192 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "8192 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "8192 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "16384 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "32768 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "65536 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "65536 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "65536 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "131072 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "131072 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "131072 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "262144 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "262144 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "262144 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "524288 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "524288 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "524288 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "1048576 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "1048576 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "1048576 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "2097152 1"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options =  "2097152 1"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "Alcedinidae_crbd.cu"
+options = "2097152 1"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+
+[[post]]
+runtime = "id"

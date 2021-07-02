@@ -5,7 +5,6 @@ from infer.smcfilter import SMCFilter
 from utils.phyjson import read_tree
 from models.crbd import CRBD, CRBDGuide
 
-
 tree_path = None
 ρ = 1.0
 N = 1000

@@ -1,0 +1,8 @@
+model:
+  class: CRBDDelayedFast
+  λ_k: 1.0
+  λ_θ: 1.0
+  μ_k: 1.0
+  μ_θ: 0.5
+filter:
+  class: ParticleFilter

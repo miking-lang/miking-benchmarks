@@ -1,0 +1,21 @@
+
+[[app]]
+runtime = "phywppl"
+buildOptions = "examples/crbd.wppl"
+argument="js/examples_crbd.js ../../input-data/Alcedinidae.phyjson 0.5684210526315789 2048"
+base="phywppl"
+
+[[app]]
+runtime = "phywppl"
+buildOptions = "examples/crbd.wppl"
+argument="js/examples_crbd.js ../../input-data/Alcedinidae.phyjson 0.5684210526315789 4096"
+base="phywppl"
+
+[[app]]
+runtime = "phywppl"
+buildOptions = "examples/crbd.wppl"
+argument="js/examples_crbd.js ../../input-data/Alcedinidae.phyjson 0.5684210526315789 8192"
+base="phywppl"
+
+[[post]]
+runtime = "id"

@@ -15,7 +15,7 @@
  *
  * Example:
  *
- *   node tree-parser.js /home/viktor/ownCloud/probabilistic-programming/data/bisse_32.phyjson
+ *   node tree-parser.js bisse_32.phyjson
  */
 
 // Configuration, change if needed

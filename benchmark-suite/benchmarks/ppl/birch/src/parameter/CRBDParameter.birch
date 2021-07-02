@@ -1,10 +1,8 @@
-struct CRBDParameter {
+class CRBDParameter {
   λ:Random<Real>;
   μ:Random<Real>;
 
-  function read(buffer:Buffer) {}
-
-  function write(buffer:Buffer) {
+  override function write(buffer:Buffer) {
     if λ.hasDistribution() {
       buffer.set("λ", λ.getDistribution());
     } else {
