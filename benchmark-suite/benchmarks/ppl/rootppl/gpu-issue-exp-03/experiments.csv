@@ -1,0 +1,6 @@
+name		particles	sweeps	user_time	MAX_REC	MAX_FACTOR	note
+baseline	10000		50	2m16.837s	50000	50000		CPU
+gpu_500_250	10000		50	4m2.242s	500	250		GPU
+gpu_500_500	10000		38	2m28.685s	500	500		GPU, crashed
+gpu_500_100	10000		50	3m42.277s	500	100		GPU
+gpu_1000	10000		50			0	1000
