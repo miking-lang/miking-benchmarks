@@ -1,7 +1,0 @@
-provides = "MCoreTuneSeqTransform"
-
-[[command]]
-required_executables = ["mi", "rm"]
-build_command = "mi tune --enable-seq-transform {argument}.mc {buildOptions}; mi compile --enable-seq-transform --tuned {argument}.mc; mv {argument} tuned"
-command = "./tuned {options}"
-clean_command = "rm {argument} tuned"
