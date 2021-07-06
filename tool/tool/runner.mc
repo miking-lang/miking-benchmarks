@@ -11,6 +11,8 @@ type Result = { input : Input
               , ms_run : [Float]
               -- Stdouts for each post-processing step
               , post : [{ app: App, output: [String] }]
+              -- The verbatim command that was run to produce the result
+              , command : String
               }
 
 type BenchmarkResult = { app: App, results: [Result] }
@@ -170,7 +172,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           in
 
           -- Return the final Result
-          { input = input, ms_build = buildMs, ms_run = times, post = post }
+          { input = input, ms_build = buildMs, ms_run = times, post = post, command = cmd }
 
         else error "Unknown timing option"
     in
