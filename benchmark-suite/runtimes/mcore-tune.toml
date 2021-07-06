@@ -1,0 +1,7 @@
+provides = "MCoreTune2OCaml"
+
+[[command]]
+required_executables = ["mi", "rm"]
+build_command = "mi tune {argument}.mc {buildOptions}; mi compile --tuned {argument}.mc"
+command = "./{argument} {options}"
+clean_command = "rm {argument}"
