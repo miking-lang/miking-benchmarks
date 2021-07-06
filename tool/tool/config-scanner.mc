@@ -48,7 +48,9 @@ let options = lam tomlApp. [
   match tomlApp with { buildExtra = a } then
     Some { name = "buildExtra", contents = a } else None (),
   match tomlApp with { cleanExtra = a } then
-    Some { name = "cleanExtra", contents = a } else None ()
+    Some { name = "cleanExtra", contents = a } else None (),
+  match tomlApp with { cwd = a } then
+    Some { name = "cwd", contents = a } else None ()
 ]
 
 -- Input for a benchmark
@@ -188,8 +190,12 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
         , options =
             foldl (lam acc. lam arg. optionMapOr acc (snoc acc) arg)
               [] (options tomlApp)
-        , cwd = match tomlApp with { base = base }
-                then pathConcat cwd base else cwd
+        , cwd = match tomlApp with { base = base, cwd = cwd} then
+                  error (concat "cannot define both cwd and base: " configFile)
+                else match tomlApp with { base = base } then
+                  pathConcat cwd base
+                else match tomlApp with { cwd = cwd } then cwd
+                else cwd
         }
       in
       let updates =
