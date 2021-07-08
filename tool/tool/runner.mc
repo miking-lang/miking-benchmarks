@@ -64,6 +64,7 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
     [ concat "stdout: " r.stdout
     , concat "stderr: " r.stderr
     , concat "returncode: " (int2string r.returncode)
+    , concat "elapsed ms: " (float2string (subf t2 t1))
     , "", ""
     ]);
 
