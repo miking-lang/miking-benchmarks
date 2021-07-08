@@ -63,7 +63,7 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
                     ])
     else never
 
--- Like 'runCommandFailOnExit' but only returns the elapsed time.
+-- Like 'runCommand' but only returns the elapsed time.
 let runCommandTime : String -> String -> Path -> Float =
   lam cmd. lam stdin. lam cwd.
     match runCommand cmd stdin cwd with (_, ms)
@@ -186,7 +186,11 @@ let runBenchmark = -- ... -> BenchmarkResult
           [runInput inputEmpty]
         else
           map runInput input
-    , buildCommand = optionGetOr "" appSupportedCmd.build_command
+    , buildCommand =
+      switch appSupportedCmd.build_command
+      case Some cmd then instantiateCmd cmd app
+      case None () then ""
+      end
     }
 
   else never
