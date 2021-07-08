@@ -4,4 +4,4 @@ provides = "MCore2OCaml"
 required_executables = ["mi", "rm", "mv"]
 build_command = "mi compile {argument}.mc {buildOptions}; mv {argument} {argument}-temp"
 command = "./{argument}-temp {options}"
-clean_command = "rm {argument} {argument}-temp"
+clean_command = "rm {argument}-temp"
