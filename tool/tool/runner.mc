@@ -1,8 +1,10 @@
-include "ocaml/sys.mc"
 include "path.mc"
 include "config-scanner.mc"
 include "utils.mc"
+
+include "option.mc"
 include "common.mc"
+include "ocaml/sys.mc"
 
 type Result = { input : Input
               -- Time for building, if any, in ms
@@ -15,7 +17,7 @@ type Result = { input : Input
               , command : String
               }
 
-type BenchmarkResult = { app: App, results: [Result] }
+type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
 type Options = { iters : Int
                , warmups : Int
@@ -116,14 +118,13 @@ let runBenchmark = -- ... -> BenchmarkResult
         else never
     in
 
+    let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+    let appSupportedCmd = findSupportedCommand runtime in
 
     -- Run the benchmark for a particular Input
     -- let runBench : String -> (Option Float, [Float]) = lam stdin.
     let runInput: Input -> Result =
       lam input: Input.
-
-        let runtime: Runtime = mapFindWithExn app.runtime runtimes in
-        let appSupportedCmd = findSupportedCommand runtime in
 
         -- Retrieve stdin from input
         let stdin =
@@ -185,6 +186,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           [runInput inputEmpty]
         else
           map runInput input
+    , buildCommand = optionGetOr "" appSupportedCmd.build_command
     }
 
   else never
