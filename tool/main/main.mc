@@ -15,6 +15,7 @@ let menu = strJoin "\n"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {csv,toml}"
+, "  --log            Write log output to this file"
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"
@@ -27,6 +28,7 @@ let options =
   , warmups = 1
   , output = toTOML
   , clean = true
+  , log = None ()
   , plot = None ()
   }
 
@@ -74,6 +76,13 @@ recursive let parseArgs = lam ops. lam args.
      parseArgs {ops with clean = true} args
   else match args with ["--disable-clean"] ++ args then
      parseArgs {ops with clean = false} args
+
+  else match args with ["--log"] ++ args then
+    match args with [a] ++ args then
+      (if fileExists a then deleteFile a else ());
+      writeFile a "\n";
+      parseArgs {ops with log = Some a} args
+    else error "--log with no argument"
 
   else match args with [] then ops
   else match args with [a] ++ args then

@@ -23,6 +23,12 @@ type Options = { iters : Int
                , warmups : Int
                }
 
+let _log = lam ops. lam s.
+  match ops.log with Some filename then
+    let contents = readFile filename in
+    writeFile filename (concat contents s)
+  else ()
+
 -- Used as dummy data object for benchmarks without data. We could use option
 -- type in result type, but this simplifies writing to toml.
 let inputEmpty : Input = {file = None (), data = Some "", tags = [], cwd = ""}
@@ -38,20 +44,35 @@ let instantiateCmd = lam cmd. lam app.
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
-let runCommand : String -> String -> Path -> (ExecResult, Float) =
-  lam cmd. lam stdin. lam cwd.
+let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
+  lam ops. lam cmd. lam stdin. lam cwd.
     let stdin = join ["\"", escapeString stdin, "\""] in
     let cmd = (strSplit " " cmd) in
+
+    _log ops (strJoin "\n"
+    [ concat "running command: " (strJoin " " cmd)
+    , concat "stdin: " stdin
+    , concat "cwd: " cwd
+    , ""
+    ]);
 
     let t1 = wallTimeMs () in
     let r = sysRunCommand cmd stdin cwd in
     let t2 = wallTimeMs () in
+
+    _log ops (strJoin "\n"
+    [ concat "stdout: " r.stdout
+    , concat "stderr: " r.stderr
+    , concat "returncode: " (int2string r.returncode)
+    , "", ""
+    ]);
+
     (r, subf t2 t1)
 
 -- Like runCommand but fail on exit code different than 0
-let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
-  lam cmd. lam stdin. lam cwd.
-    match runCommand cmd stdin cwd with (r, ms) then
+let runCommandFailOnExit : Options -> String -> String -> Path -> (ExecResult, Float) =
+  lam ops. lam cmd. lam stdin. lam cwd.
+    match runCommand ops cmd stdin cwd with (r, ms) then
       if eqi r.returncode 0 then (r, ms)
       else
         error (join ["Command ", cmd, "\n"
@@ -64,9 +85,9 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
     else never
 
 -- Like 'runCommand' but only returns the elapsed time.
-let runCommandTime : String -> String -> Path -> Float =
-  lam cmd. lam stdin. lam cwd.
-    match runCommand cmd stdin cwd with (_, ms)
+let runCommandTime : Options -> String -> String -> Path -> Float =
+  lam ops. lam cmd. lam stdin. lam cwd.
+    match runCommand ops cmd stdin cwd with (_, ms)
     then ms
     else never
 
@@ -100,7 +121,7 @@ let runBenchmark = -- ... -> BenchmarkResult
     let runOpCmd : Option String -> String -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
                    let fullCmd = instantiateCmd cmd app in
-                   runCommandTime fullCmd "" app.cwd)
+                   runCommandTime ops fullCmd "" app.cwd)
                 cmd
     in
 
@@ -113,7 +134,7 @@ let runBenchmark = -- ... -> BenchmarkResult
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
-        match runCommand cmd stdin app.cwd with (res, _) then
+        match runCommand ops cmd stdin app.cwd with (res, _) then
           if eqi res.returncode 0 then res.stdout else res.stderr
         else never
     in
@@ -143,7 +164,7 @@ let runBenchmark = -- ... -> BenchmarkResult
 
         let cmd = instantiateCmd appSupportedCmd.command app in
         match timing with Complete () then
-          let run = lam. runCommand cmd stdin app.cwd in
+          let run = lam. runCommand ops cmd stdin app.cwd in
           let runMany = lam n. map run (create n (lam. ())) in
 
           -- Run warmup (and throw away results)
