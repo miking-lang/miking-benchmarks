@@ -50,7 +50,7 @@ let options = lam tomlApp. [
   match tomlApp with { cleanExtra = a } then
     Some { name = "cleanExtra", contents = a } else None (),
   match tomlApp with { cwd = a } then
-    Some { name = "cwd", contents = a } else None ()
+    Some { name = "cwd", contents = a } else None (),
   match tomlApp with { tag = a } then
     Some { name = "tags", contents = a } else None ()
 ]
