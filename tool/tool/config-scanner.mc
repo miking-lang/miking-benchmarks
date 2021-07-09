@@ -51,6 +51,8 @@ let options = lam tomlApp. [
     Some { name = "cleanExtra", contents = a } else None (),
   match tomlApp with { cwd = a } then
     Some { name = "cwd", contents = a } else None ()
+  match tomlApp with { tag = a } then
+    Some { name = "tag", contents = a } else None ()
 ]
 
 -- Input for a benchmark
