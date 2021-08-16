@@ -19,7 +19,7 @@ let simTree: Tree -> Tree -> Float -> () =
   lam tree: Tree.
   lam parent: Tree.
   lam lambda: Float.
-  -- probability of exactly one speciation at end of branch, 0 at tips 
+  -- probability of exactly one speciation at end of branch, 0 at tips
   let branchEndProb = match tree with Node _ then log lambda else log 1.0 in
 
   let startTime = getAge parent in
@@ -44,7 +44,7 @@ let mu = assume (Gamma 1.0 0.5) in
 (match tree with Node { left = left, right = right } then
   simTree left tree lambda;
   simTree right tree lambda
-      
+
 else ());
 
 lambda
