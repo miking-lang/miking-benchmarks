@@ -5,7 +5,7 @@ argument = "crbd.mc"
 buildOptions = "-j 32 --stack_size 100000"
 options = "8192"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[post]]
 runtime = "id"

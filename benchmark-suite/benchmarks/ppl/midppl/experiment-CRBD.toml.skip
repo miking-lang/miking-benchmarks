@@ -2,98 +2,98 @@
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "8192"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "8192"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "16384"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "16384"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "32768"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "32768"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "65536"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "65536"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "131072"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "131072"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "-j 32 --stack_size 100000"
+buildOptions = "-j 32 --stack_size 1000"
 options = "262144"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
 argument = "crbd.mc"
-buildOptions = "--omp -j 32 --stack_size 100000"
+buildOptions = "--omp -j 32 --stack_size 1000"
 options = "262144"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
-cleanExtra = "rm -f tree-instance.mc; rootppl clean"
+cleanExtra = "rm -f tree-instance.mc"
 
 [[post]]
 runtime = "id"
