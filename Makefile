@@ -64,7 +64,7 @@ run-experiment-OptimizedCRBD:
 	  --runtimes benchmark-suite/runtimes \
 	  --iters $(number_iterations) \
 	  --output toml \
-	  --warmups $(number_warmups)	
+	  --warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
 	rm benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml
 
