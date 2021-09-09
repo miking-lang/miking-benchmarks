@@ -1,3 +1,7 @@
+number_iterations=15
+number_warmups=1
+prefix=A
+
 .PHONY: run plot test
 
 run:
@@ -44,9 +48,10 @@ run-experiment-CRBD:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 100 \
+	  --iters $(number_iterations) \
 	  --output toml \
-	  --warmups 1
+	  --warmups $(number_warmups)
+	cp output.toml output-$(prefix)-$(number_iterations)-experiment-CRBD.toml
 	rm benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
 
 
@@ -54,10 +59,14 @@ run-experiment-OptimizedCRBD:
 	cp benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml
 	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml
 	cp benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml
-	boot eval tool/main/main.mc -- \
+	boot eval tool/main/main.mc  -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
-	  --iters 100 \
+	  --iters $(number_iterations) \
 	  --output toml \
-	  --warmups 1
+	  --warmups $(number_warmups)
+	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
 	rm benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml
+
+clean:
+	rm output.toml
