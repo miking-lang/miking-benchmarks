@@ -20,6 +20,7 @@ run-test:
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/test/benchmarks \
 	  --runtimes benchmark-suite/runtimes \
+	  --runtimes benchmark-suite/test/runtimes \
 	  --iters 5 \
 	  --output toml \
 	  --log run-test.log \

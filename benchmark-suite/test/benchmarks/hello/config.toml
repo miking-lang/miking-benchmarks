@@ -3,6 +3,9 @@ timing = "complete"
 [pre]
 runtime = "id"
 
+[[app]]
+runtime = "hello"
+
 [[post]]
 runtime = "id"
 

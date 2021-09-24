@@ -21,9 +21,20 @@ let menu = strJoin "\n"
 , "  --plot           Plot results from this file (optional)"
 ]
 
-let options =
-  { benchmarks = "."
-  , runtimes = "."
+type Options =
+  { benchmarks : [String]
+  , runtimes : [String]
+  , iters : Int
+  , warmups : Int
+  , output : [BenchmarkResult] -> String
+  , clean : Bool
+  , log : Option String
+  , plot : Option String
+  }
+
+let options : Options =
+  { benchmarks = []
+  , runtimes = []
   , iters = 1
   , warmups = 1
   , output = toTOML
@@ -32,18 +43,22 @@ let options =
   , plot = None ()
   }
 
-recursive let parseArgs = lam ops. lam args.
-  match args with ["--help"] ++ args then
+recursive let parseArgs = lam ops : Options. lam args : [String].
+  match args with [] then
+    {{ops with benchmarks = if null ops.benchmarks then ["."] else ops.benchmarks}
+          with runtimes = if null ops.runtimes then ["."] else ops.runtimes}
+
+  else match args with ["--help"] ++ args then
     printLn menu; exit 0
 
   else match args with ["--benchmarks"] ++ args then
     match args with [b] ++ args then
-      parseArgs {ops with benchmarks = pathAbs b} args
+      parseArgs {ops with benchmarks = snoc ops.benchmarks (pathAbs b)} args
     else error "--benchmarks with no argument"
 
   else match args with ["--runtimes"] ++ args then
     match args with [r] ++ args then
-      parseArgs {ops with runtimes = pathAbs r} args
+      parseArgs {ops with runtimes = snoc ops.runtimes (pathAbs r)} args
     else error "--runtimes with no argument"
 
   else match args with ["--iters"] ++ args then
@@ -84,7 +99,6 @@ recursive let parseArgs = lam ops. lam args.
       parseArgs {ops with log = Some a} args
     else error "--log with no argument"
 
-  else match args with [] then ops
   else match args with [a] ++ args then
     error (concat "Unknown argument: " a)
   else never
@@ -93,9 +107,9 @@ end
 let verifyOptions = lam ops.
   map
     (lam t. if t.0 then () else printLn menu; error t.1)
-    [ (pathExists ops.runtimes,
+    [ (all pathExists ops.runtimes,
        concat "No such directory: " ops.runtimes)
-    , (pathExists ops.benchmarks,
+    , (all pathExists ops.benchmarks,
        concat "No such directory: " ops.benchmarks)
     , (gti ops.iters 0,
        "Number of iterations should be larger than 0")
@@ -114,7 +128,7 @@ let main = lam.
     plotByData ops.benchmarks f
   else
     let runtimes = findRuntimes ops.runtimes in
-    let bs = findBenchmarks ops.benchmarks [] runtimes in
+    let bs = findBenchmarks ops.benchmarks runtimes in
     let rs = runBenchmarks bs runtimes ops in
     printLn (ops.output rs);
     writeFile "output.toml" (ops.output rs)

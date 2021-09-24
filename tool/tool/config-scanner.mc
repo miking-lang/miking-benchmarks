@@ -90,7 +90,7 @@ let dirRuntime = lam path.
 let pathFoldRuntime = pathFold dirRuntime
 
 -- Find all the available runtimes defined in the directory 'root'.
-let findRuntimes : Path -> Map String Runtime = lam root.
+let findRuntimes : Paths -> Map String Runtime = lam roots.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
     let r = tomlRead (readFile configFile) in
     let r: Runtime = {
@@ -107,10 +107,10 @@ let findRuntimes : Path -> Map String Runtime = lam root.
           r.command
     } in mapInsert r.provides r runtimes
   in
-  pathFoldRuntime
-    (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
-    (mapEmpty cmpString)
-    root
+  foldl (lam acc. lam root. mapUnion acc
+    (pathFoldRuntime
+      (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
+      (mapEmpty cmpString) root)) (mapEmpty cmpString) roots
 
 -- Convert a string into a Timing type.
 let getTiming : String -> Timing = lam str.
@@ -164,9 +164,8 @@ let extractBenchmarks = -- ... -> Option Benchmark
     else []
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
-let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
-  lam root : Path. -- The root directory of the benchmarks
-  lam paths : [Path]. -- Subpaths within root in which to look for benchmarks TODO(Linnea, 2021-03-23): not supported yet
+let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
+  lam roots : [Path]. -- The root directories of the benchmarks
   lam runtimes : Map String Runtime.
 
   let overrideErr =
@@ -276,7 +275,8 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
 
   in
 
-  rec initPartialBench [] root
+  foldl (lam acc. lam root. concat acc
+    (rec initPartialBench [] root)) [] roots
 
 mexpr
 
