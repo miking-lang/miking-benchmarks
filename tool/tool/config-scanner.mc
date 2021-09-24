@@ -269,7 +269,13 @@ let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
         ) pb files in
 
       let benchmarks = extractBenchmarks runtimes p pb in
-      if null benchmarks then foldl (rec pb) bs dirs else concat benchmarks bs
+      if null benchmarks
+      then foldl (rec pb) bs dirs
+      else
+        let resDirs = foldl (lam acc. lam dir. concat acc
+          (rec initPartialBench [] dir)) [] dirs
+        in
+        join [benchmarks, bs, resDirs]
 
     -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
 
