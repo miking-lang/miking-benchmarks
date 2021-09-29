@@ -1,0 +1,79 @@
+/**
+ * SIR (susceptible-infectious-recovered) model.
+ */
+class SIRModel < Model {
+  /**
+   * Interaction rate.
+   */
+  λ:Random<Real>;
+
+  /**
+   * Infection probability.
+   */
+  δ:Random<Real>;
+
+  /**
+   * Recovery probability.
+   */
+  γ:Random<Real>;
+
+  /**
+   * Susceptible population at each time.
+   */
+  s:Tape<Random<Integer>>;
+
+  /**
+   * Infectious population at each time.
+   */
+  i:Tape<Random<Integer>>;
+
+  /**
+   * Recovered population at each time.
+   */
+  r:Tape<Random<Integer>>;
+
+  override function simulate() {
+    λ ~ Gamma(2.0, 5.0);
+    δ ~ Beta(2.0, 2.0);
+    γ ~ Beta(2.0, 2.0);
+  }
+
+  override function simulate(t:Integer) {
+    if t == 1 {
+      // the initial state is set in the input file
+    } else {
+      let n <- s[t - 1] + i[t - 1] + r[t - 1];  // total population
+      let τ ~ Binomial(s[t - 1], 1.0 - exp(-λ*i[t - 1]/n));
+      let Δi ~ Binomial(τ, δ);
+      let Δr ~ Binomial(i[t - 1], γ);
+
+      s[t] ~ Delta(s[t - 1] - Δi);
+      i[t] ~ Delta(i[t - 1] + Δi - Δr);
+      r[t] ~ Delta(r[t - 1] + Δr);
+    }
+  }
+
+  override function read(buffer:Buffer) {
+    λ <-? buffer.get<Real>("λ");
+    δ <-? buffer.get<Real>("δ");
+    γ <-? buffer.get<Real>("γ");
+  }
+
+  override function read(t:Integer, buffer:Buffer) {
+    s[t] <-? buffer.get<Integer>("s");
+    i[t] <-? buffer.get<Integer>("i");
+    r[t] <-? buffer.get<Integer>("r");
+  }
+
+  override function write(buffer:Buffer) {
+    buffer.set("λ", λ);
+    buffer.set("δ", δ);
+    buffer.set("γ", γ);
+  }
+
+  override function write(t:Integer, buffer:Buffer) {
+    buffer.set("s", s[t]);
+    buffer.set("i", i[t]);
+    buffer.set("r", r[t]);
+  }
+}
