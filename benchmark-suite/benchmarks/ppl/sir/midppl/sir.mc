@@ -6,7 +6,7 @@ include "math.mc"
 
 mexpr
 
-let lambda = 10. in
+let lambda = 10 in
 let delta = assume (Beta 2. 2.) in
 let gamma = assume (Beta 2. 2.) in
 
@@ -21,7 +21,7 @@ recursive let simulate: Int -> Int -> Int -> Int = lam t. lam sPrev. lam rPrev.
   let tau = assume (Binomial sPrev
     (subf 1.0 (exp (divf
       (int2float (negi (muli lambda iPrev)))
-      (addf (addf (int2float sPrev) (int2float iPrev)) (int2float rPrev)))))) in
+      (int2float (addi (addi sPrev iPrev) rPrev)))))) in
   let iDelta = assume (Binomial tau delta) in
   let rDelta = assume (Binomial iPrev gamma) in
 
