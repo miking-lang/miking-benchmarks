@@ -1,7 +1,3 @@
-number_iterations=15
-number_warmups=1
-prefix=A
-
 .PHONY: run plot test
 
 run:
@@ -42,27 +38,42 @@ plot:
 test:
 	boot eval --test tool/tool
 
+
+#################################################
+## PPL experiments. Temporarily specified here ##
+#################################################
+number_iterations=15
+number_warmups=1
+prefix=A
+
+experiment_example=example
+run-experiment-example:
+	find . -name $(experiment_example).toml.skip -execdir cp '{}' $(experiment_example).toml ';'
+	boot eval tool/main/main.mc -- \
+	  --benchmarks benchmark-suite/benchmarks/ppl \
+	  --runtimes benchmark-suite/runtimes \
+	  --iters 1 \
+	  --output toml \
+	  --warmups 0
+	cp output.toml output-example.toml
+	find . -name $(experiment_example).toml -delete
+
+
+experiment_crbd=experiment-CRBD
 run-experiment-CRBD:
-	cp benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml
-	cp benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
+	find . -name $(experiment_crbd).toml.skip -execdir cp '{}' $(experiment_crbd).toml ';'
 	boot eval tool/main/main.mc -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
 	  --iters $(number_iterations) \
 	  --output toml \
 	  --warmups $(number_warmups)
-	cp output.toml output-$(prefix)-$(number_iterations)-experiment-CRBD.toml
-	rm benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/midppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/pyro+numpy/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-CRBD.toml benchmark-suite/benchmarks/ppl/webppl/experiment-CRBD.toml
+	cp output.toml output-$(prefix)-$(number_iterations)-$(experiment_crbd).toml
+	find . -name $(experiment_crbd).toml -delete
 
-
+experiment_optimized_crbd=experiment-OptimizedCRBD
 run-experiment-OptimizedCRBD:
-	cp benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml
-	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml
-	cp benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml.skip benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml
+	find . -name $(experiment_optimized_crbd).toml.skip -execdir cp '{}' $(experiment_optimized_crbd).toml ';'
 	boot eval tool/main/main.mc  -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
@@ -70,7 +81,7 @@ run-experiment-OptimizedCRBD:
 	  --output toml \
 	  --warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
-	rm benchmark-suite/benchmarks/ppl/birch/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/rootppl/experiment-OptimizedCRBD.toml benchmark-suite/benchmarks/ppl/pyro+numba/experiment-OptimizedCRBD.toml
+	find . -name $(experiment_optimized_crbd).toml -delete
 
 clean:
 	rm output.toml
