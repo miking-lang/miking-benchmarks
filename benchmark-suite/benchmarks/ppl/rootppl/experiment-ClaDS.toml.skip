@@ -1,5 +1,3 @@
-timing = "complete"
-
 [[app]]
 runtime = "RootPPL"
 argument = "Lari_clads2_delayed.cu"
