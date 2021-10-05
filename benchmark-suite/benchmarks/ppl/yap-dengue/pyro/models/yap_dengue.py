@@ -56,9 +56,7 @@ class YapDengue:
             state[f"h.i{t}"] = state[f"h.i{t}"] + 1
             state[f"h.e{t}"] = sample(f"h.e{t}", Poisson(5.0))
 
-            max_val = n - state[f"h.i{t}"] - state[f"h.e{t}"]
-            probs = ones((max_val.shape[0], 1+int(max_val.max()))).cumsum(1) <= 1 + max_val.reshape(-1, 1)
-            state[f"h.r{t}"] = sample(f"h.r{t}", Categorical(probs=probs))
+            state[f"h.r{t}"] = sample(f"h.r{t}", Uniform(0, 1 + n - state[f"h.i{t}"] - state[f"h.e{t}"])).int()
             state[f"h.s{t}"] = n - state[f"h.e{t}"] - state[f"h.i{t}"] - state[f"h.r{t}"]
 
             state[f"h.Δs{t}"] = obs(0)
