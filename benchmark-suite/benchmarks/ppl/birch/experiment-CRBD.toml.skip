@@ -1,43 +1,17 @@
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 8192"
+options = "--config experiment1 --tree alcedinidae --nparticles 10000"
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 16384"
+options = "--config experiment1 --tree alcedinidae --nparticles 100000"
 
 [[app]]
 runtime = "Birch"
 argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 32768"
-
-[[app]]
-runtime = "Birch"
-argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 65536"
-
-[[app]]
-runtime = "Birch"
-argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 131072"
-
-[[app]]
-runtime = "Birch"
-argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 262144"
-
-[[app]]
-runtime = "Birch"
-argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 524288"
-
-[[app]]
-runtime = "Birch"
-argument = "infer"
-options = "--config experiment1 --tree alcedinidae --nparticles 1048576"
-
+options = "--config experiment1 --tree alcedinidae --nparticles 1000000"
 
 [[post]]
 runtime = "Python3"
