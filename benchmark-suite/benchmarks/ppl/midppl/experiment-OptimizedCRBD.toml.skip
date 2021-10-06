@@ -1,0 +1,177 @@
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "10000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "25000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "50000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "100000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "250000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "500000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "-j 32 --stack_size 1000"
+options = "1000000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+
+
+
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "10000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "25000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "50000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "100000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "250000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "500000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--omp -j 32 --stack_size 1000"
+options = "1000000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+
+
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "10000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "25000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "50000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "100000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "250000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "500000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[app]]
+runtime = "CorePPL"
+argument = "crbd.mc"
+buildOptions = "--arch 75 -j 32 --stack_size 1000"
+options = "1000000"
+buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/TitTyranRest.phyjson  0.6869565217391305 > tree-instance.mc"
+cleanExtra = "rm -f tree-instance.mc"
+
+[[post]]
+runtime = "id"
