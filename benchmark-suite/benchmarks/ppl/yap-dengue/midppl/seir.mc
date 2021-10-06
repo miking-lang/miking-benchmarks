@@ -33,7 +33,7 @@ let hDeltaI = hI in
 let hDeltaR = 0 in
 
 let u = assume (Uniform (negf 1.) 2.) in
-let mS = mulf n (pow 10. u) in
+let mS: Float = mulf (int2float n) (pow 10. u) in
 let mE = 0 in
 let mI = 0 in
 let mR = 0 in
@@ -44,7 +44,7 @@ let mDeltaI = 0 in
 let mDeltaR = 0 in
 
 -- Observations, -1 indicates the lack of an observation
-let ys = [ 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 2, 1, 4, 2, 3, 2, 2, 4, 1, 3, 3, 4, 3, 3, 9, 1, 1, 7, 5, 4, 1, 2, 4, 7, 3, 6, 6, 4, 8, 6, 7, 2, 6, 7, 5, 7, 9, 10, 14, 9, 4, 5, 7, 10, 11, 17, 6, 13, 13, 14, 13, 12, 12, 15, 16, 12, 14, 11, 17, 10, 10, 16, 12, 17, 29, 21, 21, 25, 17, 12, 18, 11, 12, 10, 18, 8, 14, 10, 15, 16, 8, 7, 5, 7, 5, 5, 6, 11, 10, 5, 4, 9, 6, 1, 6, 3, 6, 4, 3, 5, 1, 8, 2, 9, 4, 5, 4, 3, 3, 4, 4, 3, 3, 4, 5, 2, 5, 4, 2, 6, 4, 2, 0, 4, 2, 1, 1, 1, 2, 3, 3, 3, 0, 3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 1, 1, negf 1, negf 1, negf 1, negf 1, negf 1, negf 1, 0, negf 1, negf 1, negf 1, negf 1, negf 1, negf 1, 0 ] in
+let ys = [ 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 2, 1, 4, 2, 3, 2, 2, 4, 1, 3, 3, 4, 3, 3, 9, 1, 1, 7, 5, 4, 1, 2, 4, 7, 3, 6, 6, 4, 8, 6, 7, 2, 6, 7, 5, 7, 9, 10, 14, 9, 4, 5, 7, 10, 11, 17, 6, 13, 13, 14, 13, 12, 12, 15, 16, 12, 14, 11, 17, 10, 10, 16, 12, 17, 29, 21, 21, 25, 17, 12, 18, 11, 12, 10, 18, 8, 14, 10, 15, 16, 8, 7, 5, 7, 5, 5, 6, 11, 10, 5, 4, 9, 6, 1, 6, 3, 6, 4, 3, 5, 1, 8, 2, 9, 4, 5, 4, 3, 3, 4, 4, 3, 3, 4, 5, 2, 5, 4, 2, 6, 4, 2, 0, 4, 2, 1, 1, 1, 2, 3, 3, 3, 0, 3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 1, 1, negi 1, negi 1, negi 1, negi 1, negi 1, negi 1, 0, negi 1, negi 1, negi 1, negi 1, negi 1, negi 1, 0 ] in
 
 recursive let simulate:
   Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Unit
@@ -62,7 +62,7 @@ recursive let simulate:
 
     -- Humans
     let hN = addi (addi (addi hSP hEP) hIP) hRP in
-    let hTau = assume (Binomial hSP (subf 1. (exp (negf (divf mIP hN)))))
+    let hTau = assume (Binomial hSP (subf 1. (exp (negf (divf mIP hN))))) in
     let hdeltaE = assume (Binomial hTau hLambda) in
     let hDeltaI = assume (Binomial hEP hDelta) in
     let hDeltaR = assume (Binomial hIP hGamma) in
@@ -72,9 +72,9 @@ recursive let simulate:
     let hR = addi hRP hDeltaR in
 
     -- Mosquitos
-    let mTau = assume (Binomial mSP (subf 1. (exp (negf (divf hIP hN)))))
+    let mTau = assume (Binomial mSP (subf 1. (exp (negf (divf hIP hN))))) in
     let mN = addi (addi (addi mSP mEP) mIP) mRP in
-    let mTau = assume (Binomial mSP (subf 1. (exp (negf (divf mIP mN)))))
+    let mTau = assume (Binomial mSP (subf 1. (exp (negf (divf mIP mN))))) in
     let mdeltaE = assume (Binomial mTau mLambda) in
     let mDeltaI = assume (Binomial mEP mDelta) in
     let mDeltaR = assume (Binomial mIP mGamma) in
