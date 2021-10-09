@@ -97,15 +97,16 @@ run-experiment-ClaDS:
 
 experiment_SSM=experiment-SSM
 run-experiment-SSM:
-	find . -name $(experiment_yap_dengue).toml.skip -execdir cp '{}' $(experiment_yap_dengue).toml ';'
+	find . -name $(experiment_SSM).toml.skip -execdir cp '{}' $(experiment_SSM).toml ';'
 	boot eval tool/main/main.mc  -- \
 	  --benchmarks benchmark-suite/benchmarks/ppl \
 	  --runtimes benchmark-suite/runtimes \
 	  --iters $(number_iterations) \
 	  --output toml \
 	  --warmups $(number_warmups)	
-	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
-	find . -name $(experiment_yap_dengue).toml -delete
+	cp output.toml output-$(prefix)-$(number_iterations)-experiment-SSM.toml
+	find . -name $(experiment_SSM).toml -delete
+
 
 clean:
 	rm output.toml
