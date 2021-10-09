@@ -7,8 +7,8 @@ class YapDengue:
     def init(self, state):
         obs = lambda value: full((state._num_particles,), value)
 
-        # state["h.ν"] = obs(0.0)
-        # state["h.μ"] = obs(1.0)
+        state["h.ν"] = obs(0.0)
+        state["h.μ"] = obs(1.0)
         state["h.λ"] = sample("h.λ", Beta(1.0, 1.0))
         state["h.δ"] = sample("h.δ", Beta(1.0 + 2.0/4.4, 3.0 - 2.0/4.4))
         state["h.γ"] = sample("h.γ", Beta(1.0 + 2.0/4.5, 3.0 - 2.0/4.5))
@@ -34,13 +34,14 @@ class YapDengue:
         state[f"{w}.i{t}"] = state[f"{w}.i{t-1}"] + state[f"{w}.Δi{t}"] - state[f"{w}.Δr{t}"]
         state[f"{w}.r{t}"] = state[f"{w}.r{t-1}"] + state[f"{w}.Δr{t}"]
 
-        if w != 'h':
+        if state[f"{w}.μ"][0] != 1:
             # survival
-            state[f"{w}.s{t}"] = sample(f"{w}.s{t}", Binomial(state[f"{w}.s{t}"], state[f"{w}.μ"]))
-            state[f"{w}.e{t}"] = sample(f"{w}.e{t}", Binomial(state[f"{w}.e{t}"], state[f"{w}.μ"]))
-            state[f"{w}.i{t}"] = sample(f"{w}.i{t}", Binomial(state[f"{w}.i{t}"], state[f"{w}.μ"]))
-            state[f"{w}.r{t}"] = sample(f"{w}.r{t}", Binomial(state[f"{w}.r{t}"], state[f"{w}.μ"]))
+            state[f"{w}.s{t}"] = sample(f"{w}.s'{t}", Binomial(state[f"{w}.s{t}"], state[f"{w}.μ"]))
+            state[f"{w}.e{t}"] = sample(f"{w}.e'{t}", Binomial(state[f"{w}.e{t}"], state[f"{w}.μ"]))
+            state[f"{w}.i{t}"] = sample(f"{w}.i'{t}", Binomial(state[f"{w}.i{t}"], state[f"{w}.μ"]))
+            state[f"{w}.r{t}"] = sample(f"{w}.r'{t}", Binomial(state[f"{w}.r{t}"], state[f"{w}.μ"]))
 
+        if state[f"{w}.ν"][0] != 0:
             # births
             state[f"{w}.Δs{t}"] = sample(f"{w}.Δs{t}", Binomial(n, state[f"{w}.ν"]))
             state[f"{w}.s{t}"] = state[f"{w}.s{t}"] + state[f"{w}.Δs{t}"]

@@ -85,7 +85,11 @@ final class YapDengueModel < Model {
     /* observation */
     z <- z + h.Δi[t];
     if y? {
-      y! ~> Binomial(z, ρ);
+      if y! > z {
+        factor -inf;
+      } else {
+        y! ~> Binomial(z, ρ);
+      }
       z <- 0;
     }
   }
