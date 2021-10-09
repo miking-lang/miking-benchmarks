@@ -4,7 +4,6 @@
   },
   "filter": {
     "class": "ParticleFilter",
-    "nparticles": 20000,
     "trigger": 1.0,
     "delayed": false
   },

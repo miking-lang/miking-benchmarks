@@ -1,0 +1,47 @@
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "10000"
+buildOptions = "--ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "50000"
+buildOptions = "--ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "100000"
+buildOptions = "--ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "10000"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "50000"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "100000"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0"
+
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "10000"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "50000"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
+[[app]]
+runtime = "RootPPL"
+argument = "yap-dengue.cu"
+options = "100000"
+buildOptions = "--omp -j 32 --ess_threshold 1.0"
