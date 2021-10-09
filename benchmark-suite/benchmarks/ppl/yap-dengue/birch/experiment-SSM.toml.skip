@@ -1,17 +1,17 @@
 [[app]]
 runtime = "Birch"
 argument = "sample"
-options = " --config config/config.json --quiet true --nparticles 10000"
+options = " --config config/config10000.json --quiet true"
 
 [[app]]
 runtime = "Birch"
 argument = "sample"
-options = " --config config/config.json --quiet true --nparticles 50000"
+options = " --config config/config50000.json --quiet true"
 
 [[app]]
 runtime = "Birch"
 argument = "sample"
-options = " --config config/config.json --quiet true --nparticles 100000"
+options = " --config config/config100000.json --quiet true"
 
 [[post]]
 runtime = "Python3"

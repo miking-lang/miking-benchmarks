@@ -5,7 +5,9 @@ manifest:
     - src/*/*.birch
     - src/*/*/*.birch
   data:
-    - config/config20000.json
+    - config/config10000.json
+    - config/config50000.json
+    - config/config100000.json
     - input/yap_dengue.json
   other: 
     - birch.yml

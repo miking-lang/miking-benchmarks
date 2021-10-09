@@ -1,0 +1,16 @@
+{
+  "model": {
+    "class": "YapDengueModel"
+  },
+  "filter": {
+    "class": "ParticleFilter",
+    "nparticles": 50000,
+    "trigger": 1.0,
+    "delayed": false
+  },
+  "sampler": {
+    "nsamples": 1
+  },
+  "input": "input/yap_dengue.json",
+  "output": "output/output.json"
+}
