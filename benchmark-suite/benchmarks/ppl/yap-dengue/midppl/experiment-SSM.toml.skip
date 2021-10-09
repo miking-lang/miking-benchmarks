@@ -1,12 +1,12 @@
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "yap-dengue.mc"
 buildOptions = "-j 32 --ess_threshold 1.0 --stack_size 17000"
 options = "20000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "yap-dengue.mc"
 buildOptions = "--omp -j 32 --ess_threshold 1.0 --stack_size 17000"
 options = "20000"
 
