@@ -55,9 +55,11 @@ let condition: Int -> Int -> Int -> Int =
   lam t: Int. lam zP: Int. lam hDeltaI: Int.
     let z: Int = addi zP hDeltaI in
     let y: Int = get ys t in
-    if neqi (negi 1) y then
-      observe y (Binomial z rho); resample; 0
-    else z
+    let z: Int = if neqi (negi 1) y then
+      observe y (Binomial z rho); 0
+      else z in
+    resample;
+    z
 in
 
 let z = condition 0 z hDeltaI in
@@ -96,7 +98,7 @@ recursive let simulate:
                                                (int2float hIP)
                                                (int2float hN)))))) in
     let mN: Int  = addi (addi (addi mSP mEP) mIP) mRP in
-    let mdeltaE: Int = assume (Binomial mTau mLambda) in
+    let mDeltaE: Int = assume (Binomial mTau mLambda) in
     let mDeltaI: Int = assume (Binomial mEP mDelta) in
     let mDeltaR: Int = assume (Binomial mIP mGamma) in
     let mS: Int = subi mSP mDeltaE in
