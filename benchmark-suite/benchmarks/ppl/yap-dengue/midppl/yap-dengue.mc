@@ -82,7 +82,7 @@ recursive let simulate:
       assume (Binomial hSP (subf 1. (exp (negf (divf
                                                 (int2float mIP)
                                                 (int2float hN)))))) in
-    let hdeltaE: Int = assume (Binomial hTau hLambda) in
+    let hDeltaE: Int = assume (Binomial hTau hLambda) in
     let hDeltaI: Int = assume (Binomial hEP hDelta) in
     let hDeltaR: Int = assume (Binomial hIP hGamma) in
     let hS: Int = subi hSP hDeltaE in
