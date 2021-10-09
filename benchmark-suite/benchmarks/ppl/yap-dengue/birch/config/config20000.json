@@ -12,5 +12,5 @@
     "nsamples": 1
   },
   "input": "input/yap_dengue.json",
-  "output": "output/experiment0.json"
+  "output": "output/output.json"
 }

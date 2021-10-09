@@ -1,0 +1,8 @@
+[[app]]
+runtime = "Birch"
+argument = "sample"
+options = " --config config/config20000.json --quiet true"
+
+[[post]]
+runtime = "Python3"
+argument = "logz.py"
