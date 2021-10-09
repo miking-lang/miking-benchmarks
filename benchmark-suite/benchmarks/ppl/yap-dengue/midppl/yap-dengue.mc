@@ -6,6 +6,10 @@ include "math.mc"
 
 mexpr
 
+-- Observations, -1 indicates the lack of an observation
+let null = negi 1 in
+let ys: [Int] = [ 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 2, 1, 4, 2, 3, 2, 2, 4, 1, 3, 3, 4, 3, 3, 9, 1, 1, 7, 5, 4, 1, 2, 4, 7, 3, 6, 6, 4, 8, 6, 7, 2, 6, 7, 5, 7, 9, 10, 14, 9, 4, 5, 7, 10, 11, 17, 6, 13, 13, 14, 13, 12, 12, 15, 16, 12, 14, 11, 17, 10, 10, 16, 12, 17, 29, 21, 21, 25, 17, 12, 18, 11, 12, 10, 18, 8, 14, 10, 15, 16, 8, 7, 5, 7, 5, 5, 6, 11, 10, 5, 4, 9, 6, 1, 6, 3, 6, 4, 3, 5, 1, 8, 2, 9, 4, 5, 4, 3, 3, 4, 4, 3, 3, 4, 5, 2, 5, 4, 2, 6, 4, 2, 0, 4, 2, 1, 1, 1, 2, 3, 3, 3, 0, 3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 1, 1, null, null, null, null, null, null, 0, null, null, null, null, null, null, 0 ] in
+
 let hNu: Float = 0. in
 let hMu: Float = 1. in
 let hLambda: Float = assume (Beta 1. 1.) in
@@ -47,9 +51,16 @@ let mDeltaE: Int = 0 in
 let mDeltaI: Int = 0 in
 let mDeltaR: Int = 0 in
 
--- Observations, -1 indicates the lack of an observation
-let null = negi 1 in
-let ys: [Int] = [ 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 2, 1, 4, 2, 3, 2, 2, 4, 1, 3, 3, 4, 3, 3, 9, 1, 1, 7, 5, 4, 1, 2, 4, 7, 3, 6, 6, 4, 8, 6, 7, 2, 6, 7, 5, 7, 9, 10, 14, 9, 4, 5, 7, 10, 11, 17, 6, 13, 13, 14, 13, 12, 12, 15, 16, 12, 14, 11, 17, 10, 10, 16, 12, 17, 29, 21, 21, 25, 17, 12, 18, 11, 12, 10, 18, 8, 14, 10, 15, 16, 8, 7, 5, 7, 5, 5, 6, 11, 10, 5, 4, 9, 6, 1, 6, 3, 6, 4, 3, 5, 1, 8, 2, 9, 4, 5, 4, 3, 3, 4, 4, 3, 3, 4, 5, 2, 5, 4, 2, 6, 4, 2, 0, 4, 2, 1, 1, 1, 2, 3, 3, 3, 0, 3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 1, 1, null, null, null, null, null, null, 0, null, null, null, null, null, null, 0 ] in
+let condition: Int -> Int -> Int -> Int =
+  lam t: Int. lam zP: Int. lam hDeltaI: Int.
+    let z: Int = addi zP hDeltaI in
+    let y: Int = get ys t in
+    if neqi (negi 1) y then
+      observe y (Binomial z rho); resample; 0
+    else z
+in
+
+let z = condition 0 z hDeltaI in
 
 recursive let simulate:
   Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> ()
@@ -101,10 +112,7 @@ recursive let simulate:
     let mDeltaS: Int = assume (Binomial mN mNu) in
     let mS: Int = addi mS mDeltaS in
 
-    -- Observation
-    let z: Int = addi zP hDeltaI in
-    let y: Int = get ys t in
-    let z: Int = if neqi (negi 1) y then observe y (Binomial z rho); resample; 0 else z in
+    let z: Int = condition t zP hDeltaI in
 
     -- Recurse
     let tNext: Int = addi t 1 in
@@ -116,4 +124,4 @@ recursive let simulate:
       simulate tNext hS hE hI hR mS mE mI mR z
 in
 
-simulate 0 hS hE hI hR mS mE mI mR z
+simulate 1 hS hE hI hR mS mE mI mR z
