@@ -47,27 +47,27 @@ final class SEIRComponent {
   /**
    * Birth probability.
    */
-  ν:Random<Real>;
+  ν:Real;
 
   /**
    * Survival probability.
    */
-  μ:Random<Real>;
+  μ:Real;
 
   /**
    * Exposure probability.
    */
-  λ:Random<Real>;
+  λ:Real;
 
   /**
    * Infection probability.
    */
-  δ:Random<Real>;
+  δ:Real;
 
   /**
    * Recovery probability.
    */
-  γ:Random<Real>;
+  γ:Real;
 
   /**
    * Transfer between compartments.
@@ -78,48 +78,39 @@ final class SEIRComponent {
    * `τ` is computed externally according to the interaction between two
    * populations, then `transfer()` called to update the state of the
    * population.
-   */  
+   */
   function transfer(t:Integer, τ:Integer) {
     /* total population */
     let n <- s[t - 1] + e[t - 1] + i[t - 1] + r[t - 1];
 
     /* transfers */
-    Δe[t] <~ Binomial(τ, λ);
-    Δi[t] <~ Binomial(e[t - 1], δ);
-    Δr[t] <~ Binomial(i[t - 1], γ);
+    Δe[t] <- simulate_binomial(τ, λ);
+    Δi[t] <- simulate_binomial(e[t - 1], δ);
+    Δr[t] <- simulate_binomial(i[t - 1], γ);
 
     s[t] <- s[t - 1] - Δe[t];
     e[t] <- e[t - 1] + Δe[t] - Δi[t];
     i[t] <- i[t - 1] + Δi[t] - Δr[t];
     r[t] <- r[t - 1] + Δr[t];
-    
+
     /* survival; we assume that if the survival rate is set to one, what is
      * meant is "all survive" regardless of the population size, and so do
      * not evaluate these, ensuring we don't get -inf weights for mismatching
      * numbers of trials (population sizes) */
-    if !μ.hasValue() || μ.value() != 1.0 {
-      s[t] <~ Binomial(s[t], μ);
-      e[t] <~ Binomial(e[t], μ);
-      i[t] <~ Binomial(i[t], μ);
-      r[t] <~ Binomial(r[t], μ);
+    if μ != 1.0 {
+      s[t] <- simulate_binomial(s[t], μ);
+      e[t] <- simulate_binomial(e[t], μ);
+      i[t] <- simulate_binomial(i[t], μ);
+      r[t] <- simulate_binomial(r[t], μ);
     }
 
     /* births */
-    if !ν.hasValue() || ν.value() != 0.0 {
-      Δs[t] <~ Binomial(n, ν);
+    if ν != 0.0 {
+      Δs[t] <- simulate_binomial(n, ν);
       s[t] <- s[t] + Δs[t];
     }
   }
 
   override function write(buffer:Buffer) {
-    buffer.set("s", s);
-    buffer.set("e", e);
-    buffer.set("i", i);
-    buffer.set("r", r);
-    buffer.set("ν", ν);
-    buffer.set("μ", μ);
-    buffer.set("λ", λ);
-    buffer.set("δ", δ);
-    buffer.set("γ", γ);
   }
 }

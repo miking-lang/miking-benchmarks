@@ -1,5 +1,5 @@
+import sys
 import json
 
-data = json.load(open('output/output.json'))
-for item in data:
-    print(item['lweight'])
+data = json.load(sys.stdin)
+print(data[0]['lweight'])

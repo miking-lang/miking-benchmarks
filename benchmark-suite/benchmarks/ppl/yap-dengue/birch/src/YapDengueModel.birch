@@ -15,7 +15,7 @@ final class YapDengueModel < Model {
   /**
    * Probability of a human case being observed.
    */
-  ρ:Random<Real>;
+  ρ:Real;
 
   /**
    * Latent aggregate number of cases since last observation.
@@ -30,17 +30,17 @@ final class YapDengueModel < Model {
   override function simulate() {
     h.ν <- 0.0;
     h.μ <- 1.0;
-    h.λ ~ Beta(1.0, 1.0);
-    h.δ ~ Beta(1.0 + 2.0/4.4, 3.0 - 2.0/4.4);
-    h.γ ~ Beta(1.0 + 2.0/4.5, 3.0 - 2.0/4.5);
+    h.λ <- simulate_beta(1.0, 1.0);
+    h.δ <- simulate_beta(1.0 + 2.0/4.4, 3.0 - 2.0/4.4);
+    h.γ <- simulate_beta(1.0 + 2.0/4.5, 3.0 - 2.0/4.5);
 
     m.ν <- 1.0/7.0;
     m.μ <- 6.0/7.0;
-    m.λ ~ Beta(1.0, 1.0);
-    m.δ ~ Beta(1.0 + 2.0/6.5, 3.0 - 2.0/6.5);
+    m.λ <- simulate_beta(1.0, 1.0);
+    m.δ <- simulate_beta(1.0 + 2.0/6.5, 3.0 - 2.0/6.5);
     m.γ <- 0.0;
 
-    ρ ~ Beta(1.0, 1.0);
+    ρ <- simulate_beta(1.0, 1.0);
     z <- 0;
     y <- nil;
   }
@@ -49,18 +49,18 @@ final class YapDengueModel < Model {
     if t == 1 {
       /* initial state */
       let n <- 7370;
-      h.i[t] <~ Poisson(5.0);
+      h.i[t] <- simulate_poisson(5.0);
       h.i[t] <- h.i[t] + 1;
-      h.e[t] <~ Poisson(5.0);
-      h.r[t] <~ UniformInteger(0, n - h.i[t] - h.e[t]);
+      h.e[t] <- simulate_poisson(5.0);
+      h.r[t] <- simulate_uniform_int(0, n - h.i[t] - h.e[t]);
       h.s[t] <- n - h.e[t] - h.i[t] - h.r[t];
 
       h.Δs[t] <- 0;
       h.Δe[t] <- h.e[t];
       h.Δi[t] <- h.i[t];
       h.Δr[t] <- 0;
-      
-      let u <~ Uniform(-1.0, 2.0);
+
+      let u <- simulate_uniform(-1.0, 2.0);
       m.s[t] <- n*pow(10.0, u);
       m.e[t] <- 0;
       m.i[t] <- 0;
@@ -74,11 +74,11 @@ final class YapDengueModel < Model {
       n:Real <- h.s[t - 1] + h.e[t - 1] + h.i[t - 1] + h.r[t - 1];
 
       /* transition of human population */
-      let τ_h <~ Binomial(h.s[t - 1], 1.0 - exp(-m.i[t - 1]/n));
+      let τ_h <- simulate_binomial(h.s[t - 1], 1.0 - exp(-m.i[t - 1]/n));
       h.transfer(t, τ_h);
 
       /* transition of mosquito population */
-      let τ_m <~ Binomial(m.s[t - 1], 1.0 - exp(-h.i[t - 1]/n));
+      let τ_m <- simulate_binomial(m.s[t - 1], 1.0 - exp(-h.i[t - 1]/n));
       m.transfer(t, τ_m);
     }
 
@@ -88,22 +88,16 @@ final class YapDengueModel < Model {
       if y! > z {
         factor -inf;
       } else {
-        y! ~> Binomial(z, ρ);
+        factor logpdf_binomial(y!, z, ρ);
       }
       z <- 0;
     }
   }
 
   override function read(buffer:Buffer) {
-    buffer.get("h", h);
-    buffer.get("m", m);
-    buffer.get("ρ", ρ);
   }
 
   override function write(buffer:Buffer) {
-    buffer.set("h", h);
-    buffer.set("m", m);
-    buffer.set("ρ", ρ);
   }
 
   override function read(t:Integer, buffer:Buffer) {
