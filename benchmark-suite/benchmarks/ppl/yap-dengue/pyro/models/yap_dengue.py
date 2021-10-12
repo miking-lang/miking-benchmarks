@@ -65,7 +65,7 @@ class YapDengue:
             state[f"h.Δr{t}"] = obs(0)
 
             u = sample("u{t}", Uniform(-1.0, 2.0))
-            state[f"m.s{t}"] = n*pow(10.0, u).int()
+            state[f"m.s{t}"] = (n*pow(10.0, u)).int()
             state[f"m.e{t}"] = obs(0)
             state[f"m.i{t}"] = obs(0)
             state[f"m.r{t}"] = obs(0)
