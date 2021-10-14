@@ -1,0 +1,17 @@
+name: VectorBorneDisease
+manifest: 
+  source: 
+    - src/*.birch
+    - src/*/*.birch
+    - src/*/*/*.birch
+  data:
+    - config/experiment0.json
+    - input/yap_dengue.json
+  other: 
+    - birch.yml
+    - LICENSE
+    - README.md
+    - test.sh
+require: 
+  package: 
+    - Standard
