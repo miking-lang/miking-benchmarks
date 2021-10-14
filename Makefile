@@ -29,7 +29,7 @@ run-test:
 	  --iters 5 \
 	  --output toml \
 	  --log info \
-		--timeout-s 1 \
+	  --timeout-s 1 \
 	  --warmups 1
 
 
