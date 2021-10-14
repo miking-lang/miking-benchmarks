@@ -4,6 +4,8 @@ include "../tool/path.mc"
 include "../tool/post-process.mc"
 include "string.mc"
 include "common.mc"
+include "log.mc"
+
 
 let menu = strJoin "\n"
 [ "Usage: mi main -- <options>"
@@ -15,7 +17,7 @@ let menu = strJoin "\n"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {csv,toml}"
-, "  --log            Write log output to this file"
+, "  --log            Specify log level (off, error, warning, info, debug, default = off)"
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"
@@ -28,7 +30,6 @@ type Options =
   , warmups : Int
   , output : [BenchmarkResult] -> String
   , clean : Bool
-  , log : Option String
   , plot : Option String
   }
 
@@ -39,7 +40,6 @@ let options : Options =
   , warmups = 1
   , output = toTOML
   , clean = true
-  , log = None ()
   , plot = None ()
   }
 
@@ -93,10 +93,19 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
      parseArgs {ops with clean = false} args
 
   else match args with ["--log"] ++ args then
-    match args with [a] ++ args then
-      (if fileExists a then deleteFile a else ());
-      writeFile a "\n";
-      parseArgs {ops with log = Some a} args
+    match args with [lvl] ++ args then
+      let lvl =
+        switch lvl
+        case "off" then logLevel.off
+        case "error" then logLevel.error
+        case "warning" then logLevel.warning
+        case "info" then logLevel.info
+        case "debug" then logLevel.debug
+        case _ then error (concat "Unknown log level: " lvl)
+        end
+      in
+      logSetLogLevel lvl;
+      parseArgs ops args
     else error "--log with no argument"
 
   else match args with [a] ++ args then

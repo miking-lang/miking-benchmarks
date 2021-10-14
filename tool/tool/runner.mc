@@ -4,6 +4,7 @@ include "utils.mc"
 
 include "option.mc"
 include "common.mc"
+include "log.mc"
 include "ocaml/sys.mc"
 
 type Result = { input : Input
@@ -22,12 +23,6 @@ type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 type Options = { iters : Int
                , warmups : Int
                }
-
-let _log = lam ops. lam s.
-  match ops.log with Some filename then
-    let contents = readFile filename in
-    writeFile filename (concat contents s)
-  else ()
 
 -- Used as dummy data object for benchmarks without data. We could use option
 -- type in result type, but this simplifies writing to toml.
@@ -49,7 +44,7 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
     let stdin = join ["\"", escapeString stdin, "\""] in
     let cmd = (strSplit " " cmd) in
 
-    _log ops (strJoin "\n"
+    logMsg logLevel.info (strJoin "\n"
     [ concat "running command: " (strJoin " " cmd)
     , concat "stdin: " stdin
     , concat "cwd: " cwd
@@ -60,7 +55,7 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
     let r = sysRunCommand cmd stdin cwd in
     let t2 = wallTimeMs () in
 
-    _log ops (strJoin "\n"
+    logMsg logLevel.info (strJoin "\n"
     [ concat "stdout: " r.stdout
     , concat "stderr: " r.stderr
     , concat "returncode: " (int2string r.returncode)

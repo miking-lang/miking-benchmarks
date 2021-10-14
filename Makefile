@@ -23,7 +23,7 @@ run-test:
 	  --runtimes benchmark-suite/test/runtimes \
 	  --iters 5 \
 	  --output toml \
-	  --log run-test.log \
+	  --log info \
 	  --warmups 1
 
 
