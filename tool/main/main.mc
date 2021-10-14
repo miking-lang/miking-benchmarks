@@ -107,9 +107,9 @@ end
 let verifyOptions = lam ops.
   map
     (lam t. if t.0 then () else printLn menu; error t.1)
-    [ (all pathExists ops.runtimes,
+    [ (forAll pathExists ops.runtimes,
        concat "No such directory: " (strJoin " " ops.runtimes))
-    , (all pathExists ops.benchmarks,
+    , (forAll pathExists ops.benchmarks,
        concat "No such directory: " (strJoin " " ops.benchmarks))
     , (gti ops.iters 0,
        "Number of iterations should be larger than 0")

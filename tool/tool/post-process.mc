@@ -42,7 +42,7 @@ let plotByData = lam root. lam filename.
   let xAxisFromTicks : [String] -> [Int] = lam ticks.
     -- Trim any leading zeros
     let ticks = map (trimPrefix "0") ticks in
-    if all stringIsInt ticks then
+    if forAll stringIsInt ticks then
       map string2int ticks
     -- TODO(Linnea, 2021-04-07): Also check for floats
     else

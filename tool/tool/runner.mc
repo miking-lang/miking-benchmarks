@@ -112,7 +112,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           error (concat
             "Required executables not found for runtime" runtime.provides)
         else match commands with [c] ++ commands then
-          if all pathIsCmd c.required_executables then c
+          if forAll pathIsCmd c.required_executables then c
           else rec commands
         else never
       in

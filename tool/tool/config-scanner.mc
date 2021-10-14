@@ -73,7 +73,7 @@ type Benchmark = { timing : Timing
 
 -- Check if 'path' is a valid directory for a benchmark
 let dirBenchmark = lam path.
-  all (lam x. x)
+  forAll (lam x. x)
     [ not (startsWith "_" path)
     , not (eqString "datasets" path)
     ]
@@ -84,7 +84,7 @@ utest dirBenchmark "datasets" with false
 
 -- Check if 'path' is a valid directory for a runtime definition
 let dirRuntime = lam path.
-  all eqBool
+  forAll eqBool
     [ not (startsWith "_" path) ]
 
 let pathFoldRuntime = pathFold dirRuntime
