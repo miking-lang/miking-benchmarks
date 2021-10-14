@@ -10,6 +10,7 @@ run:
 	--runtimes benchmark-suite/runtimes \
 	--iters 5 \
 	--output toml \
+	--log info \
 	--warmups 1 > results.toml
 
 run-ppl:
@@ -28,6 +29,7 @@ run-test:
 	  --iters 5 \
 	  --output toml \
 	  --log info \
+		--timeout-s 1 \
 	  --warmups 1
 
 

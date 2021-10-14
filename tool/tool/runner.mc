@@ -45,25 +45,25 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
     let cmd = (strSplit " " cmd) in
 
     logMsg logLevel.info (strJoin "\n"
-    [ concat "running command: " (strJoin " " cmd)
+    [ ""
+    , concat "running command: " (strJoin " " cmd)
     , concat "stdin: " stdin
     , concat "cwd: " cwd
+    , join ["timeout: ", (optionMapOr "none" float2string ops.timeoutSec), " s"]
     , ""
     ]);
 
-    let t1 = wallTimeMs () in
-    let r = sysRunCommand cmd stdin cwd in
-    let t2 = wallTimeMs () in
-
-    logMsg logLevel.info (strJoin "\n"
-    [ concat "stdout: " r.stdout
-    , concat "stderr: " r.stderr
-    , concat "returncode: " (int2string r.returncode)
-    , concat "elapsed ms: " (float2string (subf t2 t1))
-    , "", ""
-    ]);
-
-    (r, subf t2 t1)
+    match sysTimeoutCommand ops.timeoutSec cmd stdin cwd with (ms, r) then
+      logMsg logLevel.info (strJoin "\n"
+      [ ""
+      , concat "stdout: " r.stdout
+      , concat "stderr: " r.stderr
+      , concat "returncode: " (int2string r.returncode)
+      , concat "elapsed ms: " (float2string ms)
+      , ""
+      ]);
+      (r, ms)
+    else never
 
 -- Like runCommand but fail on exit code different than 0
 let runCommandFailOnExit : Options -> String -> String -> Path -> (ExecResult, Float) =

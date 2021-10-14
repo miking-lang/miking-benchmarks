@@ -18,6 +18,7 @@ let menu = strJoin "\n"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {csv,toml}"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
+, "  --timeout-s      Specify a timeout in seconds (default off)"
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"
@@ -29,6 +30,7 @@ type Options =
   , iters : Int
   , warmups : Int
   , output : [BenchmarkResult] -> String
+  , timeoutSec : Option Float
   , clean : Bool
   , plot : Option String
   }
@@ -39,6 +41,7 @@ let options : Options =
   , iters = 1
   , warmups = 1
   , output = toTOML
+  , timeoutSec = None ()
   , clean = true
   , plot = None ()
   }
@@ -70,6 +73,11 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
     match args with [n] ++ args then
       parseArgs {ops with warmups = string2int n} args
     else error "--warmups with no argument"
+
+  else match args with ["--timeout-s"] ++ args then
+    match args with [n] ++ args then
+      parseArgs {ops with timeoutSec = Some (string2float n)} args
+    else error "--timeout-s with no argument"
 
   else match args with ["--output"] ++ args then
     match args with [s] ++ args then
