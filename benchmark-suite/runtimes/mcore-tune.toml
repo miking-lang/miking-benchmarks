@@ -1,6 +1,0 @@
-provides = "MCoreTune"
-
-[[command]]
-required_executables = ["mi", "rm", "mv", "ls"]
-build_command = "mi tune {argument}.mc {buildOptions}"
-command = "ls {argument}.tune"
