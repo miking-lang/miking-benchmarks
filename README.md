@@ -80,7 +80,10 @@ Each benchmark needs to specify:
    * an `argument` for specifying how to run the benchmark in its runtime,
    * an (optional) `options` for specifying command line options, and
    * an (optional) `buildOptions` for specifying command line build options,
-   * an (optional) `base` for specifying where the application is built and run (default: the directory of the toml file),
+   * an (optional) `base` for specifying where the application is built and run
+     (default: the directory of the toml file),
+   * an (optional) `tags` for specifying a list of string tags for the
+     application.
 * how `timing` of the benchmark is done,
 * (optional) what preprocessing step `[pre]` (same internal structure as an
   `[[app]]`) should be run on all inputs,
@@ -125,12 +128,14 @@ base = "pre"
 runtime = "MCore"
 argument = "post"
 base = "post-1"
+tags = ["tag-post-1"]
 
 [[post]]
 runtime = "Python"
 argument = "post"
 options = "--some-important-option"
 base = "post-2"
+tags = ["tag-post-2"]
 
 [[input]]
 tags = ["random"]
@@ -152,9 +157,9 @@ This configuration will be shared for all experiments under `sort` (including `s
 
 ### Runtimes
 
-The `runtime` directory specifies a number of runtimes that benchmarks and
-dataset programs can be run in. Each runtime is described by a single `.toml`
-file. Multiple runtimes can provide support for the same language.
+A `runtime` directory specifies a number of runtimes that benchmarks and dataset
+programs can be run in. Each runtime is described by a single `.toml` file.
+Multiple runtimes can provide support for the same language.
 
 #### Runtime Configuration Files
 
