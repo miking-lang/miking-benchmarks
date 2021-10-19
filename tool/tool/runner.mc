@@ -5,7 +5,7 @@ include "utils.mc"
 include "option.mc"
 include "common.mc"
 include "log.mc"
-include "ocaml/sys.mc"
+include "sys.mc"
 
 type Result = { input : Input
               -- Time for building, if any, in ms
@@ -53,7 +53,7 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
     , ""
     ]);
 
-    match sysTimeoutCommand ops.timeoutSec cmd stdin cwd with (ms, r) then
+    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd with (ms, r) then
       logMsg logLevel.info (strJoin "\n"
       [ ""
       , concat "stdout: " r.stdout

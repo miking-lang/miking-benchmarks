@@ -18,7 +18,9 @@ let menu = strJoin "\n"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {csv,toml}"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
-, "  --timeout-s      Specify a timeout in seconds (default off)"
+, "  --timeout-s      Specify a timeout in seconds (default off). Requires the command
+                      line tool 'timeout' to be installed (installed by default on Linux).
+                      Install on macOS via 'brew install coreutils'."
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"
