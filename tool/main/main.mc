@@ -1,7 +1,7 @@
 include "../tool/config-scanner.mc"
 include "../tool/runner.mc"
 include "../tool/path.mc"
-include "../tool/post-process.mc"
+--include "../tool/post-process.mc"
 include "string.mc"
 include "common.mc"
 include "log.mc"
@@ -144,7 +144,8 @@ let main = lam.
 
   match ops.plot with Some f then --TODO(Linnea, 2021-03-07): use separate
                                   -- scripts for running and post-processing
-    plotByData ops.benchmarks f
+    --plotByData ops.benchmarks f
+    ()
   else
     let runtimes = findRuntimes ops.runtimes in
     let bs = findBenchmarks ops.benchmarks runtimes in
