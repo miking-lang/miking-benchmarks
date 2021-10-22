@@ -5,11 +5,11 @@ runtime = "id"
 
 [[app]]
 runtime = "hello"
-tags = ["hello-app"]
+tag = "hello-app"
 
 [[post]]
 runtime = "id"
-tags = ["hello-post"]
+tag = "hello-post"
 
 [[input]]
 tags = ["foo", "number"]

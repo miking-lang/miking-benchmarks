@@ -11,8 +11,11 @@ let main = lam.
   verifyOptions ops;
 
   let runtimes = findRuntimes ops.runtimes in
+  printLn "finished scanning runtimes";
   let bs = findBenchmarks ops.benchmarks runtimes in
+  printLn "finished scanning benchmarks";
   let rs = runBenchmarks bs runtimes ops in
+  printLn "finished running benchmarks";
   printLn (ops.output rs)
 
 mexpr

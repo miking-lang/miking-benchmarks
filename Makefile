@@ -4,8 +4,11 @@ prefix=A
 
 .PHONY: run plot test
 
-run:
-	boot eval tool/main/main.mc -- \
+all:
+	mi compile tool/main/main.mc
+
+run: all
+	./main -- \
 	--benchmarks benchmark-suite/benchmarks/mcore-ocaml \
 	--runtimes benchmark-suite/runtimes \
 	--iters 5 \
@@ -21,16 +24,16 @@ run-ppl:
 	  --output toml \
 	  --warmups 1
 
-run-test:
-	boot eval tool/main/main.mc -- \
-	  --benchmarks benchmark-suite/test/benchmarks \
-	  --runtimes benchmark-suite/runtimes \
-	  --runtimes benchmark-suite/test/runtimes \
-	  --iters 5 \
-	  --output toml \
-	  --log info \
-	  --timeout-s 1 \
-	  --warmups 1
+run-test: all
+	./main \
+	--benchmarks benchmark-suite/test/benchmarks \
+	--runtimes benchmark-suite/runtimes \
+	--runtimes benchmark-suite/test/runtimes \
+	--iters 5 \
+	--output toml \
+	--log info \
+	--timeout-s 1 \
+	--warmups 1
 
 
 plot:
@@ -40,7 +43,11 @@ plot:
 	&& convert *.png report.pdf
 
 test:
-	boot eval --test tool/tool
+	mi compile --test tool/tool/config-scanner.mc; ./config-scanner
+	mi compile --test tool/tool/runner.mc; ./runner
+	mi compile --test tool/tool/utils.mc; ./utils
+	mi compile --test tool/tool/path.mc; ./path
+	mi compile --test tool/tool/data.mc; ./data
 
 run-experiment-CRBD:
 	cp benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml

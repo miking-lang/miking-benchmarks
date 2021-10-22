@@ -53,17 +53,18 @@ let extractBenchmarks : Map String Runtime -> Path -> PartialBenchmark -> [Bench
   lam cwd : Path.
   lam pb : PartialBenchmark.
     match pb.timing with Some timing then
-      let timing: Timing = getTiming timing in
       match pb.app with [] then []
       else
-        let appruns = map (lam app : App. app.runtime) pb.app in
-        let preruns = match pb.pre with Some pre then
-          let pre : App = pre in
-          [pre.runtime] else []
+        let appruns : [String] = map (lam app : App. app.runtime) pb.app in
+        let preruns : [String] =
+          match pb.pre with Some pre then
+            let pre : App = pre in
+            [pre.runtime]
+          else []
         in
-        let postruns = map (lam app : App. app.runtime) pb.post in
+        let postruns : [String] = map (lam app : App. app.runtime) pb.post in
         match find
-          (lam r. match mapLookup r runtimes with None () then true else false)
+          (lam r : String. printLn r; match mapLookup r runtimes with None () then true else false)
           (join [appruns, preruns, postruns])
         with Some r then
           error (concat "Runtime does not exist: " r)

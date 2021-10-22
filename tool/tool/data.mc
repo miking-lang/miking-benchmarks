@@ -5,10 +5,10 @@ include "path.mc"
 
 -- Defines the data types used for storing benchmark configurations and results.
 
-let _lookupKeyConvert = lam convertFun.
+let _lookupKeyConvert = lam convertFun. lam key. lam m.
   mapFindApplyOrElse
     (lam v. Some (convertFun v))
-    (lam. None ())
+    (lam. None ()) key m
 
 type Path = String
 
@@ -283,7 +283,7 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
     let pre = mapFindApplyOrElse
       (lam v.
          let t = tomlValueToTableExn v in
-         appFromToml fileName t)
+         Some (appFromToml fileName t))
       (lam. None ())
       "pre" m
     in
@@ -316,7 +316,9 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
     , input = input
     }
 
-utest partialBenchmarkFromToml "" (tomlFromStringExn
+utest
+let b =
+partialBenchmarkFromToml "path/to/config.toml" (tomlFromStringExn
 "
 timing = \"complete\"
 
@@ -335,9 +337,26 @@ argument = \"post\"
 base = \"post-1\"
 tag = \"tag-post-1\"
 "
-); ()
-with ()
-
+) in
+[ b.timing
+, b.pre
+, b.app
+, b.post
+, b.input
+]
+with
+[ Some (Complete ())
+, Some ({runtime = "MCore", fileName = "config.toml",
+         options = [{name = "argument", contents = "pre"}],
+         cwd = "path/to/pre"})
+, [{runtime = "MCore", fileName = "config.toml",
+    options = [{name = "argument", contents = "insertsort"}],
+    cwd = "path/to"}]
+, [{runtime = "MCore", fileName = "config.toml",
+    options = [{name = "tag", contents = "tag-post-1"},{name = "argument", contents = "post"}],
+    cwd = "path/to/post-1"}]
+, []
+]
 -------------------
 -- WRITABLE DATA --
 -------------------
@@ -360,4 +379,3 @@ type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
 -- Convert a list of benchmark results into TOML format
 let toTOML : [BenchmarkResult] -> String = lam results. ""
-    ""
