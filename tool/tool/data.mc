@@ -5,42 +5,20 @@ include "path.mc"
 
 -- Defines the data types used for storing benchmark configurations and results.
 
-let _lookupKeyConvert = lam convertFun. lam key. lam m.
+let _lookupKeyConvert = lam convertFun.
   mapFindApplyOrElse
     (lam v. Some (convertFun v))
-    (lam. None ()) key m
+    (lam. None ())
 
-type Path = String
-
--- TODO: where to put these helper types?
+-----------------------
+-- DATA DECLARATIONS --
+-----------------------
 
 type Timing
 -- Don't measure the time
 con NoTiming : () -> Timing
 -- Measure runtime end-to-end
 con Complete : () -> Timing
-
-let timingEq = lam t1. lam t2.
-  switch (t1, t2)
-  case (NoTiming (), NoTiming ()) then true
-  case (Complete (), Complete ()) then true
-  case _ then false
-  end
-
--- Read a toml config file and apply convert function.
-let tomlRead : Path -> (Path -> TomlTable -> a) -> a =
-  lam fileName : Path.
-  lam convertFun : Path -> TomlTable -> a.
-    let s = readFile fileName in
-    let t = tomlFromStringExn s in
-    convertFun fileName t
-
--------------------
--- READABLE DATA --
--------------------
-
--- Data types that are read from configuration files should implement a function
--- '<type>FromToml : Path -> TomlTable -> <type>'.
 
 -- A specific instance of a runtime
 type Command =
@@ -91,6 +69,42 @@ type Benchmark =
 , cwd : Path
 , input : [Input]
 }
+
+-- Stdouts of post process application
+type PostResult = { app: App, output: [String] }
+
+-- A result for a specific input
+type Result = { input : Input
+              -- Time for building, if any, in ms
+              , ms_build : Option Float
+              -- Time for running the benchmark, in ms
+              , ms_run : [Float]
+              -- Stdouts for each post-processing step
+              , post : [PostResult]
+              -- The verbatim command that was run to produce the result
+              , command : String
+              }
+
+-- A result over all inputs
+type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
+
+-- All benchmark results
+type CollectedResult = [BenchmarkResult]
+
+-------------------
+-- READABLE DATA --
+-------------------
+
+-- Data types that are read from configuration files should implement a function
+-- '<type>FromToml : Path -> TomlTable -> <type>'.
+
+-- Read a toml config file and apply convert function.
+let tomlRead : Path -> (Path -> TomlTable -> a) -> a =
+  lam fileName : Path.
+  lam convertFun : Path -> TomlTable -> a.
+    let s = readFile fileName in
+    let t = tomlFromStringExn s in
+    convertFun fileName t
 
 let commandFromToml : Path -> TomlTable -> Command = lam. lam cmd : TomlTable.
   let m = tomlTableToMap cmd in
@@ -363,23 +377,6 @@ with
 
 -- Data types that are written to output should implement a function
 -- '<type>ToToml : <type> -> TomlTable
-
-type PostResult = { app: App, output: [String] }
-
-type Result = { input : Input
-              -- Time for building, if any, in ms
-              , ms_build : Option Float
-              -- Time for running the benchmark, in ms
-              , ms_run : [Float]
-              -- Stdouts for each post-processing step
-              , post : [PostResult]
-              -- The verbatim command that was run to produce the result
-              , command : String
-              }
-
-type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
-
-type CollectedResult = [BenchmarkResult]
 
 let _strEqNoWhitespace = lam s1. lam s2.
   let s1 = filter (lam c. not (isWhitespace c)) s1 in
@@ -655,6 +652,3 @@ contents = \"contents\"
 name = \"name\"
 "
 using _strEqNoWhitespace
-
-
-
