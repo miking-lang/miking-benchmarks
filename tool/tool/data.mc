@@ -27,6 +27,14 @@ let timingEq = lam t1. lam t2.
   case _ then false
   end
 
+-- Read a toml config file and apply convert function.
+let tomlRead : Path -> (Path -> TomlTable -> a) -> a =
+  lam fileName : Path.
+  lam convertFun : Path -> TomlTable -> a.
+    let s = readFile fileName in
+    let t = tomlFromStringExn s in
+    convertFun fileName t
+
 -------------------
 -- READABLE DATA --
 -------------------
@@ -35,39 +43,54 @@ let timingEq = lam t1. lam t2.
 -- '<type>FromToml : Path -> TomlTable -> <type>'.
 
 -- A specific instance of a runtime
-type Command = { required_executables : [String]
-               , build_command : Option String
-               , command : String
-               , clean_command : Option String
-               }
+type Command =
+{ required_executables : [String]
+, build_command : Option String
+, command : String
+, clean_command : Option String
+}
 
 -- A build and run procedure
-type Runtime = { provides : String
-               , command : [Command]
-               }
+type Runtime =
+{ provides : String
+, command : [Command]
+}
 
 -- An instantiation of a runtime with a particular argument within a benchmark
-type App = { runtime : String
-           , fileName: String
-           , options : [{name : String, contents : String}]
-           , cwd : Path
-           }
+type AppOption = {name : String, contents : String}
+type App =
+{ runtime : String
+, fileName: String
+, options : [AppOption]
+, cwd : Path
+}
 
 -- Input for a benchmark
-type Input = { file : Option String
-             , data : Option String
-             , tags : [String]
-             , cwd : Path
-             }
+type Input =
+{ file : Option String
+, data : Option String
+, tags : [String]
+, cwd : Path
+}
 
 -- A partial benchmark is used while scanning the directory for config files.
 type PartialBenchmark =
-  { timing : Option Timing
-  , app : [App]
-  , pre : Option App
-  , post : [App]
-  , input : [Input]
-  }
+{ timing : Option Timing
+, app : [App]
+, pre : Option App
+, post : [App]
+, input : [Input]
+}
+
+-- A benchmark to run (extracted from a PartialBenchmark)
+type Benchmark =
+{ timing : Timing
+, app : App
+, pre : Option App
+, post : [App]
+, cwd : Path
+, input : [Input]
+}
 
 let commandFromToml : Path -> TomlTable -> Command = lam. lam cmd : TomlTable.
   let m = tomlTableToMap cmd in
@@ -146,6 +169,9 @@ let inputFromToml : Path -> TomlTable -> Input =
     let m = tomlTableToMap table in
     let file = _lookupKeyConvert tomlValueToStringExn "file" m in
     let data = _lookupKeyConvert tomlValueToStringExn "data" m in
+    (match (file, data) with (Some _, Some _)
+     then error (join ["Not allowed to specify both file and data: ", fileName])
+     else ());
     let tags = mapFindApplyOrElse
       (lam v. tomlValueToStringSeqExn v)
       (lam. [])
@@ -161,10 +187,21 @@ utest inputFromToml "path/to/config.toml" (tomlFromStringExn
 "
 tags = [\"random\"]
 file = \"datasets/random1.txt\"
-data = \"some data\"
 ")
 with
 { file = Some "datasets/random1.txt"
+, data = None ()
+, tags = ["random"]
+, cwd = "path/to"
+}
+
+utest inputFromToml "path/to/config.toml" (tomlFromStringExn
+"
+tags = [\"random\"]
+data = \"some data\"
+")
+with
+{ file = None ()
 , data = Some "some data"
 , tags = ["random"]
 , cwd = "path/to"
@@ -179,8 +216,9 @@ let appFromToml : Path -> TomlTable -> App =
       switch (mapLookup "cwd" m, mapLookup "base" m)
       case (Some cwd, Some base) then
         error (concat "cannot define both cwd and base: " fileName)
-      case (Some cwdApp, None ()) then cwdApp
-      case (None (), Some base) then pathConcat cwd base
+      case (Some cwdApp, None ()) then tomlValueToStringExn cwdApp
+      case (None (), Some base) then
+        pathConcat cwd (tomlValueToStringExn base)
       case (None (), None ()) then cwd
       end
     in
@@ -229,7 +267,7 @@ with
 ]
 
 let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
-  lam cwd. lam table : TomlTable.
+  lam fileName. lam table : TomlTable.
     -- Convert a string into a Timing type.
     let getTiming : String -> Timing = lam str.
       match str with "complete" then Complete ()
@@ -243,20 +281,59 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
       "timing" m
     in
     let pre = mapFindApplyOrElse
-      (lam v. Some (getTiming (tomlValueToStringExn v)))
+      (lam v.
+         let t = tomlValueToTableExn v in
+         appFromToml fileName t)
       (lam. None ())
-      "timing" m
+      "pre" m
     in
+    let app = mapFindApplyOrElse
+      (lam v.
+         let ts = tomlValueToTableSeqExn v in
+         map (appFromToml fileName) ts)
+      (lam. [])
+      "app" m
+    in
+    let post = mapFindApplyOrElse
+      (lam v.
+         let ts = tomlValueToTableSeqExn v in
+         map (appFromToml fileName) ts)
+      (lam. [])
+      "post" m
+    in
+    let input = mapFindApplyOrElse
+      (lam v.
+         let ts = tomlValueToTableSeqExn v in
+         map (inputFromToml fileName) ts)
+      (lam. [])
+      "input" m
+    in
+
     { timing = timing
-    , app = []
-    , pre = None ()
-    , post = []
-    , input = []
+    , app = app
+    , pre = pre
+    , post = post
+    , input = input
     }
 
 utest partialBenchmarkFromToml "" (tomlFromStringExn
 "
 timing = \"complete\"
+
+[pre]
+runtime = \"MCore\"
+argument = \"pre\"
+base = \"pre\"
+
+[[app]]
+runtime = \"MCore\"
+argument = \"insertsort\"
+
+[[post]]
+runtime = \"MCore\"
+argument = \"post\"
+base = \"post-1\"
+tag = \"tag-post-1\"
 "
 ); ()
 with ()
@@ -281,3 +358,6 @@ type Result = { input : Input
 
 type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
+-- Convert a list of benchmark results into TOML format
+let toTOML : [BenchmarkResult] -> String = lam results. ""
+    ""

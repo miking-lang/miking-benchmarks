@@ -1,11 +1,11 @@
-include "path.mc"
-include "config-scanner.mc"
-include "utils.mc"
-
-include "option.mc"
-include "common.mc"
 include "log.mc"
 include "sys.mc"
+
+include "path.mc"
+include "data.mc"
+include "utils.mc"
+
+include "../main/options.mc"
 
 type Result = { input : Input
               -- Time for building, if any, in ms
@@ -20,22 +20,14 @@ type Result = { input : Input
 
 type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
-type Options = { iters : Int
-               , warmups : Int
-               }
-
 -- Used as dummy data object for benchmarks without data. We could use option
 -- type in result type, but this simplifies writing to toml.
 let inputEmpty : Input = {file = None (), data = Some "", tags = [], cwd = ""}
 
-let instantiateCmd = lam cmd. lam app.
-  match app
-  with { options = options }
-  then
-    foldl (lam cmd. lam opt.
-      strReplace cmd (join ["{",opt.name,"}"]) opt.contents
-    ) cmd options
-  else never
+let instantiateCmd = lam cmd : String. lam app : App.
+  foldl (lam cmd. lam opt : AppOption.
+    strReplace cmd (join ["{",opt.name,"}"]) opt.contents
+  ) cmd app.options
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
@@ -107,6 +99,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           error (concat
             "Required executables not found for runtime" runtime.provides)
         else match commands with [c] ++ commands then
+          let c : Command = c in
           if forAll pathIsCmd c.required_executables then c
           else rec commands
         else never
@@ -114,7 +107,7 @@ let runBenchmark = -- ... -> BenchmarkResult
       rec runtime.command
     in
 
-    let runOpCmd : Option String -> String -> Option Float = lam cmd. lam app.
+    let runOpCmd : Option String -> App -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
                    let fullCmd = instantiateCmd cmd app in
                    runCommandTime ops fullCmd "" app.cwd)
@@ -170,10 +163,10 @@ let runBenchmark = -- ... -> BenchmarkResult
           let res: [(ExecResult, Float)] = runMany ops.iters in
 
           -- Collect execution times
-          let times: [Float] = map (lam t. t.1) res in
+          let times: [Float] = map (lam t : (ExecResult, Float). t.1) res in
 
           -- Collect outputs
-          let stdouts: [String] = map (lam t.
+          let stdouts: [String] = map (lam t : (ExecResult, Float).
             if eqi (t.0).returncode 0 then (t.0).stdout else (t.0).stderr
           ) res in
 
@@ -221,40 +214,3 @@ let runBenchmarks = -- ... -> [BenchmarkResult]
       (lam acc. lam b.
          cons (runBenchmark b runtimes ops) acc)
       [] benchmarks
-
--- Convert a list of results into CSV format
--- TODO(dlunde,2021-05-09): Not up to date
-let toCSV : [Result] -> String =
-  lam results.
-    let cs = lam lst. strJoin "," lst in
-    let header = cs ["benchmark", "data", "ms_build", "ms_run"] in
-    let body = map
-      (lam r.
-        cs [ r.benchmark
-           , r.data
-           , float2string (optionGetOr 0.0 (r.ms_build))
-           , join ["{", cs (map float2string r.ms_run), "}"]])
-      results
-    in strJoin "\n" (cons header body)
-
--- Convert a list of benchmark results into TOML format
-let toTOML : [BenchmarkResult] -> String =
-  lam results.
-    -- Remove the option types from the results (not supported by TOML writer)
-    let results =
-      map (lam br.
-        { br
-          with results =
-            map (lam r.
-                   {{ r
-                      with ms_build = optionGetOr 0.0 r.ms_build }
-                      with input =
-                        {{ r.input
-                           with
-                           file = optionGetOr "" r.input.file }
-                           with
-                           data = optionGetOr "" r.input.data } })
-              br.results
-        }
-      ) results in
-    tomlWrite { benchmark = results }
