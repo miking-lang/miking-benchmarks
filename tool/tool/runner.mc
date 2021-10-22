@@ -119,7 +119,7 @@ let runBenchmark = -- ... -> BenchmarkResult
       lam app: App.
       lam stdin: String.
 
-        let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+        let runtime: Runtime = mapFindExn app.runtime runtimes in
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
@@ -128,7 +128,7 @@ let runBenchmark = -- ... -> BenchmarkResult
         else never
     in
 
-    let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+    let runtime: Runtime = mapFindExn app.runtime runtimes in
     let appSupportedCmd = findSupportedCommand runtime in
 
     -- Run the benchmark for a particular Input

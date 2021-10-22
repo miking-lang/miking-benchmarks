@@ -94,8 +94,8 @@ type Benchmark =
 
 let commandFromToml : Path -> TomlTable -> Command = lam. lam cmd : TomlTable.
   let m = tomlTableToMap cmd in
-  let cmd = tomlValueToStringExn (mapFindWithExn "command" m) in
-  let reqExe = tomlValueToStringSeqExn (mapFindWithExn "required_executables" m) in
+  let cmd = tomlValueToStringExn (mapFindExn "command" m) in
+  let reqExe = tomlValueToStringSeqExn (mapFindExn "required_executables" m) in
   let buildCmd = mapFindApplyOrElse
     (lam v. Some (tomlValueToStringExn v))
     (lam. None ())
@@ -128,9 +128,9 @@ with
 
 let runtimeFromToml : Path -> TomlTable -> Runtime = lam fileName. lam table : TomlTable.
   let m = tomlTableToMap table in
-  let cmds : [TomlTable] = tomlValueToTableSeqExn (mapFindWithExn "command" m) in
+  let cmds : [TomlTable] = tomlValueToTableSeqExn (mapFindExn "command" m) in
   let cmds = map (commandFromToml fileName) cmds in
-  { provides = tomlValueToStringExn (mapFindWithExn "provides" m)
+  { provides = tomlValueToStringExn (mapFindExn "provides" m)
   , command = cmds
   }
 
@@ -210,7 +210,7 @@ with
 let appFromToml : Path -> TomlTable -> App =
   lam fileName. lam table : TomlTable.
     let m = tomlTableToMap table in
-    let runtime = tomlValueToStringExn (mapFindWithExn "runtime" m) in
+    let runtime = tomlValueToStringExn (mapFindExn "runtime" m) in
     let cwd = pathGetParent fileName in
     let cwdApp =
       switch (mapLookup "cwd" m, mapLookup "base" m)
