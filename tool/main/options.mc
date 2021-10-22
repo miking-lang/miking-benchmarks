@@ -22,6 +22,9 @@ let menu = strJoin "\n"
 , "  --plot           Plot results from this file (optional)"
 ]
 
+let toToml : [BenchmarkResult] -> String = lam r.
+  tomlToString (collectedResultToToml r)
+
 type Options =
   { benchmarks : [String]
   , runtimes : [String]
@@ -38,7 +41,7 @@ let options : Options =
   , runtimes = []
   , iters = 1
   , warmups = 1
-  , output = toTOML
+  , output = toToml
   , timeoutSec = None ()
   , clean = true
   , plot = None ()
@@ -81,7 +84,7 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
     match args with [s] ++ args then
       let s = str2lower s in
       let outFun =
-          match s with "toml" then toTOML
+          match s with "toml" then toToml
           else error (concat "Unknown output option: " s)
       in
       parseArgs {ops with output = outFun} args

@@ -364,18 +364,297 @@ with
 -- Data types that are written to output should implement a function
 -- '<type>ToToml : <type> -> TomlTable
 
+type PostResult = { app: App, output: [String] }
+
 type Result = { input : Input
               -- Time for building, if any, in ms
               , ms_build : Option Float
               -- Time for running the benchmark, in ms
               , ms_run : [Float]
               -- Stdouts for each post-processing step
-              , post : [{ app: App, output: [String] }]
+              , post : [PostResult]
               -- The verbatim command that was run to produce the result
               , command : String
               }
 
 type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
--- Convert a list of benchmark results into TOML format
-let toTOML : [BenchmarkResult] -> String = lam results. ""
+type CollectedResult = [BenchmarkResult]
+
+let _strEqNoWhitespace = lam s1. lam s2.
+  let s1 = filter (lam c. not (isWhitespace c)) s1 in
+  let s2 = filter (lam c. not (isWhitespace c)) s2 in
+  eqString s1 s2
+
+let inputToToml : Input -> TomlTable = lam i : Input.
+  let binds =
+    match i.file with Some file then [("file", tomlStringToValue file)] else []
+  in
+  let binds =
+    match i.data with Some data then cons ("data", tomlStringToValue data) binds else binds
+  in
+  tomlFromBindings (concat binds
+  [ ("cwd", tomlStringToValue i.cwd)
+  , ("tags", tomlStringSeqToValue i.tags)
+  ]
+  )
+
+utest tomlToString (inputToToml
+{ file = Some "file.txt"
+, data = Some "data"
+, tags = []
+, cwd = "path/to"
+}
+)
+with
+"
+cwd = \"path/to\"
+data = \"data\"
+file = \"file.txt\"
+tags = []
+"
+using _strEqNoWhitespace
+
+let appOptionToToml : AppOption -> TomlTable = lam ao.
+  tomlFromBindings
+  [ ("name", tomlStringToValue ao.name)
+  , ("contents", tomlStringToValue ao.contents)
+  ]
+
+utest tomlToString (appOptionToToml
+{name = "name", contents = "contents"})
+with
+"
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+let appToToml : App -> TomlTable = lam app.
+  tomlFromBindings
+  [ ("runtime", tomlStringToValue app.runtime)
+  , ("fileName", tomlStringToValue app.fileName)
+  , ("cwd", tomlStringToValue app.cwd)
+  , ("options", tomlTableSeqToValue (map appOptionToToml app.options))
+  ]
+
+utest tomlToString (appToToml
+{ runtime = "runtime"
+, fileName = "fileName"
+, cwd = "cwd"
+, options = [{name = "name", contents = "contents"}]
+})
+with
+"
+cwd = \"cwd\"
+fileName = \"fileName\"
+runtime = \"runtime\"
+[[options]]
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+let postResultToToml : PostResult -> TomlTable = lam pr : PostResult.
+  tomlFromBindings
+  [ ("app", tomlTableToValue (appToToml pr.app))
+  , ("output", tomlStringSeqToValue pr.output)
+  ]
+
+utest tomlToString (postResultToToml
+{ app = { runtime = "runtime"
+        , fileName = "fileName"
+        , cwd = "cwd"
+        , options = [{name = "name", contents = "contents"}]
+        }
+, output = ["output1", "output2"]
+})
+with
+"
+output = [\"output1\", \"output2\"]
+
+[app]
+cwd = \"cwd\"
+fileName = \"fileName\"
+runtime = \"runtime\"
+
+[[app.options]]
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+
+let resultToToml : Result -> TomlTable = lam r : Result.
+  let binds =
+    match r.ms_build with Some t then [("ms_build", tomlFloatToValue t)] else []
+  in
+  tomlFromBindings (concat binds
+  [ ("input", tomlTableToValue (inputToToml r.input))
+  , ("ms_run", tomlFloatSeqToValue r.ms_run)
+  , ("command", tomlStringToValue r.command)
+  , ("post", tomlTableSeqToValue (map postResultToToml r.post))
+  ])
+
+
+utest tomlToString (resultToToml
+{ input = {file = Some "file.txt", data = Some "data", tags = [], cwd = "path/to"}
+, ms_build = Some 0.1
+, ms_run = [3.14, 5.6]
+, post = [{ app = { runtime = "runtime"
+                 , fileName = "fileName"
+                 , cwd = "cwd"
+                 , options = [{name = "name", contents = "contents"}]
+                 }
+         , output = ["output1", "output2"]}]
+, command = "actual command"
+})
+with
+"
+command = \"actual command\"
+ms_build = 0.1
+ms_run = [3.14, 5.6]
+
+[input]
+cwd = \"path/to\"
+data = \"data\"
+file = \"file.txt\"
+tags = []
+
+[[post]]
+output = [\"output1\", \"output2\"]
+
+[post.app]
+cwd = \"cwd\"
+fileName = \"fileName\"
+runtime = \"runtime\"
+
+[[post.app.options]]
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+let benchmarkResultToToml : BenchmarkResult -> TomlTable = lam r : BenchmarkResult.
+  tomlFromBindings
+  [ ("buildCommand", tomlStringToValue r.buildCommand)
+  , ("results", tomlTableSeqToValue (map resultToToml r.results))
+  , ("app", tomlTableToValue (appToToml r.app))
+  ]
+
+utest tomlToString (benchmarkResultToToml
+{ buildCommand = "build command"
+, app = { runtime = "runtime1", fileName = "fileName1", cwd = "cwd1"
+        , options = [{name = "name1", contents = "contents1"}]}
+, results =
+  [{ input = {file = Some "file.txt", data = Some "data", tags = [], cwd = "path/to"}
+   , ms_build = Some 0.1
+   , ms_run = [3.14, 5.6]
+   , post = [{ app = { runtime = "runtime"
+                     , fileName = "fileName"
+                     , cwd = "cwd"
+                     , options = [{name = "name", contents = "contents"}]
+                     }
+            , output = ["output1", "output2"]}]
+   , command = "actual command"
+   }]
+})
+with
+"
+buildCommand = \"build command\"
+
+[app]
+cwd = \"cwd1\"
+fileName = \"fileName1\"
+runtime = \"runtime1\"
+
+[[app.options]]
+contents = \"contents1\"
+name = \"name1\"
+
+[[results]]
+command = \"actual command\"
+ms_build = 0.1
+ms_run = [3.14, 5.6]
+
+[results.input]
+cwd = \"path/to\"
+data = \"data\"
+file = \"file.txt\"
+tags = []
+
+[[results.post]]
+output = [\"output1\", \"output2\"]
+
+[results.post.app]
+cwd = \"cwd\"
+fileName = \"fileName\"
+runtime = \"runtime\"
+
+[[results.post.app.options]]
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+let collectedResultToToml : CollectedResult -> TomlTable = lam cr.
+  tomlFromBindings [("benchmark", tomlTableSeqToValue (map benchmarkResultToToml cr))]
+
+utest tomlToString (collectedResultToToml
+[{ buildCommand = "build command"
+ , app = { runtime = "runtime1", fileName = "fileName1", cwd = "cwd1"
+         , options = [{name = "name1", contents = "contents1"}]}
+ , results =
+   [{ input = {file = Some "file.txt", data = Some "data", tags = [], cwd = "path/to"}
+    , ms_build = Some 0.1
+    , ms_run = [3.14, 5.6]
+    , post = [{ app = { runtime = "runtime"
+                      , fileName = "fileName"
+                      , cwd = "cwd"
+                      , options = [{name = "name", contents = "contents"}]
+                      }
+             , output = ["output1", "output2"]}]
+    , command = "actual command"
+    }]
+ }])
+with
+"
+[[benchmark]]
+buildCommand = \"build command\"
+
+[benchmark.app]
+cwd = \"cwd1\"
+fileName = \"fileName1\"
+runtime = \"runtime1\"
+
+[[benchmark.app.options]]
+contents = \"contents1\"
+name = \"name1\"
+
+[[benchmark.results]]
+command = \"actual command\"
+ms_build = 0.1
+ms_run = [3.14, 5.6]
+
+[benchmark.results.input]
+cwd = \"path/to\"
+data = \"data\"
+file = \"file.txt\"
+tags = []
+
+[[benchmark.results.post]]
+output = [\"output1\", \"output2\"]
+
+[benchmark.results.post.app]
+cwd = \"cwd\"
+fileName = \"fileName\"
+runtime = \"runtime\"
+
+[[benchmark.results.post.app.options]]
+contents = \"contents\"
+name = \"name\"
+"
+using _strEqNoWhitespace
+
+
+
