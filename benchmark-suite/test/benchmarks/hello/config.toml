@@ -3,8 +3,13 @@ timing = "complete"
 [pre]
 runtime = "id"
 
+[[app]]
+runtime = "hello"
+tags = ["hello-app"]
+
 [[post]]
 runtime = "id"
+tags = ["hello-post"]
 
 [[input]]
 tags = ["foo", "number"]

@@ -1,8 +1,11 @@
-include "ocaml/sys.mc"
 include "path.mc"
 include "config-scanner.mc"
 include "utils.mc"
+
+include "option.mc"
 include "common.mc"
+include "log.mc"
+include "sys.mc"
 
 type Result = { input : Input
               -- Time for building, if any, in ms
@@ -11,9 +14,11 @@ type Result = { input : Input
               , ms_run : [Float]
               -- Stdouts for each post-processing step
               , post : [{ app: App, output: [String] }]
+              -- The verbatim command that was run to produce the result
+              , command : String
               }
 
-type BenchmarkResult = { app: App, results: [Result] }
+type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
 type Options = { iters : Int
                , warmups : Int
@@ -34,20 +39,36 @@ let instantiateCmd = lam cmd. lam app.
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
-let runCommand : String -> String -> Path -> (ExecResult, Float) =
-  lam cmd. lam stdin. lam cwd.
+let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
+  lam ops. lam cmd. lam stdin. lam cwd.
     let stdin = join ["\"", escapeString stdin, "\""] in
     let cmd = (strSplit " " cmd) in
 
-    let t1 = wallTimeMs () in
-    let r = sysRunCommand cmd stdin cwd in
-    let t2 = wallTimeMs () in
-    (r, subf t2 t1)
+    logMsg logLevel.info (strJoin "\n"
+    [ ""
+    , concat "running command: " (strJoin " " cmd)
+    , concat "stdin: " stdin
+    , concat "cwd: " cwd
+    , join ["timeout: ", (optionMapOr "none" float2string ops.timeoutSec), " s"]
+    , ""
+    ]);
+
+    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd with (ms, r) then
+      logMsg logLevel.info (strJoin "\n"
+      [ ""
+      , concat "stdout: " r.stdout
+      , concat "stderr: " r.stderr
+      , concat "returncode: " (int2string r.returncode)
+      , concat "elapsed ms: " (float2string ms)
+      , ""
+      ]);
+      (r, ms)
+    else never
 
 -- Like runCommand but fail on exit code different than 0
-let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
-  lam cmd. lam stdin. lam cwd.
-    match runCommand cmd stdin cwd with (r, ms) then
+let runCommandFailOnExit : Options -> String -> String -> Path -> (ExecResult, Float) =
+  lam ops. lam cmd. lam stdin. lam cwd.
+    match runCommand ops cmd stdin cwd with (r, ms) then
       if eqi r.returncode 0 then (r, ms)
       else
         error (join ["Command ", cmd, "\n"
@@ -59,10 +80,10 @@ let runCommandFailOnExit : String -> String -> Path -> (ExecResult, Float) =
                     ])
     else never
 
--- Like 'runCommandFailOnExit' but only returns the elapsed time.
-let runCommandTime : String -> String -> Path -> Float =
-  lam cmd. lam stdin. lam cwd.
-    match runCommand cmd stdin cwd with (_, ms)
+-- Like 'runCommand' but only returns the elapsed time.
+let runCommandTime : Options -> String -> String -> Path -> Float =
+  lam ops. lam cmd. lam stdin. lam cwd.
+    match runCommand ops cmd stdin cwd with (_, ms)
     then ms
     else never
 
@@ -86,7 +107,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           error (concat
             "Required executables not found for runtime" runtime.provides)
         else match commands with [c] ++ commands then
-          if all pathIsCmd c.required_executables then c
+          if forAll pathIsCmd c.required_executables then c
           else rec commands
         else never
       in
@@ -96,7 +117,7 @@ let runBenchmark = -- ... -> BenchmarkResult
     let runOpCmd : Option String -> String -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
                    let fullCmd = instantiateCmd cmd app in
-                   runCommandTime fullCmd "" app.cwd)
+                   runCommandTime ops fullCmd "" app.cwd)
                 cmd
     in
 
@@ -109,19 +130,18 @@ let runBenchmark = -- ... -> BenchmarkResult
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
-        match runCommand cmd stdin app.cwd with (res, _) then
+        match runCommand ops cmd stdin app.cwd with (res, _) then
           if eqi res.returncode 0 then res.stdout else res.stderr
         else never
     in
 
+    let runtime: Runtime = mapFindWithExn app.runtime runtimes in
+    let appSupportedCmd = findSupportedCommand runtime in
 
     -- Run the benchmark for a particular Input
     -- let runBench : String -> (Option Float, [Float]) = lam stdin.
     let runInput: Input -> Result =
       lam input: Input.
-
-        let runtime: Runtime = mapFindWithExn app.runtime runtimes in
-        let appSupportedCmd = findSupportedCommand runtime in
 
         -- Retrieve stdin from input
         let stdin =
@@ -140,7 +160,7 @@ let runBenchmark = -- ... -> BenchmarkResult
 
         let cmd = instantiateCmd appSupportedCmd.command app in
         match timing with Complete () then
-          let run = lam. runCommand cmd stdin app.cwd in
+          let run = lam. runCommand ops cmd stdin app.cwd in
           let runMany = lam n. map run (create n (lam. ())) in
 
           -- Run warmup (and throw away results)
@@ -170,7 +190,7 @@ let runBenchmark = -- ... -> BenchmarkResult
           in
 
           -- Return the final Result
-          { input = input, ms_build = buildMs, ms_run = times, post = post }
+          { input = input, ms_build = buildMs, ms_run = times, post = post, command = cmd }
 
         else error "Unknown timing option"
     in
@@ -183,6 +203,11 @@ let runBenchmark = -- ... -> BenchmarkResult
           [runInput inputEmpty]
         else
           map runInput input
+    , buildCommand =
+      switch appSupportedCmd.build_command
+      case Some cmd then instantiateCmd cmd app
+      case None () then ""
+      end
     }
 
   else never

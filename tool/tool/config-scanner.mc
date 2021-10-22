@@ -48,7 +48,9 @@ let options = lam tomlApp. [
   match tomlApp with { buildExtra = a } then
     Some { name = "buildExtra", contents = a } else None (),
   match tomlApp with { cleanExtra = a } then
-    Some { name = "cleanExtra", contents = a } else None ()
+    Some { name = "cleanExtra", contents = a } else None (),
+  match tomlApp with { tags = a } then
+    Some { name = "tags", contents = a } else None ()
 ]
 
 -- Input for a benchmark
@@ -69,7 +71,7 @@ type Benchmark = { timing : Timing
 
 -- Check if 'path' is a valid directory for a benchmark
 let dirBenchmark = lam path.
-  all (lam x. x)
+  forAll (lam x. x)
     [ not (startsWith "_" path)
     , not (eqString "datasets" path)
     ]
@@ -80,13 +82,13 @@ utest dirBenchmark "datasets" with false
 
 -- Check if 'path' is a valid directory for a runtime definition
 let dirRuntime = lam path.
-  all eqBool
+  forAll eqBool
     [ not (startsWith "_" path) ]
 
 let pathFoldRuntime = pathFold dirRuntime
 
 -- Find all the available runtimes defined in the directory 'root'.
-let findRuntimes : Path -> Map String Runtime = lam root.
+let findRuntimes : Paths -> Map String Runtime = lam roots.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
     let r = tomlRead (readFile configFile) in
     let r: Runtime = {
@@ -103,10 +105,10 @@ let findRuntimes : Path -> Map String Runtime = lam root.
           r.command
     } in mapInsert r.provides r runtimes
   in
-  pathFoldRuntime
-    (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
-    (mapEmpty cmpString)
-    root
+  foldl (lam acc. lam root. mapUnion acc
+    (pathFoldRuntime
+      (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
+      (mapEmpty cmpString) root)) (mapEmpty cmpString) roots
 
 -- Convert a string into a Timing type.
 let getTiming : String -> Timing = lam str.
@@ -160,9 +162,8 @@ let extractBenchmarks = -- ... -> Option Benchmark
     else []
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
-let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
-  lam root : Path. -- The root directory of the benchmarks
-  lam paths : [Path]. -- Subpaths within root in which to look for benchmarks TODO(Linnea, 2021-03-23): not supported yet
+let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
+  lam roots : [Path]. -- The root directories of the benchmarks
   lam runtimes : Map String Runtime.
 
   let overrideErr =
@@ -188,8 +189,12 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
         , options =
             foldl (lam acc. lam arg. optionMapOr acc (snoc acc) arg)
               [] (options tomlApp)
-        , cwd = match tomlApp with { base = base }
-                then pathConcat cwd base else cwd
+        , cwd = match tomlApp with { base = base, cwd = cwd} then
+                  error (concat "cannot define both cwd and base: " configFile)
+                else match tomlApp with { base = base } then
+                  pathConcat cwd base
+                else match tomlApp with { cwd = cwd } then cwd
+                else cwd
         }
       in
       let updates =
@@ -262,13 +267,20 @@ let findBenchmarks = -- ... -> {benchmarks : [Benchmark]}
         ) pb files in
 
       let benchmarks = extractBenchmarks runtimes p pb in
-      if null benchmarks then foldl (rec pb) bs dirs else concat benchmarks bs
+      if null benchmarks
+      then foldl (rec pb) bs dirs
+      else
+        let resDirs = foldl (lam acc. lam dir. concat acc
+          (rec initPartialBench [] dir)) [] dirs
+        in
+        join [benchmarks, bs, resDirs]
 
     -- TODO(Linnea, 2021-03-22): Give warning or error on incompleted benchmark
 
   in
 
-  rec initPartialBench [] root
+  foldl (lam acc. lam root. concat acc
+    (rec initPartialBench [] root)) [] roots
 
 mexpr
 

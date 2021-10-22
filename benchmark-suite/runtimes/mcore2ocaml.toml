@@ -2,6 +2,6 @@ provides = "MCore2OCaml"
 
 [[command]]
 required_executables = ["mi", "rm"]
-build_command = "mi compile {argument}.mc"
-command = "./{argument}"
+build_command = "mi compile {argument}.mc {buildOptions}"
+command = "./{argument} {options}"
 clean_command = "rm {argument}"

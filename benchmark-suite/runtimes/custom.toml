@@ -1,5 +1,5 @@
 provides = "Custom"
 
 [[command]]
-required_executables = ""
+required_executables = []
 command = "{argument} {options}"

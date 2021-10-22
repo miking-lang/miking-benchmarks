@@ -1,0 +1,5 @@
+provides = "hello"
+
+[[command]]
+required_executables = ["echo"]
+command = "echo hello"
