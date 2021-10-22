@@ -70,10 +70,10 @@ type Benchmark =
 , input : [Input]
 }
 
--- Stdouts of post process application
+-- Stdouts of post process application, one per each output from the benchmark
 type PostResult = { app: App, output: [String] }
 
--- A result for a specific input
+-- Result for a specific input
 type Result = { input : Input
               -- Time for building, if any, in ms
               , ms_build : Option Float
@@ -85,7 +85,7 @@ type Result = { input : Input
               , command : String
               }
 
--- A result over all inputs
+-- Result over all inputs
 type BenchmarkResult = { app: App, results: [Result], buildCommand : String }
 
 -- All benchmark results

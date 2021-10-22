@@ -64,7 +64,7 @@ let extractBenchmarks : Map String Runtime -> Path -> PartialBenchmark -> [Bench
         in
         let postruns : [String] = map (lam app : App. app.runtime) pb.post in
         match find
-          (lam r : String. printLn r; match mapLookup r runtimes with None () then true else false)
+          (lam r : String. match mapLookup r runtimes with None () then true else false)
           (join [appruns, preruns, postruns])
         with Some r then
           error (concat "Runtime does not exist: " r)
