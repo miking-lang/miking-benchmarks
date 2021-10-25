@@ -1,3 +1,4 @@
 [[app]]
 runtime = "MCore2OCaml"
+buildOptions = ""
 argument = "bstree"

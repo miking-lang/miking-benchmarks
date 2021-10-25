@@ -29,6 +29,12 @@ let instantiateCmd = lam cmd : String. lam app : App.
     strReplace cmd (join ["{",opt.name,"}"]) opt.contents
   ) cmd app.options
 
+utest instantiateCmd "foo {option1} {option2}"
+  {runtime = "", fileName = "",
+   options = [{name = "option1", contents = "con1"}, {name = "option2", contents = "con2"}],
+   cwd = "."}
+with "foo con1 con2"
+
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
 let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
