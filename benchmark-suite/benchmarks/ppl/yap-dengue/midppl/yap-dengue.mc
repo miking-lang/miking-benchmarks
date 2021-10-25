@@ -2,14 +2,15 @@
 -- The SEIR model from https://docs.birch.sh/examples/VectorBorneDisease/ --
 ----------------------------------------------------------------------------
 
+-- Include pow and exp
 include "math.mc"
+
+-- Include data
+include "data.mc"
 
 mexpr
 
--- Observations, -1 indicates the lack of an observation
-let null = negi 1 in
-let ys: [Int] = [ 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 2, 1, 4, 2, 3, 2, 2, 4, 1, 3, 3, 4, 3, 3, 9, 1, 1, 7, 5, 4, 1, 2, 4, 7, 3, 6, 6, 4, 8, 6, 7, 2, 6, 7, 5, 7, 9, 10, 14, 9, 4, 5, 7, 10, 11, 17, 6, 13, 13, 14, 13, 12, 12, 15, 16, 12, 14, 11, 17, 10, 10, 16, 12, 17, 29, 21, 21, 25, 17, 12, 18, 11, 12, 10, 18, 8, 14, 10, 15, 16, 8, 7, 5, 7, 5, 5, 6, 11, 10, 5, 4, 9, 6, 1, 6, 3, 6, 4, 3, 5, 1, 8, 2, 9, 4, 5, 4, 3, 3, 4, 4, 3, 3, 4, 5, 2, 5, 4, 2, 6, 4, 2, 0, 4, 2, 1, 1, 1, 2, 3, 3, 3, 0, 3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0, 1, 1, 1, null, null, null, null, null, null, 0, null, null, null, null, null, null, 0 ] in
-
+-- Human parameters
 let hNu: Float = 0. in
 let hMu: Float = 1. in
 let hLambda: Float = assume (Beta 1. 1.) in
@@ -18,6 +19,7 @@ let hDelta: Float =
 let hGamma: Float =
   assume (Beta (addf 1. (divf 2. 4.5)) (subf 3. (divf 2. 4.5))) in
 
+-- Mosquito parameters
 let mNu: Float = divf 1. 7. in
 let mMu: Float = divf 6. 7. in
 let mLambda: Float = assume (Beta 1. 1.) in
@@ -25,9 +27,11 @@ let mDelta: Float =
   assume (Beta (addf 1. (divf 2. 6.5)) (subf 3. (divf 2. 6.5))) in
 let mGamma: Float = 0. in
 
+-- Other parameters
 let rho: Float = assume (Beta 1. 1.) in
 let z: Int = 0 in
 
+-- Human SEIR component
 let n: Int = 7370 in
 let hI: Int = addi 1 (assume (Poisson 5.0)) in
 let hE: Int = assume (Poisson 5.0) in
@@ -35,22 +39,26 @@ let hR: Int =
   floorfi (assume (Uniform 0. (int2float (addi 1 (subi (subi n hI) hE))))) in
 let hS: Int = subi (subi (subi n hE) hI) hR in
 
+-- Human initial deltas
 let hDeltaS: Int = 0 in
 let hDeltaE: Int = hE in
 let hDeltaI: Int = hI in
 let hDeltaR: Int = 0 in
 
+-- Mosquito SEIR component
 let u: Float = assume (Uniform (negf 1.) 2.) in
 let mS: Int = floorfi (mulf (int2float n) (pow 10. u)) in
 let mE: Int = 0 in
 let mI: Int = 0 in
 let mR: Int = 0 in
 
+-- Mosquito initial deltas
 let mDeltaS: Int = 0 in
 let mDeltaE: Int = 0 in
 let mDeltaI: Int = 0 in
 let mDeltaR: Int = 0 in
 
+-- Conditioning function
 let condition: Int -> Int -> Int -> Int =
   lam t: Int. lam zP: Int. lam hDeltaI: Int.
     let z: Int = addi zP hDeltaI in
@@ -62,8 +70,10 @@ let condition: Int -> Int -> Int -> Int =
     z
 in
 
+-- Initial conditioning
 let z = condition 0 z hDeltaI in
 
+-- Simulation function
 recursive let simulate:
   Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> ()
   =
@@ -126,4 +136,5 @@ recursive let simulate:
       simulate tNext hS hE hI hR mS mE mI mR z
 in
 
+-- Initiate recursion
 simulate 1 hS hE hI hR mS mE mI mR z
