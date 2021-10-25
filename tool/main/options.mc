@@ -16,7 +16,9 @@ let menu = strJoin "\n"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
 , "  --timeout-s      Specify a timeout in seconds (default off). Requires the command
                       line tool 'timeout' to be installed (installed by default on Linux).
-                      Install on macOS via 'brew install coreutils'."
+                      Install on macOS via 'brew install coreutils'. The timeout is
+                      applied to benchmarks only (not build commands, pre or post
+                      commands)."
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"

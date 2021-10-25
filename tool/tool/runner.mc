@@ -63,21 +63,6 @@ let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
       (r, ms)
     else never
 
--- Like runCommand but fail on exit code different than 0
-let runCommandFailOnExit : Options -> String -> String -> Path -> (ExecResult, Float) =
-  lam ops. lam cmd. lam stdin. lam cwd.
-    match runCommand ops cmd stdin cwd with (r, ms) then
-      if eqi r.returncode 0 then (r, ms)
-      else
-        error (join ["Command ", cmd, "\n"
-                    , "failed with exit code ", int2string r.returncode, "\n"
-                    , "Stdin: ", stdin, "\n"
-                    , "Stdout: ", r.stdout, "\n"
-                    , "Stderr: ", r.stderr, "\n"
-                    , "cwd: ", cwd, "\n"
-                    ])
-    else never
-
 -- Like 'runCommand' but only returns the elapsed time.
 let runCommandTime : Options -> String -> String -> Path -> Float =
   lam ops. lam cmd. lam stdin. lam cwd.
@@ -113,10 +98,11 @@ let runBenchmark = -- ... -> BenchmarkResult
       rec runtime.command
     in
 
+    -- Run an optional command without timeout
     let runOpCmd : Option String -> App -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
                    let fullCmd = instantiateCmd cmd app in
-                   runCommandTime ops fullCmd "" app.cwd)
+                   runCommandTime {ops with timeoutSec = None ()} fullCmd "" app.cwd)
                 cmd
     in
 
@@ -138,7 +124,6 @@ let runBenchmark = -- ... -> BenchmarkResult
     let appSupportedCmd = findSupportedCommand runtime in
 
     -- Run the benchmark for a particular Input
-    -- let runBench : String -> (Option Float, [Float]) = lam stdin.
     let runInput: Input -> Result =
       lam input: Input.
 
