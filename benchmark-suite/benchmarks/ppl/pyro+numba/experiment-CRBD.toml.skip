@@ -2,38 +2,17 @@
 [[app]]
 runtime = "Python3"
 argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 8192"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 10000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 16384"
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 100000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 32768"
-
-[[app]]
-runtime = "Python3"
-argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 65536"
-
-[[app]]
-runtime = "Python3"
-argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 131072"
-
-[[app]]
-runtime = "Python3"
-argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 262144"
-
-[[app]]
-runtime = "Python3"
-argument = "experiment1.py"
-options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 524288"
-
+options = "--tree ../input-data/Alcedinidae.phyjson --rho 0.5684210526315789 --nparticles 1000000"
 
 [[post]]
 runtime = "id"

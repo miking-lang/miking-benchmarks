@@ -1,0 +1,18 @@
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--nparticles 10000"
+
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--nparticles 50000"
+
+[[app]]
+runtime = "Birch"
+argument = "infer"
+options = "--nparticles 100000"
+
+[[post]]
+runtime = "Python3"
+argument = "logz.py"

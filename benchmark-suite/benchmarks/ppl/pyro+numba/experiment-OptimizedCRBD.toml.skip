@@ -1,37 +1,37 @@
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 8192"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 10000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 16384"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 25000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 32768"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 50000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 65536"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305 --nparticles 100000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 131072"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 250000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 262144"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 500000"
 
 [[app]]
 runtime = "Python3"
 argument = "experiment2.py"
-options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 524288"
+options = "--tree ../input-data/TitTyranRest.phyjson --rho 0.6869565217391305  --nparticles 1000000"
 
 
 [[post]]

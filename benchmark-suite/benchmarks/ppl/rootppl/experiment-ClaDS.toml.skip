@@ -1,5 +1,3 @@
-timing = "complete"
-
 [[app]]
 runtime = "RootPPL"
 argument = "Lari_clads2_delayed.cu"
@@ -12,10 +10,9 @@ argument = "Lari_clads2_delayed.cu"
 options = "20000 1"
 buildOptions = "-j 32 --omp"
 
-
 [[app]]
 runtime = "RootPPL"
-argument = "Lari_clads2_delayed_optimized.cu"
+argument = "Lari_clads2_delayed.cu"
 options = "20000 1"
 buildOptions = "-j 32 --arch 75"
 
