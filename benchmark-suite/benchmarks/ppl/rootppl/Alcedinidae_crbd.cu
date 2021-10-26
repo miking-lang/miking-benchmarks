@@ -7,7 +7,8 @@
 #include <fstream>
 
 #include "inference/smc/smc.cuh"
-#include "phyrppl/tree-utils/tree_utils.cuh"
+#include "phyrppl/trees/tree_utils.cuh"
+#include "phyrppl/trees/birds.cuh"
 #include "utils/math.cuh"
 
 typedef Alcedinidae_tree_t tree_t;
@@ -22,13 +23,10 @@ const floating_t theta = 1.0;
 const floating_t kMu = 1.0;
 const floating_t thetaMu = 0.5;
 
-#include "phyrppl/models/crbd.cuh"
+#include "phyrppl/models/CRBD.cuh"
 
 MAIN(
-    ADD_BBLOCK(simCRBD)
-    ADD_BBLOCK(simTree)
-    //ADD_BBLOCK(survivorshipBias)
-    
-    //SMC(saveResults)
-    SMC(NULL)
+     FIRST_BBLOCK(simCRBD)
+     //SMC(saveResults)
+     SMC(NULL)
 )

@@ -1,0 +1,56 @@
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "-j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "10000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "-j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "50000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "-j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "100000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--omp -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "10000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--omp -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "50000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--omp -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "100000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "10000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "50000"
+
+[[app]]
+runtime = "CorePPL"
+argument = "yap-dengue.mc"
+buildOptions = "--arch 75 -j 32 --ess_threshold 1.0 --stack_size 17000"
+options = "100000"
+
+[[post]]
+runtime = "id"

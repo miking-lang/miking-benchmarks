@@ -1,0 +1,9 @@
+model:
+  class: YapDengueModel
+filter:
+  class: ParticleFilter
+  trigger: 1.0
+  delayed: false
+sampler:
+  nsamples: 1
+input: input/yap_dengue.json

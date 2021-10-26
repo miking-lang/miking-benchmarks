@@ -1,0 +1,17 @@
+[[app]]
+runtime = "Python3"
+argument = "main.py"
+options = "--nparticles 10000"
+
+[[app]]
+runtime = "Python3"
+argument = "main.py"
+options = "--nparticles 50000"
+
+[[app]]
+runtime = "Python3"
+argument = "main.py"
+options = "--nparticles 100000"
+
+[[post]]
+runtime = "id"

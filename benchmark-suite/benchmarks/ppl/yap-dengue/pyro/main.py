@@ -2,8 +2,8 @@
 
 import sys
 import getopt
-from infer.smcfilter import SMCFilter
-#from pyro.infer import SMCFilter
+from infer.smcfilter import SMCFilter, SMCFailed
+#from pyro.infer import SMCFilter, SMCFailed
 from models.yap_dengue import YapDengue, YapDengueGuide
 
 

@@ -17,7 +17,8 @@
 #include "utils/stack.cuh"
 #include "dists/delayed.cuh"
 
-#include "phyrppl/tree-utils/tree_utils.cuh"
+#include "phyrppl/trees/tree_utils.cuh"
+#include "phyrppl/trees/birds.cuh"
 
 typedef Lari_tree_t tree_t;
 const floating_t rho = 0.8410596026490066;
@@ -37,15 +38,10 @@ const int M = 25; // subsample size
 
 #define NUM_BBLOCKS 3
 
-#include "phyrppl/models/clads2_delayed.cuh"
+#include "phyrppl/models/ClaDS2_delayed.cuh"
 
 MAIN({
-
-    ADD_BBLOCK(simClaDS2);
-    ADD_BBLOCK(simTree);
-    ADD_BBLOCK(conditionOnDetection);
-    //ADD_BBLOCK(justResample);
-    //ADD_BBLOCK(sampleFinalLambda);
+    FIRST_BBLOCK(simClaDS2)
     SMC(saveResults);
     //SMC(NULL)
 })
