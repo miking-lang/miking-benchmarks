@@ -16,6 +16,9 @@ all:
 install: all
 	cp build/${TOOL_NAME} ${BIN_PATH}
 
+uninstall:
+	rm -f ${BIN_PATH}/${TOOL_NAME}
+
 clean:
 	rm -rf build
 	rm -f output.toml
@@ -45,7 +48,7 @@ run-test: all
 	--iters 5 \
 	--output toml \
 	--log info \
-	--timeout-s 1 \
+	--timeout-sec 1 \
 	--warmups 1
 
 test:
@@ -53,7 +56,7 @@ test:
 	mi compile --test tool/tool/runner.mc; ./runner
 	mi compile --test tool/tool/utils.mc; ./utils
 	mi compile --test tool/tool/path.mc; ./path
-	mi compile --test tool/tool/data.mc; ./data
+	mi compile --test tool/tool/types.mc; ./types
 
 run-experiment-CRBD: all
 	cp benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml.skip benchmark-suite/benchmarks/ppl/birch/experiment-CRBD.toml

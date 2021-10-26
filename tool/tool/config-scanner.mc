@@ -1,5 +1,5 @@
 include "path.mc"
-include "data.mc"
+include "types.mc"
 include "utils.mc"
 
 -- Check if 'path' is a valid directory for a benchmark

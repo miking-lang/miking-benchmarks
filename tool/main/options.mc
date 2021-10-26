@@ -1,7 +1,7 @@
 include "log.mc"
 
 include "../tool/path.mc"
-include "../tool/data.mc"
+include "../tool/types.mc"
 
 let menu = strJoin "\n"
 [ "Usage: mi main -- <options>"
@@ -14,7 +14,7 @@ let menu = strJoin "\n"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {toml} (default: toml)"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
-, "  --timeout-s      Specify a timeout in seconds (default off). Requires the command
+, "  --timeout-sec    Specify a timeout in seconds (default off). Requires the command
                       line tool 'timeout' to be installed (installed by default on Linux).
                       Install on macOS via 'brew install coreutils'. The timeout is
                       applied to benchmarks only (not build commands, pre or post
@@ -77,10 +77,10 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
       parseArgs {ops with warmups = string2int n} args
     else error "--warmups with no argument"
 
-  else match args with ["--timeout-s"] ++ args then
+  else match args with ["--timeout-sec"] ++ args then
     match args with [n] ++ args then
       parseArgs {ops with timeoutSec = Some (string2float n)} args
-    else error "--timeout-s with no argument"
+    else error "--timeout-sec with no argument"
 
   else match args with ["--output"] ++ args then
     match args with [s] ++ args then
