@@ -82,7 +82,8 @@ Each benchmark needs to specify:
    * a number of (optional) string values that will be inserted into the runtime
    command. For example, specifying `options="--command-option"` will insert any
    occurrence of `{option}` with `--command-option` in the runtime's `command`,
-   `build_command` or `clean_command` (see #runtime-configuration-files).
+   `build_command` or `clean_command` (see [Runtime Configuration
+   Files](#runtime-configuration-files)).
 * how `timing` of the benchmark is done,
 * (optional) what preprocessing step `[pre]` (same internal structure as an
   `[[app]]`) should be run on all inputs,
