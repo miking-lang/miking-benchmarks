@@ -1,63 +1,53 @@
-include "string.mc"
-include "utils.mc"
-include "python/python.mc"
+
+include "sys.mc"
+include "common.mc"
 
 type Path = String
 
-let _blt = pyimport "builtins"
-let _os = pyimport "os"
-let _os_path = pythonGetAttr _os "path"
-let _shutil = pyimport "shutil"
-
--- Check if a path exists
 let pathExists : Path -> Bool = lam path.
-  pyconvert (pycall _os_path "exists" (path,))
+  match sysRunCommand ["ls", path] "" "." with {returncode = 0} then true
+  else false
 
 utest pathExists "." with true
 
 -- Check if path is a command
-let pathIsCmd = lam path.
-  match pyconvert (pycall _shutil "which" (path,))
-  with "" then false else true
+let pathIsCmd = lam path. sysCommandExists path
 
+utest pathIsCmd "ls" with true
+
+-- Concatenate two paths
 let pathConcat : Path -> Path -> Path = lam p1. lam p2.
   join [p1, "/", p2]
 
 utest pathConcat "/path/to" "hello" with "/path/to/hello"
 
--- Get the path of 'path' relative to 'start'
-let pathRel = lam path. lam start.
-  pyconvert (pycallkw _os_path "relpath" (path,) {start = start})
-
-utest pathRel "." "" with "."
-utest pathRel "." "." with "."
-utest pathRel ".." "" with ".."
-utest pathRel ".." "." with ".."
-
 -- Get the absolute path of 'path' (could be relative or absolute)
 let pathAbs = lam path.
-  pyconvert (pycall _os_path "abspath" (path,))
+  match sysRunCommand ["pwd"] "" path with {stdout = stdout} then strTrim stdout
+  else never
 
--- Format path into a string using 'delim' as delimiter instead of the usual
--- path separator
-let pathWithDelim = lam path. lam delim.
-  let sep = pyconvert (pythonGetAttr _os_path "sep") in
-  strReplace path sep delim
-
-utest pathWithDelim "" "xyz" with ""
-utest pathWithDelim "path/to/something" "::" with "path::to::something"
+--utest pathAbs "." with ""
 
 -- Get all the files and sub-directories immediately below a directory
 let pathList : Path -> {dirs : [Path], files : [Path]} = lam dir.
   if pathExists dir then
-    let walk = pycall _blt "list" (pycall _os "walk" (dir,),) in
-    let lst = pyconvert walk in
-    match lst with [] then
-      {dirs = [], files = []}
-    else match lst with [top] ++ _ then
-      {dirs = top.1, files = top.2}
-    else never
+    let files =
+      match sysRunCommand ["find", ".", "-maxdepth", "1", "-type", "f"] "" dir
+      with {stdout = stdout} then
+      strSplit "\n" (strTrim stdout)
+      else never
+    in
+    let dirs =
+      match sysRunCommand ["find", ".", "-maxdepth", "1", "-type", "d"] "" dir
+      with {stdout = stdout} then
+        let allDirs = strSplit "\n" (strTrim stdout) in
+        filter (lam d. not (eqString "." d)) allDirs
+      else never
+    in
+    {files = files, dirs = dirs}
   else error (concat "No such directory: " dir)
+
+-- utest pathList "." with {files = [], dirs = []}
 
 -- Traverse through the directory tree, starting at 'root' and with accumulator
 -- 'acc', accumulating a value by applying 'f' on each file in the tree. Only

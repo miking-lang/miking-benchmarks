@@ -78,12 +78,12 @@ Each benchmark needs to specify:
 * A list `[[app]]` of applications to benchmark, with each list item consisting of
    * a `runtime`, e.g. what programming language the benchmark is written in,
    * an `argument` for specifying how to run the benchmark in its runtime,
-   * an (optional) `options` for specifying command line options, and
-   * an (optional) `buildOptions` for specifying command line build options,
-   * an (optional) `base` for specifying where the application is built and run
-     (default: the directory of the toml file),
-   * an (optional) `tags` for specifying a list of string tags for the
-     application.
+   * an (optional) `base` for specifying where the application is built and run,
+   * a number of (optional) string values that will be inserted into the runtime
+   command. For example, specifying `options="--command-option"` will insert any
+   occurrence of `{option}` with `--command-option` in the runtime's `command`,
+   `build_command` or `clean_command` (see [Runtime Configuration
+   Files](#runtime-configuration-files)).
 * how `timing` of the benchmark is done,
 * (optional) what preprocessing step `[pre]` (same internal structure as an
   `[[app]]`) should be run on all inputs,

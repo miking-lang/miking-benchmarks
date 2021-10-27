@@ -1,11 +1,7 @@
-include "../tool/config-scanner.mc"
-include "../tool/runner.mc"
-include "../tool/path.mc"
-include "../tool/post-process.mc"
-include "string.mc"
-include "common.mc"
 include "log.mc"
 
+include "../tool/path.mc"
+include "../tool/types.mc"
 
 let menu = strJoin "\n"
 [ "Usage: mi main -- <options>"
@@ -16,15 +12,20 @@ let menu = strJoin "\n"
 , "  --runtimes       Root directory of the runtime definitions (default '.')"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
-, "  --output         Output format {csv,toml}"
+, "  --output         Output format {toml} (default: toml)"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
-, "  --timeout-s      Specify a timeout in seconds (default off). Requires the command
+, "  --timeout-sec    Specify a timeout in seconds (default off). Requires the command
                       line tool 'timeout' to be installed (installed by default on Linux).
-                      Install on macOS via 'brew install coreutils'."
+                      Install on macOS via 'brew install coreutils'. The timeout is
+                      applied to benchmarks only (not build commands, pre or post
+                      commands)."
 , "  --enable-clean   Clean up files after running benchmarks (default on)"
 , "  --disable-clean  Do not clean up files after running benchmarks"
 , "  --plot           Plot results from this file (optional)"
 ]
+
+let toToml : [BenchmarkResult] -> String = lam r.
+  tomlToString (collectedResultToToml r)
 
 type Options =
   { benchmarks : [String]
@@ -42,7 +43,7 @@ let options : Options =
   , runtimes = []
   , iters = 1
   , warmups = 1
-  , output = toTOML
+  , output = toToml
   , timeoutSec = None ()
   , clean = true
   , plot = None ()
@@ -76,17 +77,16 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
       parseArgs {ops with warmups = string2int n} args
     else error "--warmups with no argument"
 
-  else match args with ["--timeout-s"] ++ args then
+  else match args with ["--timeout-sec"] ++ args then
     match args with [n] ++ args then
       parseArgs {ops with timeoutSec = Some (string2float n)} args
-    else error "--timeout-s with no argument"
+    else error "--timeout-sec with no argument"
 
   else match args with ["--output"] ++ args then
     match args with [s] ++ args then
       let s = str2lower s in
       let outFun =
-          match s with "csv" then toCSV
-          else match s with "toml" then toTOML
+          match s with "toml" then toToml
           else error (concat "Unknown output option: " s)
       in
       parseArgs {ops with output = outFun} args
@@ -123,9 +123,9 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
   else never
 end
 
-let verifyOptions = lam ops.
+let verifyOptions = lam ops : Options.
   map
-    (lam t. if t.0 then () else printLn menu; error t.1)
+    (lam t : (Bool, String). if t.0 then () else printLn menu; error t.1)
     [ (forAll pathExists ops.runtimes,
        concat "No such directory: " (strJoin " " ops.runtimes))
     , (forAll pathExists ops.benchmarks,
@@ -137,21 +137,3 @@ let verifyOptions = lam ops.
     , (pathExists (optionGetOr "." ops.plot),
        concat "No such directory: " (optionGetOr "." ops.plot))
     ]
-
-let main = lam.
-  let ops = parseArgs options (tail argv) in
-  verifyOptions ops;
-
-  match ops.plot with Some f then --TODO(Linnea, 2021-03-07): use separate
-                                  -- scripts for running and post-processing
-    plotByData ops.benchmarks f
-  else
-    let runtimes = findRuntimes ops.runtimes in
-    let bs = findBenchmarks ops.benchmarks runtimes in
-    let rs = runBenchmarks bs runtimes ops in
-    printLn (ops.output rs);
-    writeFile "output.toml" (ops.output rs)
-
-mexpr
-
-main ()
