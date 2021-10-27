@@ -1,4 +1,4 @@
-
+build/
 *.png
 report.pdf
 *.log
