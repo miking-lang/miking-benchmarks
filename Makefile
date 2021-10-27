@@ -70,6 +70,7 @@ run-experiment-example: all
 		--runtimes benchmark-suite/runtimes \
 		--iters 1 \
 		--output toml \
+		--log info \
 		--warmups 0
 	cp output.toml output-example.toml
 	find . -name $(experiment_example).toml -delete
@@ -83,6 +84,7 @@ run-experiment-CRBD: all
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
+		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-$(experiment_crbd).toml
 	find . -name $(experiment_crbd).toml -delete
@@ -95,6 +97,7 @@ run-experiment-OptimizedCRBD:
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
+		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
 	find . -name $(experiment_optimized_crbd).toml -delete
@@ -107,6 +110,7 @@ run-experiment-ClaDS:
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
+		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-ClaDS.toml
 	rm benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
@@ -119,6 +123,7 @@ run-experiment-SSM:
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
+		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-SSM.toml
 	find . -name $(experiment_SSM).toml -delete
