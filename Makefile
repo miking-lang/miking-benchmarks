@@ -9,7 +9,7 @@ all:
 	cp ${TOOL_NAME} build/${TOOL_NAME}
 	rm ${TOOL_NAME}
 
-install: build/${TOOL_NAME}
+install:
 	cp build/${TOOL_NAME} ${BIN_PATH}
 
 uninstall:
@@ -19,7 +19,7 @@ clean:
 	rm -rf build
 	rm -f output.toml
 
-run: build/${TOOL_NAME}
+run:
 	build/${TOOL_NAME} \
 	--benchmarks benchmark-suite/benchmarks/mcore-ocaml \
 	--runtimes benchmark-suite/runtimes \
@@ -28,7 +28,7 @@ run: build/${TOOL_NAME}
 	--log info \
 	--warmups 1 > results.toml
 
-run-ppl: build/${TOOL_NAME}
+run-ppl:
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
 		--runtimes benchmark-suite/runtimes \
@@ -36,7 +36,7 @@ run-ppl: build/${TOOL_NAME}
 		--output toml \
 		--warmups 1
 
-run-test: build/${TOOL_NAME}
+run-test:
 	build/${TOOL_NAME} \
 	--benchmarks benchmark-suite/test/benchmarks \
 	--runtimes benchmark-suite/runtimes \
@@ -63,7 +63,7 @@ number_warmups=1
 prefix=A
 
 experiment_example=example
-run-experiment-example: build/${TOOL_NAME}
+run-experiment-example:
 	find . -name $(experiment_example).toml.skip -execdir cp '{}' $(experiment_example).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -77,7 +77,7 @@ run-experiment-example: build/${TOOL_NAME}
 
 
 experiment_crbd=experiment-CRBD
-run-experiment-CRBD: build/${TOOL_NAME}
+run-experiment-CRBD:
 	find . -name $(experiment_crbd).toml.skip -execdir cp '{}' $(experiment_crbd).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -103,7 +103,7 @@ run-experiment-OptimizedCRBD:
 	find . -name $(experiment_optimized_crbd).toml -delete
 
 
-run-experiment-ClaDS: build/${TOOL_NAME}
+run-experiment-ClaDS:
 	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -116,7 +116,7 @@ run-experiment-ClaDS: build/${TOOL_NAME}
 	rm benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 
 experiment_SSM=experiment-SSM
-run-experiment-SSM: build/${TOOL_NAME}
+run-experiment-SSM:
 	find . -name $(experiment_SSM).toml.skip -execdir cp '{}' $(experiment_SSM).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
