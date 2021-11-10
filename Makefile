@@ -3,13 +3,15 @@ BIN_PATH=${HOME}/.local/bin
 
 .PHONY: all install uninstall run run-test clean
 
-all:
+all: build/${TOOL_NAME}
+
+build/${TOOL_NAME}: $(shell find tool -name "*.mc")
 	mi compile tool/main/${TOOL_NAME}.mc
 	mkdir -p build
 	cp ${TOOL_NAME} build/${TOOL_NAME}
 	rm ${TOOL_NAME}
 
-install:
+install: build/${TOOL_NAME}
 	cp build/${TOOL_NAME} ${BIN_PATH}
 
 uninstall:
@@ -19,7 +21,7 @@ clean:
 	rm -rf build
 	rm -f output.toml
 
-run:
+run: build/${TOOL_NAME}
 	build/${TOOL_NAME} \
 	--benchmarks benchmark-suite/benchmarks/mcore-ocaml \
 	--runtimes benchmark-suite/runtimes \
@@ -28,7 +30,7 @@ run:
 	--log info \
 	--warmups 1 > results.toml
 
-run-ppl:
+run-ppl: build/${TOOL_NAME}
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
 		--runtimes benchmark-suite/runtimes \
@@ -36,7 +38,7 @@ run-ppl:
 		--output toml \
 		--warmups 1
 
-run-test:
+run-test: build/${TOOL_NAME}
 	build/${TOOL_NAME} \
 	--benchmarks benchmark-suite/test/benchmarks \
 	--runtimes benchmark-suite/runtimes \
@@ -63,7 +65,7 @@ number_warmups=1
 prefix=A
 
 experiment_example=example
-run-experiment-example:
+run-experiment-example: build/${TOOL_NAME}
 	find . -name $(experiment_example).toml.skip -execdir cp '{}' $(experiment_example).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -77,7 +79,7 @@ run-experiment-example:
 
 
 experiment_crbd=experiment-CRBD
-run-experiment-CRBD:
+run-experiment-CRBD: build/${TOOL_NAME}
 	find . -name $(experiment_crbd).toml.skip -execdir cp '{}' $(experiment_crbd).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -90,7 +92,7 @@ run-experiment-CRBD:
 	find . -name $(experiment_crbd).toml -delete
 
 experiment_optimized_crbd=experiment-OptimizedCRBD
-run-experiment-OptimizedCRBD:
+run-experiment-OptimizedCRBD: build/${TOOL_NAME}
 	find . -name $(experiment_optimized_crbd).toml.skip -execdir cp '{}' $(experiment_optimized_crbd).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -103,7 +105,7 @@ run-experiment-OptimizedCRBD:
 	find . -name $(experiment_optimized_crbd).toml -delete
 
 
-run-experiment-ClaDS:
+run-experiment-ClaDS: build/${TOOL_NAME}
 	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
@@ -116,7 +118,7 @@ run-experiment-ClaDS:
 	rm benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 
 experiment_SSM=experiment-SSM
-run-experiment-SSM:
+run-experiment-SSM: build/${TOOL_NAME}
 	find . -name $(experiment_SSM).toml.skip -execdir cp '{}' $(experiment_SSM).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
