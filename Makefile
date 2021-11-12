@@ -3,7 +3,9 @@ BIN_PATH=${HOME}/.local/bin
 
 .PHONY: all install uninstall run run-test clean
 
-all:
+all: build/${TOOL_NAME}
+
+build/${TOOL_NAME}: $(shell find tool -name "*.mc")
 	mi compile tool/main/${TOOL_NAME}.mc
 	mkdir -p build
 	cp ${TOOL_NAME} build/${TOOL_NAME}
@@ -90,7 +92,7 @@ run-experiment-CRBD: build/${TOOL_NAME}
 	find . -name $(experiment_crbd).toml -delete
 
 experiment_optimized_crbd=experiment-OptimizedCRBD
-run-experiment-OptimizedCRBD:
+run-experiment-OptimizedCRBD: build/${TOOL_NAME}
 	find . -name $(experiment_optimized_crbd).toml.skip -execdir cp '{}' $(experiment_optimized_crbd).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl \
