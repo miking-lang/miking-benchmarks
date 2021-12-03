@@ -3,13 +3,16 @@ BIN_PATH=${HOME}/.local/bin
 
 .PHONY: all install uninstall run run-test clean
 
-all: build/${TOOL_NAME}
+all: build/${TOOL_NAME} build/toml-to-json
 
 build/${TOOL_NAME}: $(shell find tool -name "*.mc")
 	mi compile tool/main/${TOOL_NAME}.mc
 	mkdir -p build
 	cp ${TOOL_NAME} build/${TOOL_NAME}
 	rm ${TOOL_NAME}
+
+build/toml-to-json: toml-to-json/*
+	$(CXX) -std=c++17 -o build/toml-to-json toml-to-json/prog.cpp
 
 install: build/${TOOL_NAME}
 	cp build/${TOOL_NAME} ${BIN_PATH}
@@ -131,7 +134,7 @@ run-experiment-SSM: build/${TOOL_NAME}
 	find . -name $(experiment_SSM).toml -delete
 
 experiment_align=experiment-align
-run-experiment-align: build/${TOOL_NAME}
+run-experiment-align: build/${TOOL_NAME} build/toml-to-json
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl/align \
 		--runtimes benchmark-suite/runtimes \
@@ -139,4 +142,5 @@ run-experiment-align: build/${TOOL_NAME}
 		--output toml \
 		--log info \
 		--warmups $(number_warmups)
+	build/toml-to-json output.toml > $(experiment_align)-output.json
 	mv output.toml $(experiment_align)-output.toml
