@@ -98,10 +98,10 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> () =
 in
 
 -- Priors
--- let lambda = 0.125 in
--- let mu = 0.05 in
-let lambda = assume (Gamma 1.0 1.0) in
-let mu = assume (Gamma 1.0 0.5) in
+let lambda = 0.2 in
+let mu = 0.1 in
+-- let lambda = assume (Gamma 1.0 1.0) in
+-- let mu = assume (Gamma 1.0 0.5) in
 
 -- Adjust for normalizing constant
 let numLeaves = countLeaves tree in
