@@ -68,7 +68,7 @@ experiment_example=example
 run-experiment-example: build/${TOOL_NAME}
 	find . -name $(experiment_example).toml.skip -execdir cp '{}' $(experiment_example).toml ';'
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl \
+		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters 1 \
 		--output toml \
@@ -82,7 +82,7 @@ experiment_crbd=experiment-CRBD
 run-experiment-CRBD: build/${TOOL_NAME}
 	find . -name $(experiment_crbd).toml.skip -execdir cp '{}' $(experiment_crbd).toml ';'
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl \
+		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
@@ -95,7 +95,7 @@ experiment_optimized_crbd=experiment-OptimizedCRBD
 run-experiment-OptimizedCRBD: build/${TOOL_NAME}
 	find . -name $(experiment_optimized_crbd).toml.skip -execdir cp '{}' $(experiment_optimized_crbd).toml ';'
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl \
+		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
@@ -108,7 +108,7 @@ run-experiment-OptimizedCRBD: build/${TOOL_NAME}
 run-experiment-ClaDS: build/${TOOL_NAME}
 	cp benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml.skip benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl \
+		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
@@ -121,7 +121,7 @@ experiment_SSM=experiment-SSM
 run-experiment-SSM: build/${TOOL_NAME}
 	find . -name $(experiment_SSM).toml.skip -execdir cp '{}' $(experiment_SSM).toml ';'
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl \
+		--benchmarks benchmark-suite/benchmarks/ppl/yap-dengue \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \
@@ -129,3 +129,14 @@ run-experiment-SSM: build/${TOOL_NAME}
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-SSM.toml
 	find . -name $(experiment_SSM).toml -delete
+
+experiment_align=experiment-align
+run-experiment-align: build/${TOOL_NAME}
+	build/${TOOL_NAME} \
+		--benchmarks benchmark-suite/benchmarks/ppl/align \
+		--runtimes benchmark-suite/runtimes \
+		--iters $(number_iterations) \
+		--output toml \
+		--log info \
+		--warmups $(number_warmups)
+	mv output.toml $(experiment_align)-output.toml
