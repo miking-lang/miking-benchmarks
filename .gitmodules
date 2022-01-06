@@ -1,0 +1,3 @@
+[submodule "benchmark-suite/benchmarks/ppl/phyl/rootppl/phyrppl"]
+	path = benchmark-suite/benchmarks/ppl/phyl/rootppl/phyrppl
+	url = https://github.com/vsenderov/phyrppl.git
