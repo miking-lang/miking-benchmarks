@@ -258,7 +258,7 @@ appFromToml "path/to/config.toml" (tomlFromStringExn
 "
 runtime = \"CorePPL\"
 argument = \"crbd.mc\"
-buildOptions = \"-j 32 --stack_size 1000\"
+buildOptions = \"-j 32 --stack-size 1000\"
 options = \"8192\"
 importantInfo = \"some_info\"
 ") in
@@ -276,7 +276,7 @@ with
 [ "CorePPL", "config.toml", "path/to"
 , "options", "8192"
 , "argument", "crbd.mc"
-, "buildOptions", "-j 32 --stack_size 1000"
+, "buildOptions", "-j 32 --stack-size 1000"
 , "importantInfo", "some_info"
 ]
 

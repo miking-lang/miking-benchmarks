@@ -2,6 +2,6 @@ provides = "CorePPL"
 
 [[command]]
 required_executables = ["midppl", "rootppl"]
-build_command = "{buildExtra}; midppl {argument} -m rootppl-smc; rootppl out.cu {buildOptions}"
-command = "./program {options}"
-clean_command = "{cleanExtra}; rootppl clean; rm -rf ess.txt log_norm_const.txt out.cu program"
+build_command = "{buildExtra}; midppl {argument} -m rootppl-smc; rootppl out.cu -w {buildOptions}"
+command = "./a.out {options}"
+clean_command = "{cleanExtra}; rm -rf out.cu a.out build/"

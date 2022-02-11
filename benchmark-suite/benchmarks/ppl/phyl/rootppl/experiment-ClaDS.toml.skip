@@ -8,13 +8,13 @@ buildOptions = "-j 32"
 runtime = "RootPPL"
 argument = "Lari_clads2_delayed.cu"
 options = "20000 1"
-buildOptions = "-j 32 --omp"
+buildOptions = "-j 32 --target omp"
 
 [[app]]
 runtime = "RootPPL"
 argument = "Lari_clads2_delayed.cu"
 options = "20000 1"
-buildOptions = "-j 32 --arch 75"
+buildOptions = "-j 32 --target sm_75"
 
 [[post]]
 runtime = "id"
