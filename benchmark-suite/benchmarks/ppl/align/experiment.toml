@@ -1,3 +1,5 @@
+timing="complete"
+
 [[app]]
 runtime = "CorePPL"
 argument = "crbd-unaligned.mc --resample align"
