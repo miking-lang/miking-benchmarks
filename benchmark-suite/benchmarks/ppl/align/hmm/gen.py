@@ -11,8 +11,7 @@ POS_OBS_STDEV = 2
 ALT_STDEV = 10
 ALT_OBS_STDEV = 5
 
-def flip():
-    return bool(random.getrandbits(1))
+def flip(): return bool(random.getrandbits(1))
 
 # Set up initial position and altitude
 pos = [random.uniform(0,100)]
@@ -25,8 +24,7 @@ for i in range(STEPS):
 
     # Output observations
     pos_obs.append(random.normalvariate(pos[i], POS_OBS_STDEV))
-    if flip():
-        alt_obs.append(random.normalvariate(alt[i], ALT_OBS_STDEV))
+    if flip(): alt_obs.append(random.normalvariate(alt[i], ALT_OBS_STDEV))
 
     # Transition model
     pos.append(random.normalvariate(pos[i] + VELOCITY, POS_STDEV))
