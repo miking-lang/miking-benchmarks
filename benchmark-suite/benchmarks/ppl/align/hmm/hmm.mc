@@ -44,7 +44,7 @@ recursive let simulate: Int -> Int -> Float -> Float -> () =
 
   let iAlt: Int =
     if assume (Bernoulli 0.5) then
-      if eqi (length ysAlt) iAlt then weight (negf inf); iAlt else
+      if eqi (length ysAlt) iAlt then weight (negf inf); resample; iAlt else
         let dataAlt: Float = get ysAlt iAlt in
         observe dataAlt (Gaussian alt 5.);
         resample;
@@ -58,7 +58,7 @@ recursive let simulate: Int -> Int -> Float -> Float -> () =
 
   if eqi (length ysPos) t then
     -- If we have not seen all altitude observations, this run fails
-    if lti iAlt (length ysAlt) then weight (negf inf); resample else -- TODO Not having ; resample here causes a bug in the compiler
+    if lti iAlt (length ysAlt) then weight (negf inf); resample else -- TODO This late -inf is problematic for SMC (and in particular with alignment, it seems)
     -- We do not return anything here, but simply run the model for
     -- estimating the normalizing constant.
     ()
