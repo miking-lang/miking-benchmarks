@@ -94,17 +94,20 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> Float -> Float -> () =
   lam sigma: Float.
   lam rho: Float.
 
-    let startTime_Mya = getAge parent in
-    let stopTime_Mya = getAge tree in
-    let mEnd = simBranch startTime_Mya stopTime_Mya lambda0 m logAlpha sigma rho in
+  let startTime_Mya = getAge parent in
+  let stopTime_Mya = getAge tree in
+  let mEnd = simBranch startTime_Mya stopTime_Mya lambda0 m logAlpha sigma rho in
 
-    (match tree with Node _ then weight (log (mulf mEnd lambda0)) else weight (log rho));
-    resample; -- This should be added automatically by alignment analysis
+  (match tree with Node _ then weight (log (mulf mEnd lambda0)) else weight (log rho));
+  resample; -- This should be added automatically by alignment analysis
 
-    match tree with Node { left = left, right = right } then
-      simTree left tree lambda0 mEnd logAlpha sigma rho;
-      simTree right tree lambda0 mEnd logAlpha sigma rho
-    else ()
+  let m1 = mulf mEnd (exp (assume (Gaussian logAlpha sigma))) in
+  let m2 = mulf mEnd (exp (assume (Gaussian logAlpha sigma))) in
+
+  match tree with Node { left = left, right = right } then
+    simTree left tree lambda0 m1 logAlpha sigma rho;
+    simTree right tree lambda0 m2 logAlpha sigma rho
+  else ()
 in
 
 -- Priors
