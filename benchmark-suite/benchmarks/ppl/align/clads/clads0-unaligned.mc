@@ -32,19 +32,15 @@ let clads0GoesUndetected: Float -> Float -> Float -> Float -> Float -> Float -> 
     else
       let tSpeciation_My = assume (Exponential (mulf m lambda0)) in
       let currentTime_Mya = subf startTime_Mya tSpeciation_My in
-      let cond =
-        if ltf currentTime_Mya 0. then -- currentTime_Mya < 0
-          eqBool (assume (Bernoulli rho)) true -- detected
-        else false
-      in
-      if cond then false
+      if ltf currentTime_Mya 0. then
+        if assume (Bernoulli rho) then false
+        else true
       else
         let m1 = mulf m (exp (assume (Gaussian logAlpha sigma))) in
         let m2 = mulf m (exp (assume (Gaussian logAlpha sigma))) in
 
         if clads0GoesUndetected currentTime_Mya lambda0 m1 logAlpha sigma rho then
-          if clads0GoesUndetected currentTime_Mya lambda0 m2 logAlpha sigma rho then true
-          else false
+          clads0GoesUndetected currentTime_Mya lambda0 m2 logAlpha sigma rho
         else false
 in
 
@@ -66,12 +62,7 @@ let simBranch: Float -> Float -> Float -> Float -> Float -> Float -> Float -> Fl
   else
     let tSpeciation_My = assume (Exponential (mulf m lambda0)) in
     let currentTime_Mya = subf startTime_Mya tSpeciation_My in
-    let cond =
-      if (ltf currentTime_Mya 0.) then -- currentTime_Mya < 0
-        (eqBool (assume (Bernoulli rho)) true) -- detected
-      else false
-    in
-    if cond then m -- factor in the end
+    if (ltf currentTime_Mya stopTime_Mya) then m
     else
       let m1 = mulf m (exp (assume (Gaussian logAlpha sigma))) in
       if clads0GoesUndetected currentTime_Mya lambda0 m1 logAlpha sigma rho then
