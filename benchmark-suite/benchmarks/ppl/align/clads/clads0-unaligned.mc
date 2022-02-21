@@ -99,7 +99,7 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> Float -> Float -> () =
   let mEnd = simBranch startTime_Mya stopTime_Mya lambda0 m logAlpha sigma rho in
 
   (match tree with Node _ then weight (log (mulf mEnd lambda0)) else weight (log rho));
-  resample; -- This should be added automatically by alignment analysis
+  -- resample; -- This should be added automatically by alignment analysis
 
   let m1 = mulf mEnd (exp (assume (Gaussian logAlpha sigma))) in
   let m2 = mulf mEnd (exp (assume (Gaussian logAlpha sigma))) in
@@ -121,7 +121,7 @@ let numLeaves = countLeaves tree in
 let corrFactor =
   subf (mulf (subf (int2float numLeaves) 1.) (log 2.)) (lnFactorial numLeaves) in
 weight corrFactor;
-resample; -- This should be added automatically by alignment analysis
+-- resample; -- This should be added automatically by alignment analysis
 
 -- Start of the simulation along the two branches
 (match tree with Node { left = left, right = right } then

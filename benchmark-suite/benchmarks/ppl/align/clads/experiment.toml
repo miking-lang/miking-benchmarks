@@ -2,37 +2,37 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample align"
+argument = "clads0-unaligned.mc --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample align"
+argument = "clads0-unaligned.mc --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample align"
+argument = "clads0-unaligned.mc --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "1000000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample likelihood"
+argument = "clads0-unaligned.mc --resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample likelihood"
+argument = "clads0-unaligned.mc --resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd-unaligned.mc --resample likelihood"
+argument = "clads0-unaligned.mc --resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 2000"
 options = "1000000"
 

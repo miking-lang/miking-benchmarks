@@ -2,38 +2,38 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-aligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-aligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-aligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "1000000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-unaligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-unaligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "hmm.mc --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 3000"
+argument = "hmm-unaligned.mc --resample manual"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "1000000"
 
 [[post]]
