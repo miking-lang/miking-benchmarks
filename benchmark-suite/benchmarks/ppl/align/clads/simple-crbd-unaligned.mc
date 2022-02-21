@@ -20,14 +20,14 @@ let goesUndetected: Float -> Float -> Float -> Float -> Bool =
   lam mu: Float.
   lam rho: Float.
     let eventTime_My = assume (Exponential (addf lambda mu)) in
-    let currentTime_Mya = subf startTime_Mya eventTime_My in 
-  --  let currentTime_Mya = subf startTime_Mya tSpeciation_My in
-    let extinction = assume (Bernoulli (divf mu (addf lambda mu))) in
-    if extinction then true
-    else
-      if ltf currentTime_Mya 0. then
+    let currentTime_Mya = subf startTime_Mya eventTime_My in
+    if ltf currentTime_Mya 0. then
         if assume (Bernoulli rho) then false
         else true
+    else
+  --  let currentTime_Mya = subf startTime_Mya tSpeciation_My in
+      let extinction = assume (Bernoulli (divf mu (addf lambda mu))) in
+      if extinction then true
       else
         if goesUndetected currentTime_Mya lambda mu rho then
   	   goesUndetected currentTime_Mya lambda mu rho
@@ -47,12 +47,12 @@ let simBranch: Float -> Float -> Float -> Float -> Float -> () =
     let currentTime_Mya = subf startTime_Mya tSpeciation_My in
     if (ltf currentTime_Mya stopTime_Mya) then ()
     else
-    if goesUndetected currentTime_Mya lambda rho then
-      let w1 = weight (log 2.) in
-      simBranch currentTime_Mya stopTime_Mya lambda mu rho
-    else -- side branch detected
-      let w2 = weight (negf inf) in
-      ()
+      if goesUndetected currentTime_Mya lambda mu rho then
+        let w1 = weight (log 2.) in
+        simBranch currentTime_Mya stopTime_Mya lambda mu rho
+      else -- side branch detected
+        let w2 = weight (negf inf) in
+        ()
 in
 
 -- Simulating along the tree structure
@@ -64,11 +64,13 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> () =
   lam mu: Float.
   lam rho: Float.
   
+    let lnProb1 = mulf (negf mu) (subf (getAge parent) (getAge tree)) in
+    let lnProb2 = match tree with Node _ then log lambda else log rho in
     let startTime_Mya = getAge parent in
     let stopTime_Mya = getAge tree in
-    let w1 = weight( mulf (negf mu) (subf startTime_Mya stopTime_Mya) ) in
+    
     (simBranch startTime_Mya stopTime_Mya lambda mu rho);
-    (match tree with Node _ then weight (log (lambda)) else weight (log rho));
+    let w3 = weight (addf lnProb1 lnProb2) in
     -- resample; -- This should be added automatically by alignment analysis
   
     match tree with Node { left = left, right = right } then
