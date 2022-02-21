@@ -114,10 +114,13 @@ let corrFactor =
 weight corrFactor;
 -- resample; -- This should be added automatically by alignment analysis
 
+let m1 = mulf m (exp (assume (Gaussian logAlpha sigma))) in
+let m2 = mulf m (exp (assume (Gaussian logAlpha sigma))) in
+
 -- Start of the simulation along the two branches
 (match tree with Node { left = left, right = right } then
-   simTree left tree lambda0 m logAlpha sigma rho;
-   simTree right tree lambda0 m logAlpha sigma rho
+   simTree left tree lambda0 m1 logAlpha sigma rho;
+   simTree right tree lambda0 m2 logAlpha sigma rho
  else ());
 
 lambda0
