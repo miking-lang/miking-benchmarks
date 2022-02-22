@@ -88,7 +88,7 @@ let runBenchmark = -- ... -> BenchmarkResult
       recursive let rec = lam commands.
         match commands with [] then
           error (concat
-            "Required executables not found for runtime" runtime.provides)
+            "Required executables not found for runtime " runtime.provides)
         else match commands with [c] ++ commands then
           let c : Command = c in
           if forAll pathIsCmd c.required_executables then c

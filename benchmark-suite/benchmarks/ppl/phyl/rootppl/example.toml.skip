@@ -10,7 +10,7 @@ buildOptions = ""
 runtime = "RootPPL"
 argument = "Alcedinidae_crbd.cu"
 options = "20000 1"
-buildOptions = "--ess_threshold 0.5"
+buildOptions = "--ess-threshold 0.5"
 
 
 [[post]]

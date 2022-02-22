@@ -120,9 +120,9 @@ run-experiment-ClaDS: build/${TOOL_NAME}
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-ClaDS.toml
 	rm benchmark-suite/benchmarks/ppl/rootppl/experiment-ClaDS.toml
 
-experiment_SSM=experiment-SSM
-run-experiment-SSM: build/${TOOL_NAME}
-	find . -name $(experiment_SSM).toml.skip -execdir cp '{}' $(experiment_SSM).toml ';'
+experiment_VBD=experiment-VBD
+run-experiment-VBD: build/${TOOL_NAME}
+	find . -name $(experiment_VBD).toml.skip -execdir cp '{}' $(experiment_VBD).toml ';'
 	build/${TOOL_NAME} \
 		--benchmarks benchmark-suite/benchmarks/ppl/yap-dengue \
 		--runtimes benchmark-suite/runtimes \
@@ -130,8 +130,8 @@ run-experiment-SSM: build/${TOOL_NAME}
 		--output toml \
 		--log info \
 		--warmups $(number_warmups)
-	cp output.toml output-$(prefix)-$(number_iterations)-experiment-SSM.toml
-	find . -name $(experiment_SSM).toml -delete
+	cp output.toml output-$(prefix)-$(number_iterations)-experiment-VBD.toml
+	find . -name $(experiment_VBD).toml -delete
 
 experiment_align=experiment-align
 run-experiment-align: build/${TOOL_NAME} build/toml-to-json

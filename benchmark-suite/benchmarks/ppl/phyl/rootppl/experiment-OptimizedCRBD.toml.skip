@@ -46,43 +46,43 @@ buildOptions = "-j 32"
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "10000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "25000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "50000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "100000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "250000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "500000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "1000000 1"
-buildOptions = "--omp -j 32"
+buildOptions = "--target omp -j 32"
 
 
 
@@ -90,43 +90,43 @@ buildOptions = "--omp -j 32"
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "10000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "25000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "50000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "100000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "250000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "500000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 [[app]]
 runtime = "RootPPL"
 argument = "TitTyranRest_crbd_delayed.cu"
 options = "1000000 1"
-buildOptions = "--arch 75 -j 32"
+buildOptions = "--target sm_75 -j 32"
 
 
 [[post]]
