@@ -1,6 +1,6 @@
-------------------------------------------------------------------------------------
--- The ClaDogenetic Diversification Shifts model with 0 extinction (ClaDS0) model --
-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+-- The ClaDogenetic Diversification Shifts model with constant extinction (ClaDS1) model --
+-------------------------------------------------------------------------------------------
 
 -- The prelude includes a few PPL helper functions
 include "pplprelude.mc"
