@@ -2,37 +2,37 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample align"
+argument = "clads2-unaligned.mc --no-print-samples --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample align"
+argument = "clads2-unaligned.mc --no-print-samples --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample align"
+argument = "clads2-unaligned.mc --no-print-samples --resample align"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "1000000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample likelihood"
+argument = "clads2-unaligned.mc ---no-print-samples -resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample likelihood"
+argument = "clads2-unaligned.mc --no-print-samples --resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "clads2-unaligned.mc --resample likelihood"
+argument = "clads2-unaligned.mc --no-print-samples --resample likelihood"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 10000"
 options = "1000000"
 

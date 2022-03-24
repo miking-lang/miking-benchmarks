@@ -1,54 +1,54 @@
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "50000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "50000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "50000"
 
 [[app]]
 runtime = "CorePPL"
-argument = "vbd.mc"
+argument = "vbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 17000"
 options = "100000"
 

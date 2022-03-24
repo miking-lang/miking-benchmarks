@@ -1,6 +1,6 @@
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -8,7 +8,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -16,7 +16,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -24,7 +24,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "100000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -32,7 +32,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "100000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -40,7 +40,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "100000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -48,7 +48,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "1000000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -56,7 +56,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "1000000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
@@ -64,7 +64,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
 runtime = "CorePPL"
-argument = "crbd.mc"
+argument = "crbd.mc --no-print-samples"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "1000000"
 buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
