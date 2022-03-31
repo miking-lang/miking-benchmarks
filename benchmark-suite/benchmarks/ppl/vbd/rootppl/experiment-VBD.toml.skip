@@ -1,48 +1,48 @@
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "10000"
 buildOptions = "--ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "50000"
 buildOptions = "--ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "100000"
 buildOptions = "--ess-threshold 1.0"
 
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "10000"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "50000"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "100000"
 buildOptions = "--target sm_75 -j 32 --ess-threshold 1.0"
 
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "10000"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "50000"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0"
 [[app]]
 runtime = "RootPPL"
-argument = "yap-dengue.cu"
+argument = "vbd.cu"
 options = "100000"
 buildOptions = "--target omp -j 32 --ess-threshold 1.0"
 
