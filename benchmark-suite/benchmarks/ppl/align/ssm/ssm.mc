@@ -43,13 +43,13 @@ recursive let simulate: Int -> Float -> Float -> Float =
   -- Observe position
   let dataPos: Float = get data t in
   observe dataPos (Gaussian position (positionObsStDev altitude));
-  resample; -- Should be added by analysis
+  -- resample; -- Should be added by both aligmnent analysis and likelihood resampling
   let t = addi t 1 in
 
   -- Penalize altitude divergence of more than `altitudeRange` feet from
   -- holding altitude
   (if gtf (absf (subf altitude holdingAltitude)) altitudeRange then
-     weight (log 0.5); resample
+     weight (log 0.5)--; resample -- Should only be added by likelihood resampling
    else ());
 
   -- Transition
