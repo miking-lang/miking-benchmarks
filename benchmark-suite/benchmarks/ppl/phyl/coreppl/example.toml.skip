@@ -4,7 +4,7 @@ runtime = "CorePPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "8192"
-buildExtra = "node ../tree-utils/midppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
+buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/Alcedinidae.phyjson  0.5684210526315789 > tree-instance.mc"
 cleanExtra = "rm -f tree-instance.mc"
 
 [[post]]

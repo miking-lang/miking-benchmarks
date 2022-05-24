@@ -1,7 +1,7 @@
 provides = "RootPPL"
 
 [[command]]
-required_executables = ["rootppl"]
-build_command = "rootppl {argument} -w {buildOptions}"
+required_executables = ["rppl"]
+build_command = "rppl {argument} -w {buildOptions}"
 command = "./a.out {options}"
 clean_command = "rm -rf a.out build/"
