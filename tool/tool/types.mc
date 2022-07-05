@@ -23,7 +23,7 @@ let string2timing : String -> Timing = lam str.
   else error (concat "Unknown timing option: " str)
 
 let timing2string : Timing -> String = lam t.
-  match t with  Complete () in "complete"
+  match t with Complete () in "complete"
 
 -- A specific instance of a runtime
 type Command =
