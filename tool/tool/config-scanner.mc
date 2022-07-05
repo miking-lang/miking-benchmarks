@@ -15,13 +15,13 @@ utest dirBenchmark "datasets" with false
 
 -- Check if 'path' is a valid directory for a runtime definition
 let dirRuntime = lam path.
-  forAll eqBool
+  forAll (lam x. x)
     [ not (startsWith "_" path) ]
 
 let pathFoldRuntime = pathFold dirRuntime
 
 -- Find all the available runtimes defined in the directory 'root'.
-let findRuntimes : Paths -> Map String Runtime = lam roots.
+let findRuntimes : [Path] -> Map String Runtime = lam roots.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
     let r: Runtime = tomlRead configFile runtimeFromToml in
     mapInsert r.provides r runtimes

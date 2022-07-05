@@ -52,11 +52,11 @@ let pathList : Path -> {dirs : [Path], files : [Path]} = lam dir.
 -- Traverse through the directory tree, starting at 'root' and with accumulator
 -- 'acc', accumulating a value by applying 'f' on each file in the tree. Only
 -- considers directories for which 'pDir' is true.
-recursive let pathFold =
-  lam pDir : Path -> Bool.
-  lam f : (a -> Path -> a).
-  lam acc : a.
-  lam root : Path.
+recursive let pathFold: all a. (Path -> Bool) -> (a -> Path -> a) -> a -> Path -> a =
+  lam pDir.
+  lam f.
+  lam acc.
+  lam root.
     let ls = pathList root in
     let files = map (pathConcat root) ls.files in
     let dirs = map (pathConcat root) (filter pDir ls.dirs) in
@@ -68,12 +68,12 @@ end
 
 -- Similar to 'pathFoldWD', but folds over directories rather than files. Also,
 -- see description for pathFoldWD below.
-recursive let pathFoldDirWD =
-  lam pDir : Path -> Bool.
-  lam f : ((a, b) -> [Path] -> (a, b)).
-  lam accW : a.
-  lam accD : b.
-  lam root : Path.
+recursive let pathFoldDirWD: all a. all b. (Path -> Bool) -> ((a, b) -> [Path] -> (a, b)) -> a -> b -> Path =
+  lam pDir.
+  lam f.
+  lam accW.
+  lam accD.
+  lam root.
     let ls = pathList root in
     let files = map (pathConcat root) ls.files in
     let dirs = map (pathConcat root) (filter pDir ls.dirs) in
