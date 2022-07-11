@@ -15,10 +15,15 @@ let _lookupKeyConvert = lam convertFun.
 -----------------------
 
 type Timing
--- Don't measure the time
-con NoTiming : () -> Timing
 -- Measure runtime end-to-end
 con Complete : () -> Timing
+
+let string2timing : String -> Timing = lam str.
+  match str with "complete" then Complete ()
+  else error (concat "Unknown timing option: " str)
+
+let timing2string : Timing -> String = lam t.
+  match t with Complete () in "complete"
 
 -- A specific instance of a runtime
 type Command =
@@ -99,7 +104,7 @@ type CollectedResult = [BenchmarkResult]
 -- '<type>FromToml : Path -> TomlTable -> <type>'.
 
 -- Read a toml config file and apply convert function.
-let tomlRead : Path -> (Path -> TomlTable -> a) -> a =
+let tomlRead : all a. Path -> (Path -> TomlTable -> a) -> a =
   lam fileName : Path.
   lam convertFun : Path -> TomlTable -> a.
     let s = readFile fileName in
@@ -282,15 +287,9 @@ with
 
 let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
   lam fileName. lam table : TomlTable.
-    -- Convert a string into a Timing type.
-    let getTiming : String -> Timing = lam str.
-      match str with "complete" then Complete ()
-      else error (concat "Unknown timing option: " str)
-    in
-
     let m = tomlTableToMap table in
     let timing = mapFindApplyOrElse
-      (lam v. Some (getTiming (tomlValueToStringExn v)))
+      (lam v. Some (string2timing (tomlValueToStringExn v)))
       (lam. None ())
       "timing" m
     in
@@ -331,46 +330,58 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
     }
 
 utest
-let b =
-partialBenchmarkFromToml "path/to/config.toml" (tomlFromStringExn
-"
-timing = \"complete\"
+  partialBenchmarkFromToml "path/to/config.toml" (tomlFromStringExn
+  "
+  timing = \"complete\"
 
-[pre]
-runtime = \"MCore\"
-argument = \"pre\"
-base = \"pre\"
+  [[app]]
+  runtime = \"MCore\"
+  argument = \"insertsort\"
 
-[[app]]
-runtime = \"MCore\"
-argument = \"insertsort\"
+  [[post]]
+  runtime = \"MCore\"
+  argument = \"post\"
+  base = \"post-1\"
+  tag = \"tag-post-1\"
+  "
+) with {
+  timing = Some (Complete ()),
+  app =  [{ runtime = "MCore", fileName = "config.toml",
+            options = [{name = "argument", contents = "insertsort"}],
+            cwd = "path/to" }],
+  pre = None (),
+  post = [{ runtime = "MCore", fileName = "config.toml",
+            options = [ {name = "tag", contents = "tag-post-1"},
+                        {name = "argument", contents = "post"}],
+            cwd = "path/to/post-1" }],
+  input = []
+}
 
-[[post]]
-runtime = \"MCore\"
-argument = \"post\"
-base = \"post-1\"
-tag = \"tag-post-1\"
-"
-) in
-[ b.timing
-, b.pre
-, b.app
-, b.post
-, b.input
-]
-with
-[ Some (Complete ())
-, Some ({runtime = "MCore", fileName = "config.toml",
+utest
+  let b = partialBenchmarkFromToml "path/to/config.toml" (tomlFromStringExn
+  "
+  timing = \"complete\"
+
+  [[app]]
+  runtime = \"MCore\"
+  argument = \"insertsort\"
+
+  [pre]
+  runtime = \"MCore\"
+  argument = \"pre\"
+  base = \"pre\"
+
+  [[post]]
+  runtime = \"MCore\"
+  argument = \"post\"
+  base = \"post-1\"
+  tag = \"tag-post-1\"
+  "
+) in optionGetOrElse (lam. error "PartialBenchmark test failed") b.pre
+  with { runtime = "MCore", fileName = "config.toml",
          options = [{name = "argument", contents = "pre"}],
-         cwd = "path/to/pre"})
-, [{runtime = "MCore", fileName = "config.toml",
-    options = [{name = "argument", contents = "insertsort"}],
-    cwd = "path/to"}]
-, [{runtime = "MCore", fileName = "config.toml",
-    options = [{name = "tag", contents = "tag-post-1"},{name = "argument", contents = "post"}],
-    cwd = "path/to/post-1"}]
-, []
-]
+         cwd = "path/to/pre" }
+
 -------------------
 -- WRITABLE DATA --
 -------------------

@@ -15,13 +15,13 @@ utest dirBenchmark "datasets" with false
 
 -- Check if 'path' is a valid directory for a runtime definition
 let dirRuntime = lam path.
-  forAll eqBool
+  forAll (lam x. x)
     [ not (startsWith "_" path) ]
 
 let pathFoldRuntime = pathFold dirRuntime
 
 -- Find all the available runtimes defined in the directory 'root'.
-let findRuntimes : Paths -> Map String Runtime = lam roots.
+let findRuntimes : [Path] -> Map String Runtime = lam roots.
   let addRuntime = lam configFile : Path. lam runtimes : Map String Runtime.
     let r: Runtime = tomlRead configFile runtimeFromToml in
     mapInsert r.provides r runtimes
@@ -30,12 +30,6 @@ let findRuntimes : Paths -> Map String Runtime = lam roots.
     (pathFoldRuntime
       (lam acc. lam f. if endsWith f ".toml" then addRuntime f acc else acc)
       (mapEmpty cmpString) root)) (mapEmpty cmpString) roots
-
--- Convert a string into a Timing type.
-let getTiming : String -> Timing = lam str.
-  match str with "complete" then
-    Complete ()
-  else error (concat "Unknown timing option: " str)
 
 -- Initial empty partial benchmark
 let initPartialBench : PartialBenchmark =
@@ -106,7 +100,9 @@ let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
              switch (pb1.timing, pb2.timing)
              case (None (), None ()) then None ()
              case ((Some t, None ()) | (None (), Some t)) then Some t
-             case (Some t1, Some t2) then overrideErr "timing" configFile t1 t2
+             case (Some t1, Some t2) then
+               overrideErr "timing" configFile
+                 (timing2string t1) (timing2string t2)
              end
            in
            let app = concat pb1.app pb2.app in
@@ -114,7 +110,10 @@ let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
              switch (pb1.pre, pb2.pre)
              case (None (), None ()) then None ()
              case ((Some p, None ()) | (None (), Some p)) then Some p
-             case (Some p1, Some p2) then overrideErr "pre" configFile p1 p2
+             case (Some p1, Some p2) then
+               overrideErr "pre" configFile
+                 (tomlToString (appToToml p1))
+                 (tomlToString (appToToml p2))
              end
            in
            let post = concat pb1.post pb2.post in

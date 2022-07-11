@@ -163,7 +163,7 @@ let runBenchmark = -- ... -> BenchmarkResult
 
           -- Run clean command
           (if ops.clean then
-             runOpCmd appSupportedCmd.clean_command app
+             runOpCmd appSupportedCmd.clean_command app; ()
            else ());
 
           -- Run postprocessing on outputs
