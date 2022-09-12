@@ -53,11 +53,12 @@ run-test: build/${TOOL_NAME}
 	--warmups 1
 
 test:
-	mi compile --test tool/tool/config-scanner.mc; ./config-scanner
-	mi compile --test tool/tool/runner.mc; ./runner
-	mi compile --test tool/tool/utils.mc; ./utils
-	mi compile --test tool/tool/path.mc; ./path
-	mi compile --test tool/tool/types.mc; ./types
+	mkdir -p build
+	mi compile --test tool/tool/config-scanner.mc --output build/test; build/test
+	mi compile --test tool/tool/runner.mc --output build/test; build/test
+	mi compile --test tool/tool/utils.mc --output build/test; build/test
+	mi compile --test tool/tool/path.mc --output build/test; build/test
+	mi compile --test tool/tool/types.mc --output build/test; build/test
 
 
 #################################################
@@ -124,7 +125,7 @@ experiment_VBD=experiment-VBD
 run-experiment-VBD: build/${TOOL_NAME}
 	find . -name $(experiment_VBD).toml.skip -execdir cp '{}' $(experiment_VBD).toml ';'
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl/yap-dengue \
+		--benchmarks benchmark-suite/benchmarks/ppl/vbd \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--output toml \

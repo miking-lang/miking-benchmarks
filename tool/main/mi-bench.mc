@@ -11,7 +11,7 @@ let main = lam.
   verifyOptions ops;
 
   let runtimes = findRuntimes ops.runtimes in
-  let bs = findBenchmarks ops.benchmarks runtimes in
+  let bs = findBenchmarks ops runtimes in
   let rs = runBenchmarks bs runtimes ops in
   printLn (ops.output rs);
   writeFile "output.toml" (ops.output rs)

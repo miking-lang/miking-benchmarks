@@ -1,5 +1,5 @@
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "10000"
@@ -7,7 +7,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "25000"
@@ -15,7 +15,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "50000"
@@ -23,7 +23,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "100000"
@@ -31,7 +31,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "250000"
@@ -39,7 +39,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "500000"
@@ -47,7 +47,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "1000000"
@@ -59,7 +59,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "10000"
@@ -67,7 +67,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "25000"
@@ -75,7 +75,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "50000"
@@ -83,7 +83,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "100000"
@@ -91,7 +91,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "250000"
@@ -99,7 +99,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "500000"
@@ -107,7 +107,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target omp -j 32 --stack-size 1000"
 options = "1000000"
@@ -118,7 +118,7 @@ cleanExtra = "rm -f tree-instance.mc"
 
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "10000"
@@ -126,7 +126,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "25000"
@@ -134,7 +134,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "50000"
@@ -142,7 +142,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "100000"
@@ -150,7 +150,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "250000"
@@ -158,7 +158,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "500000"
@@ -166,7 +166,7 @@ buildExtra = "node ../tree-utils/coreppl-tree-parser.js ../input-data/TitTyranRe
 cleanExtra = "rm -f tree-instance.mc"
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "--target sm_75 -j 32 --stack-size 1000"
 options = "1000000"

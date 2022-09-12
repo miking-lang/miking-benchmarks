@@ -1,0 +1,7 @@
+provides = "CorePPL2MExpr"
+
+[[command]]
+required_executables = ["cppl", "mi"]
+build_command = "{buildExtra}; cppl {argument}"
+command = "./out {options}"
+clean_command = "{cleanExtra}; rm -rf out.mc out"

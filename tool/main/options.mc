@@ -10,6 +10,7 @@ let menu = strJoin "\n"
 , "  --help           Print this message and exit"
 , "  --benchmarks     Root directory of the benchmarks (default '.')"
 , "  --runtimes       Root directory of the runtime definitions (default '.')"
+, "  --name           Only run experiments with this filename (can be repeated)"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
 , "  --output         Output format {toml} (default: toml)"
@@ -30,6 +31,7 @@ let toToml : [BenchmarkResult] -> String = lam r.
 type Options =
   { benchmarks : [String]
   , runtimes : [String]
+  , name : [String]
   , iters : Int
   , warmups : Int
   , output : [BenchmarkResult] -> String
@@ -41,6 +43,7 @@ type Options =
 let options : Options =
   { benchmarks = []
   , runtimes = []
+  , name = []
   , iters = 1
   , warmups = 1
   , output = toToml
@@ -66,6 +69,11 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
     match args with [r] ++ args then
       parseArgs {ops with runtimes = snoc ops.runtimes (pathAbs r)} args
     else error "--runtimes with no argument"
+
+  else match args with ["--name"] ++ args then
+    match args with [r] ++ args then
+      parseArgs {ops with name = snoc ops.name r} args
+    else error "--name with no argument"
 
   else match args with ["--iters"] ++ args then
     match args with [n] ++ args then
