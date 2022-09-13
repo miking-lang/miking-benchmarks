@@ -142,6 +142,7 @@ run-experiment-align: build/${TOOL_NAME} build/toml-to-json
 		--iters $(number_iterations) \
 		--output toml \
 		--log info \
-		--warmups $(number_warmups)
+		--warmups $(number_warmups) \
+		--name experiment-smc.toml
 	build/toml-to-json output.toml > $(experiment_align)-output.json
 	mv output.toml $(experiment_align)-output.toml

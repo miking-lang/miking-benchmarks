@@ -1,0 +1,14 @@
+timing="complete"
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align crbd-unaligned.mc"
+options = "10000"
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight crbd-unaligned.mc"
+options = "10000"
+
+[[post]]
+runtime = "id"
