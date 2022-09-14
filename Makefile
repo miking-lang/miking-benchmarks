@@ -136,13 +136,9 @@ run-experiment-VBD: build/${TOOL_NAME}
 
 experiment_align=experiment-align
 run-experiment-align: build/${TOOL_NAME} build/toml-to-json
-	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/ppl/align \
-		--runtimes benchmark-suite/runtimes \
+	./run \
 		--iters $(number_iterations) \
-		--output toml \
-		--log info \
 		--warmups $(number_warmups) \
 		--name experiment-smc.toml
-	build/toml-to-json output.toml > $(experiment_align)-output.json
 	mv output.toml $(experiment_align)-output.toml
+	mv output.json $(experiment_align)-output.json
