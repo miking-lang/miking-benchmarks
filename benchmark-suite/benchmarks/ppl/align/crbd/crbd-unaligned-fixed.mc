@@ -8,8 +8,8 @@ include "pplprelude.mc"
 -- The tree.mc file defines the general tree structure
 include "tree.mc"
 
--- The tree-instance.mc file includes the actual tree and the rho constant
-include "tree-instance.mc"
+-- This file includes the actual tree and the rho constant
+include "tree-alcedinidae.mc"
 
 mexpr
 
