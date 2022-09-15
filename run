@@ -11,7 +11,7 @@ mi-bench \
   --benchmarks benchmark-suite/benchmarks/$path \
   --runtimes benchmark-suite/runtimes \
   --output toml \
-  --log info \
+  --log off \
   "$@"
 
 # Also create JSON output
