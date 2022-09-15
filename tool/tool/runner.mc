@@ -39,7 +39,6 @@ with "foo con1 con2"
 -- result and the elapsed time in ms.
 let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
   lam ops. lam cmd. lam stdin. lam cwd.
-    let stdin = join ["\"", escapeString stdin, "\""] in
     let cmd = (strSplit " " cmd) in
 
     logMsg logLevel.info (strJoin "\n"
