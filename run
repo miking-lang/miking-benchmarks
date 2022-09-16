@@ -10,11 +10,11 @@ shift $(( $# > 0 ? 1 : 0 ))
 mi-bench \
   --benchmarks benchmark-suite/benchmarks/$path \
   --runtimes benchmark-suite/runtimes \
-  --output toml \
+  --format toml \
   --log off \
   "$@"
 
 # Also create JSON output
-if [ -f "output.toml" ]; then
-  build/toml-to-json output.toml > output.json
+if [ -f "output" ]; then
+  build/toml-to-json output > output.json
 fi

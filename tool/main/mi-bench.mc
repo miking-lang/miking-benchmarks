@@ -12,9 +12,9 @@ let main = lam.
 
   let runtimes = findRuntimes ops.runtimes in
   let bs = findBenchmarks ops runtimes in
-  let rs = runBenchmarks bs runtimes ops in
-  printLn (ops.output rs);
-  writeFile "output.toml" (ops.output rs)
+  runBenchmarks bs runtimes ops
+  -- printLn (ops.format rs);
+  -- writeFile "output.toml" (ops.format rs)
 
 mexpr
 

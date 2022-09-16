@@ -13,7 +13,8 @@ let menu = strJoin "\n"
 , "  --name           Only run experiments with this filename (can be repeated)"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
-, "  --output         Output format {toml} (default: toml)"
+, "  --format         Output format {toml} (default: toml)"
+, "  --output         Output file name (default: output)"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
 , "  --timeout-sec    Specify a timeout in seconds (default off). Requires the command
                       line tool 'timeout' to be installed (installed by default on Linux).
@@ -34,7 +35,8 @@ type Options =
   , name : [String]
   , iters : Int
   , warmups : Int
-  , output : [BenchmarkResult] -> String
+  , format : [BenchmarkResult] -> String
+  , output : String
   , timeoutSec : Option Float
   , clean : Bool
   , plot : Option String
@@ -46,7 +48,8 @@ let options : Options =
   , name = []
   , iters = 1
   , warmups = 1
-  , output = toToml
+  , format = toToml
+  , output = "output"
   , timeoutSec = None ()
   , clean = true
   , plot = None ()
@@ -90,14 +93,19 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
       parseArgs {ops with timeoutSec = Some (string2float n)} args
     else error "--timeout-sec with no argument"
 
-  else match args with ["--output"] ++ args then
+  else match args with ["--format"] ++ args then
     match args with [s] ++ args then
       let s = str2lower s in
       let outFun =
           match s with "toml" then toToml
           else error (concat "Unknown output option: " s)
       in
-      parseArgs {ops with output = outFun} args
+      parseArgs {ops with format = outFun} args
+    else error "--format with no argument"
+
+  else match args with ["--output"] ++ args then
+    match args with [r] ++ args then
+      parseArgs {ops with output = r} args
     else error "--output with no argument"
 
   else match args with ["--plot"] ++ args then

@@ -29,7 +29,7 @@ run: build/${TOOL_NAME}
 	--benchmarks benchmark-suite/benchmarks/mcore-ocaml \
 	--runtimes benchmark-suite/runtimes \
 	--iters 5 \
-	--output toml \
+	--format toml \
 	--log info \
 	--warmups 1 > results.toml
 
@@ -38,7 +38,7 @@ run-ppl: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl \
 		--runtimes benchmark-suite/runtimes \
 		--iters 2 \
-		--output toml \
+		--format toml \
 		--warmups 1
 
 run-test: build/${TOOL_NAME}
@@ -47,7 +47,7 @@ run-test: build/${TOOL_NAME}
 	--runtimes benchmark-suite/runtimes \
 	--runtimes benchmark-suite/test/runtimes \
 	--iters 5 \
-	--output toml \
+	--format toml \
 	--log info \
 	--timeout-sec 1 \
 	--warmups 1
@@ -75,7 +75,7 @@ run-experiment-example: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters 1 \
-		--output toml \
+		--format toml \
 		--log info \
 		--warmups 0
 	cp output.toml output-example.toml
@@ -89,7 +89,7 @@ run-experiment-CRBD: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
-		--output toml \
+		--format toml \
 		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-$(experiment_crbd).toml
@@ -102,7 +102,7 @@ run-experiment-OptimizedCRBD: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
-		--output toml \
+		--format toml \
 		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-OptimizedCRBD.toml
@@ -115,7 +115,7 @@ run-experiment-ClaDS: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl/phyl \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
-		--output toml \
+		--format toml \
 		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-ClaDS.toml
@@ -128,7 +128,7 @@ run-experiment-VBD: build/${TOOL_NAME}
 		--benchmarks benchmark-suite/benchmarks/ppl/vbd \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
-		--output toml \
+		--format toml \
 		--log info \
 		--warmups $(number_warmups)
 	cp output.toml output-$(prefix)-$(number_iterations)-experiment-VBD.toml
