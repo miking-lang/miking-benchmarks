@@ -11,10 +11,10 @@ let main = lam.
   verifyOptions ops;
 
   let runtimes = findRuntimes ops.runtimes in
-  let bs = findBenchmarks ops.benchmarks runtimes in
-  let rs = runBenchmarks bs runtimes ops in
-  printLn (ops.output rs);
-  writeFile "output.toml" (ops.output rs)
+  let bs = findBenchmarks ops runtimes in
+  runBenchmarks bs runtimes ops
+  -- printLn (ops.format rs);
+  -- writeFile "output.toml" (ops.format rs)
 
 mexpr
 

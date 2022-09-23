@@ -1,4 +1,4 @@
-provides = "CorePPL"
+provides = "CorePPL2RootPPL"
 
 [[command]]
 required_executables = ["cppl", "rppl"]

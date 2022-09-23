@@ -9,7 +9,7 @@ include "pplprelude.mc"
 include "tree.mc"
 
 -- This file includes the actual tree and the rho constant
-include "tree-synthetic.mc"
+include "tree-alcedinidae.mc"
 
 mexpr
 
@@ -97,8 +97,12 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> () =
     else ()
 in
 
-let lambda = assume (Gamma 1.0 1.0) in
-let mu = assume (Gamma 1.0 0.5) in
+-- Fixed priors
+let lambda = 0.2 in
+let mu = 0.1 in
+-- Original priors
+-- let lambda = assume (Gamma 1.0 1.0) in
+-- let mu = assume (Gamma 1.0 0.5) in
 
 -- Adjust for normalizing constant
 let numLeaves = countLeaves tree in

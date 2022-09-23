@@ -113,7 +113,7 @@ argument = "insertsort"    # Runs via 'mi insertsort.mc'
 ##### Hierarchical Configuration Files
 
 Configuraton files can be specified hierarchically via the directory structure.
-A benchmark will include all configuration files from all folders on its path.
+A benchmark will include all configuration files from all parent folders on its path.
 This is often useful for sharing input data, a preprocessing step, and
 postprocessing steps between benchmarks.
 
@@ -153,7 +153,7 @@ file = "datasets/reversed1.txt"
 tags = ["short"]
 data = "[1,3,2]"
 ```
-This configuration will be shared for all experiments under `sort` (including `sort/insertsort/mcore/insertsort.mc` from above).
+This configuration will be shared for all experiments in subdirectories of `sort` (including `sort/insertsort/mcore/insertsort.mc` from above).
 
 ### Runtimes
 

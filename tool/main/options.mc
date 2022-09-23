@@ -10,9 +10,11 @@ let menu = strJoin "\n"
 , "  --help           Print this message and exit"
 , "  --benchmarks     Root directory of the benchmarks (default '.')"
 , "  --runtimes       Root directory of the runtime definitions (default '.')"
+, "  --name           Only run experiments with this filename (can be repeated)"
 , "  --iters          Number of times to repeat each benchmark (default 1)"
 , "  --warmups        Number of warmup runs for each benchmark (default 1)"
-, "  --output         Output format {toml} (default: toml)"
+, "  --format         Output format {toml} (default: toml)"
+, "  --output         Output file name (default: output)"
 , "  --log            Specify log level (off, error, warning, info, debug, default = off)"
 , "  --timeout-sec    Specify a timeout in seconds (default off). Requires the command
                       line tool 'timeout' to be installed (installed by default on Linux).
@@ -30,9 +32,11 @@ let toToml : [BenchmarkResult] -> String = lam r.
 type Options =
   { benchmarks : [String]
   , runtimes : [String]
+  , name : [String]
   , iters : Int
   , warmups : Int
-  , output : [BenchmarkResult] -> String
+  , format : [BenchmarkResult] -> String
+  , output : String
   , timeoutSec : Option Float
   , clean : Bool
   , plot : Option String
@@ -41,9 +45,11 @@ type Options =
 let options : Options =
   { benchmarks = []
   , runtimes = []
+  , name = []
   , iters = 1
   , warmups = 1
-  , output = toToml
+  , format = toToml
+  , output = "output"
   , timeoutSec = None ()
   , clean = true
   , plot = None ()
@@ -67,6 +73,11 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
       parseArgs {ops with runtimes = snoc ops.runtimes (pathAbs r)} args
     else error "--runtimes with no argument"
 
+  else match args with ["--name"] ++ args then
+    match args with [r] ++ args then
+      parseArgs {ops with name = snoc ops.name r} args
+    else error "--name with no argument"
+
   else match args with ["--iters"] ++ args then
     match args with [n] ++ args then
       parseArgs {ops with iters = string2int n} args
@@ -82,14 +93,19 @@ recursive let parseArgs = lam ops : Options. lam args : [String].
       parseArgs {ops with timeoutSec = Some (string2float n)} args
     else error "--timeout-sec with no argument"
 
-  else match args with ["--output"] ++ args then
+  else match args with ["--format"] ++ args then
     match args with [s] ++ args then
       let s = str2lower s in
       let outFun =
           match s with "toml" then toToml
           else error (concat "Unknown output option: " s)
       in
-      parseArgs {ops with output = outFun} args
+      parseArgs {ops with format = outFun} args
+    else error "--format with no argument"
+
+  else match args with ["--output"] ++ args then
+    match args with [r] ++ args then
+      parseArgs {ops with output = r} args
     else error "--output with no argument"
 
   else match args with ["--plot"] ++ args then

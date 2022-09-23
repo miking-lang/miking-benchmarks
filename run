@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# `mi-bench` convenience wrapper for running the benchmark suite in this repository
+
+# Run benchmarks
+path=$1
+
+shift $(( $# > 0 ? 1 : 0 ))
+
+mi-bench \
+  --benchmarks benchmark-suite/benchmarks/$path \
+  --runtimes benchmark-suite/runtimes \
+  --format toml \
+  --log off \
+  "$@"
+
+# Also create JSON output
+if [ -f "output" ]; then
+  build/toml-to-json output > output.json
+fi

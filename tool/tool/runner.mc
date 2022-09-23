@@ -35,40 +35,54 @@ utest instantiateCmd "foo {option1} {option2}"
    cwd = "."}
 with "foo con1 con2"
 
--- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
--- result and the elapsed time in ms.
-let runCommand : Options -> String -> String -> Path -> (ExecResult, Float) =
-  lam ops. lam cmd. lam stdin. lam cwd.
-    let stdin = join ["\"", escapeString stdin, "\""] in
-    let cmd = (strSplit " " cmd) in
-
-    logMsg logLevel.info (strJoin "\n"
+let logInitMsg = lam cmd. lam stdin. lam cwd. lam ops.
+  (strJoin "\n"
     [ ""
     , concat "running command: " (strJoin " " cmd)
     , concat "stdin: " stdin
     , concat "cwd: " cwd
     , join ["timeout: ", (optionMapOr "none" float2string ops.timeoutSec), " s"]
     , ""
-    ]);
+    ])
 
-    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd with (ms, r) then
-      logMsg logLevel.info (strJoin "\n"
-      [ ""
-      , concat "stdout: " r.stdout
-      , concat "stderr: " r.stderr
-      , concat "returncode: " (int2string r.returncode)
-      , concat "elapsed ms: " (float2string ms)
-      , ""
-      ]);
-      (r, ms)
-    else never
+let logResMsg = lam stdout. lam stderr. lam r. lam ms.
+  (strJoin "\n"
+    [ ""
+    , concat "stdout: " stdout
+    , concat "stderr: " stderr
+    , concat "returncode: " (int2string r)
+    , concat "elapsed ms: " (float2string ms)
+    , ""
+    ])
+
+-- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
+-- result and the elapsed time in ms.
+let runCommandFileIO
+    : Options -> String -> String -> String -> String -> Path
+      -> (Float, ReturnCode) =
+  lam ops. lam cmd. lam stdinFile. lam stdoutFile. lam stderrFile. lam cwd.
+    let cmd = (strSplit " " cmd) in
+    logMsg logLevel.info (lam. logInitMsg cmd (readFile stdinFile) cwd ops);
+    match sysRunCommandWithTimingTimeoutFileIO
+            ops.timeoutSec cmd stdinFile stdoutFile stderrFile cwd
+    with (ms,r) & res in
+    logMsg logLevel.info
+      (lam. logResMsg (readFile stdoutFile) (readFile stderrFile) r ms);
+    res
+
+let runCommand: Options -> String -> String -> Path -> (Float, ExecResult) =
+  lam ops. lam cmd. lam stdin. lam cwd.
+    let cmd = (strSplit " " cmd) in
+    logMsg logLevel.info (lam. logInitMsg cmd stdin cwd ops);
+    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd
+    with (ms,r) & res in
+    logMsg logLevel.info (lam. logResMsg r.stdout r.stderr r.returncode ms);
+    res
 
 -- Like 'runCommand' but only returns the elapsed time.
 let runCommandTime : Options -> String -> String -> Path -> Float =
   lam ops. lam cmd. lam stdin. lam cwd.
-    match runCommand ops cmd stdin cwd with (_, ms)
-    then ms
-    else never
+    match runCommand ops cmd stdin cwd with (ms, _) in ms
 
 -- Run one benchmark
 let runBenchmark = -- ... -> BenchmarkResult
@@ -106,18 +120,21 @@ let runBenchmark = -- ... -> BenchmarkResult
                 cmd
     in
 
-    -- Build and run an App without timing or cleaning. Returns stoud for App.
+    -- Build and run an App without timing or cleaning. Returns a filename
+    -- containing the stdout for the App.
     let runApp: App -> String -> String =
       lam app: App.
-      lam stdin: String.
-
+      lam stdinFile: String.
+        let stdoutFile = sysTempFileMake () in
+        let stderrFile = sysTempFileMake () in
         let runtime: Runtime = mapFindExn app.runtime runtimes in
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
-        match runCommand ops cmd stdin app.cwd with (res, _) then
-          if eqi res.returncode 0 then res.stdout else res.stderr
-        else never
+        match runCommandFileIO ops cmd stdinFile stdoutFile stderrFile app.cwd
+        with (_, r) in
+        if eqi r 0 then sysDeleteFile stderrFile; stdoutFile
+        else sysDeleteFile stdoutFile; stderrFile
     in
 
     let runtime: Runtime = mapFindExn app.runtime runtimes in
@@ -127,38 +144,52 @@ let runBenchmark = -- ... -> BenchmarkResult
     let runInput: Input -> Result =
       lam input: Input.
 
-        -- Retrieve stdin from input
-        let stdin =
+        -- Set up standard input file
+        let stdinFile =
           match input with { file = Some file, data = None () } then
-            readFile (pathConcat input.cwd file)
+            pathConcat input.cwd file
           else match input with { file = None (), data = Some data } then
-            data
+            let f = sysTempFileMake () in
+            writeFile f data;
+            f
           else error "Invalid input entry"
         in
 
         -- Run preprocessor, if specified
-        let stdin = match pre with Some pre then runApp pre stdin else stdin in
+        let stdinFile = match pre with Some pre then
+            let outFile = runApp pre stdinFile in
+            sysDeleteFile stdinFile; outFile
+          else stdinFile
+        in
 
         -- Build the benchmark
         let buildMs = runOpCmd appSupportedCmd.build_command app in
 
         let cmd = instantiateCmd appSupportedCmd.command app in
         match timing with Complete () then
-          let run = lam. runCommand ops cmd stdin app.cwd in
+          let run: () -> (Float, ReturnCode, String, String) = lam.
+            let stdoutFile = sysTempFileMake () in
+            let stderrFile = sysTempFileMake () in
+            match runCommandFileIO ops cmd
+                    stdinFile stdoutFile stderrFile app.cwd
+            with (ms, r) in
+            (ms, r, stdoutFile, stderrFile)
+          in
           let runMany = lam n. map run (create n (lam. ())) in
 
           -- Run warmup (and throw away results)
-          runMany ops.warmups;
+          let wress = runMany ops.warmups in
+          iter (lam wres. sysDeleteFile wres.2; sysDeleteFile wres.3; ()) wress;
 
           -- Run the benchmark
-          let res: [(ExecResult, Float)] = runMany ops.iters in
+          let res: [(Float, ReturnCode, String, String)] = runMany ops.iters in
 
           -- Collect execution times
-          let times: [Float] = map (lam t : (ExecResult, Float). t.1) res in
+          let times: [Float] = map (lam t. t.0) res in
 
-          -- Collect outputs
-          let stdouts: [String] = map (lam t : (ExecResult, Float).
-            if eqi (t.0).returncode 0 then (t.0).stdout else (t.0).stderr
+          -- Collect file names containing outputs
+          let stdoutFiles: [String] = map (lam t.
+            if eqi t.1 0 then sysDeleteFile t.3; t.2 else sysDeleteFile t.2; t.3
           ) res in
 
           -- Run clean command
@@ -169,7 +200,12 @@ let runBenchmark = -- ... -> BenchmarkResult
           -- Run postprocessing on outputs
           let post = map (lam app. {
               app = app,
-              output = map (lam stdin. runApp app stdin) stdouts
+              output = map (lam stdinFile.
+                  let outFile = runApp app stdinFile in
+                  let res = readFile outFile in
+                  sysDeleteFile stdinFile; sysDeleteFile outFile;
+                  res
+                ) stdoutFiles
             }) post
           in
 
@@ -197,11 +233,15 @@ let runBenchmark = -- ... -> BenchmarkResult
   else never
 
 -- Run a given list of benchmarks
-let runBenchmarks = -- ... -> [BenchmarkResult]
+let runBenchmarks = -- ... -> ()
   lam benchmarks : [Benchmark].
   lam runtimes : Map String Runtime.
   lam ops : Options.
-    foldl
-      (lam acc. lam b.
-         cons (runBenchmark b runtimes ops) acc)
-      [] benchmarks
+    iter
+      (lam b.
+         let res: BenchmarkResult = runBenchmark b runtimes ops in
+         -- Append res in correct format to output file
+         sysAppendFile ops.output (ops.format [res]);
+         ()
+      )
+      benchmarks

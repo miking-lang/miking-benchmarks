@@ -42,7 +42,7 @@ let initPartialBench : PartialBenchmark =
 
 -- Convert a partial benchmark into a list of benchmarks, and verify that
 -- runtimes are valid.
-let extractBenchmarks : Map String Runtime -> Path -> PartialBenchmark -> [Benchmark] =
+let extractBenchmarks: Map String Runtime -> Path -> PartialBenchmark -> [Benchmark] =
   lam runtimes : Map String Runtime.
   lam cwd : Path.
   lam pb : PartialBenchmark.
@@ -73,9 +73,11 @@ let extractBenchmarks : Map String Runtime -> Path -> PartialBenchmark -> [Bench
     else []
 
 -- Find all benchmarks by scanning the directory 'root' for configuration files.
-let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
-  lam roots : [Path]. -- The root directories of the benchmarks
+let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
+  lam ops : Options. -- The root directories of the benchmarks
   lam runtimes : Map String Runtime.
+
+  let roots : [Path] = ops.benchmarks in
 
   let overrideErr =
     lam field: String.
@@ -137,15 +139,27 @@ let findBenchmarks : [Path] -> Map String Runtime -> [Benchmark] =
       let files = map (pathConcat p) ls.files in
       let dirs = map (pathConcat p) (filter dirBenchmark ls.dirs) in
 
-      let pb = foldl (lam pb. lam file.
-          if endsWith file ".toml" then updatePartialBench pb file
-          else pb
-        ) pb files in
+      -- Only create final benchmarks from files in ops.name (or any file if
+      -- ops.name is empty).
+      let filteredFiles =
+        if null ops.name then files
+        else filter (lam file. any (eqString (pathGetFile file)) ops.name) files
+      in
+      let pbs = foldl (lam acc. lam file.
+          if endsWith file ".toml" then cons (updatePartialBench pb file) acc
+          else acc
+        ) [] filteredFiles in
 
-      let benchmarks = extractBenchmarks runtimes p pb in
-      if null benchmarks
-      then foldl (rec pb) bs dirs
+      let benchmarks = join (map (extractBenchmarks runtimes p) pbs) in
+      match benchmarks with [] then
+        -- This joint PartialBenchmark is used as base in subdirectories
+        let pb = foldl (lam pb. lam file.
+            if endsWith file ".toml" then updatePartialBench pb file
+            else pb
+          ) pb files in
+        foldl (rec pb) bs dirs
       else
+        -- Stop recursion when at least one complete benchmark is found.
         let resDirs = foldl (lam acc. lam dir. concat acc
           (rec initPartialBench [] dir)) [] dirs
         in

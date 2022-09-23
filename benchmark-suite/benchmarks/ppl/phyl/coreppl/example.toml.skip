@@ -1,6 +1,6 @@
 
 [[app]]
-runtime = "CorePPL"
+runtime = "CorePPL2RootPPL"
 argument = "crbd.mc"
 buildOptions = "-j 32 --stack-size 1000"
 options = "8192"
