@@ -3,27 +3,27 @@ timing="complete"
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --align --no-print-samples lda.mc"
-options = "10"
+options = "1000"
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --align --no-print-samples lda.mc"
-options = "100"
+options = "10000"
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --align --no-print-samples lda.mc"
+options = "100000"
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --no-print-samples lda.mc"
 options = "1000"
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --no-print-samples lda.mc"
-options = "10"
+options = "10000"
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --no-print-samples lda.mc"
-options = "100"
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --no-print-samples lda.mc"
-options = "1000"
+options = "100000"
 
 [[post]]
 runtime = "id"
