@@ -2,28 +2,28 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate --align crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight --align crbd-unaligned.mc"
 options = "10000"
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate --align crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight --align crbd-unaligned.mc"
 options = "100000"
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate --align crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight --align crbd-unaligned.mc"
 options = "1000000"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight crbd-unaligned.mc"
 options = "10000"
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight crbd-unaligned.mc"
 options = "100000"
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --print-accept-rate crbd-unaligned.mc"
+argument = "-m mexpr-mcmc-lightweight crbd-unaligned.mc"
 options = "1000000"
 
 [[post]]
