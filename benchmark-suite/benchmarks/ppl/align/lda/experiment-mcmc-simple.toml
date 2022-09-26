@@ -26,4 +26,5 @@ argument = "-m mexpr-mcmc-lightweight lda-res.mc"
 options = "3000000"
 
 [[post]]
-runtime = "id"
+runtime = "Python3"
+argument = "post.py"
