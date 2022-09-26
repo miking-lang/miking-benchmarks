@@ -63,6 +63,7 @@ type PartialBenchmark =
 , pre : Option App
 , post : [App]
 , input : [Input]
+, warnings : [String]
 }
 
 -- A benchmark to run (extracted from a PartialBenchmark)
@@ -327,6 +328,7 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
     , pre = pre
     , post = post
     , input = input
+    , warnings = []
     }
 
 utest
