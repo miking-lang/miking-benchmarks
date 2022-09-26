@@ -22,7 +22,8 @@ for line in sys.stdin:
     lam.append(float(line[0]))
 
 # Burn some samples
-burn = int(float(sys.argv[1])*len(lam))
+burn = 0.1
+burn = int(burn*len(lam))
 del lam[:burn]
 
 # Compute histogram representation and print to stdout

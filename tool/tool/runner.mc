@@ -237,6 +237,8 @@ let runBenchmarks = -- ... -> ()
   lam benchmarks : [Benchmark].
   lam runtimes : Map String Runtime.
   lam ops : Options.
+    -- Delete old output file, if it exists
+    writeFile ops.output "";
     iter
       (lam b.
          let res: BenchmarkResult = runBenchmark b runtimes ops in

@@ -12,6 +12,7 @@ options = "300000"
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight --align lda-res.mc"
 options = "3000000"
+
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-mcmc-lightweight lda-res.mc"
@@ -28,3 +29,4 @@ options = "3000000"
 [[post]]
 runtime = "Python3"
 argument = "post.py"
+options = ""

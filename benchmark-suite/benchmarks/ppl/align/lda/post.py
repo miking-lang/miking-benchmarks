@@ -24,7 +24,8 @@ for line in sys.stdin:
     theta1.append(float(line[4]))
 
 # Burn some samples
-burn = int(float(sys.argv[1])*len(theta1))
+burn = 0.1
+burn = int(burn*len(theta1))
 del theta1[:burn]
 del theta2[:burn]
 del theta3[:burn]
