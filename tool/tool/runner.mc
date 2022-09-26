@@ -37,23 +37,23 @@ with "foo con1 con2"
 
 let logInitMsg = lam cmd. lam stdin. lam cwd. lam ops.
   (strJoin "\n"
-    [ ""
-    , concat "running command: " (strJoin " " cmd)
-    , concat "stdin: " stdin
-    , concat "cwd: " cwd
-    , join ["timeout: ", (optionMapOr "none" float2string ops.timeoutSec), " s"]
-    , ""
-    ])
+    (join [ [""]
+    , [join ["running command: ", strJoin " " cmd]]
+    , if logLevelPrinted logLevel.debug then [join ["stdin: ", (stdin ())]] else []
+    , [join ["cwd: ", cwd]]
+    , [join ["timeout: ", optionMapOr "none" float2string ops.timeoutSec, " s"]]
+    , [""]
+    ]))
 
 let logResMsg = lam stdout. lam stderr. lam r. lam ms.
   (strJoin "\n"
-    [ ""
-    , concat "stdout: " stdout
-    , concat "stderr: " stderr
-    , concat "returncode: " (int2string r)
-    , concat "elapsed ms: " (float2string ms)
-    , ""
-    ])
+    (join [ [""]
+    , if logLevelPrinted logLevel.debug then [join ["stdout: ", stdout ()]] else []
+    , if logLevelPrinted logLevel.debug then [join ["stderr: ", stderr ()]] else []
+    , [join ["returncode: ", int2string r]]
+    , [join ["elapsed ms: ", float2string ms]]
+    , [""]
+    ]))
 
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
@@ -62,21 +62,21 @@ let runCommandFileIO
       -> (Float, ReturnCode) =
   lam ops. lam cmd. lam stdinFile. lam stdoutFile. lam stderrFile. lam cwd.
     let cmd = (strSplit " " cmd) in
-    logMsg logLevel.info (lam. logInitMsg cmd (readFile stdinFile) cwd ops);
+    logMsg logLevel.info (lam. logInitMsg cmd (lam. readFile stdinFile) cwd ops);
     match sysRunCommandWithTimingTimeoutFileIO
             ops.timeoutSec cmd stdinFile stdoutFile stderrFile cwd
     with (ms,r) & res in
     logMsg logLevel.info
-      (lam. logResMsg (readFile stdoutFile) (readFile stderrFile) r ms);
+      (lam. logResMsg (lam. readFile stdoutFile) (lam. readFile stderrFile) r ms);
     res
 
 let runCommand: Options -> String -> String -> Path -> (Float, ExecResult) =
   lam ops. lam cmd. lam stdin. lam cwd.
     let cmd = (strSplit " " cmd) in
-    logMsg logLevel.info (lam. logInitMsg cmd stdin cwd ops);
+    logMsg logLevel.info (lam. logInitMsg cmd (lam. stdin) cwd ops);
     match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd
     with (ms,r) & res in
-    logMsg logLevel.info (lam. logResMsg r.stdout r.stderr r.returncode ms);
+    logMsg logLevel.info (lam. logResMsg (lam. r.stdout) (lam. r.stderr) r.returncode ms);
     res
 
 -- Like 'runCommand' but only returns the elapsed time.
