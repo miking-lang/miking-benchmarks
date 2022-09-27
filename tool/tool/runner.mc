@@ -35,21 +35,39 @@ utest instantiateCmd "foo {option1} {option2}"
    cwd = "."}
 with "foo con1 con2"
 
-let logInitMsg = lam cmd. lam stdin. lam cwd. lam ops.
+type Iteration
+con Warmup: (Int,Int) -> Iteration
+con Bench: (Int,Int) -> Iteration
+con Other: () -> Iteration
+
+let logInitMsg = lam cmd. lam stdin. lam app. lam ops. lam i: Iteration.
   (strJoin "\n"
     (join [ [""]
     , [join ["running command: ", strJoin " " cmd]]
-    , if logLevelPrinted logLevel.debug then [join ["stdin: ", (stdin ())]] else []
-    , [join ["cwd: ", cwd]]
-    , [join ["timeout: ", optionMapOr "none" float2string ops.timeoutSec, " s"]]
+    , if logLevelPrinted logLevel.debug then [join ["stdin: ", (stdin ())]]
+      else []
+    , [join ["file: ", app.fileName]]
+    , match i with Warmup (i,total) then
+        [join ["iteration (warmup): ", int2string i,
+               " (out of ", int2string total,")"]]
+      else match i with Bench (i,total) then
+        [join ["iteration: ", int2string i,
+               " (out of ", int2string total,")"]]
+      else []
+    , [join ["cwd: ", app.cwd]]
+    , match ops.timeoutSec with Some timeout then
+        [join ["timeout: ", float2string timeout, " s"]]
+      else []
     , [""]
     ]))
 
 let logResMsg = lam stdout. lam stderr. lam r. lam ms.
   (strJoin "\n"
     (join [ [""]
-    , if logLevelPrinted logLevel.debug then [join ["stdout: ", stdout ()]] else []
-    , if logLevelPrinted logLevel.debug then [join ["stderr: ", stderr ()]] else []
+    , if logLevelPrinted logLevel.debug then [join ["stdout: ", stdout ()]]
+      else []
+    , if logLevelPrinted logLevel.debug then [join ["stderr: ", stderr ()]]
+      else []
     , [join ["returncode: ", int2string r]]
     , [join ["elapsed ms: ", float2string ms]]
     , [""]
@@ -58,31 +76,33 @@ let logResMsg = lam stdout. lam stderr. lam r. lam ms.
 -- Run a given 'cmd' with a given 'stdin' in directory 'cwd'. Returns both the
 -- result and the elapsed time in ms.
 let runCommandFileIO
-    : Options -> String -> String -> String -> String -> Path
+    : Options -> String -> String -> String -> String -> App -> Iteration
       -> (Float, ReturnCode) =
-  lam ops. lam cmd. lam stdinFile. lam stdoutFile. lam stderrFile. lam cwd.
+  lam ops. lam cmd. lam stdinFile. lam stdoutFile.  lam stderrFile.
+  lam app. lam i.
     let cmd = (strSplit " " cmd) in
-    logMsg logLevel.info (lam. logInitMsg cmd (lam. readFile stdinFile) cwd ops);
+    logMsg logLevel.info
+      (lam. logInitMsg cmd (lam. readFile stdinFile) app ops i);
     match sysRunCommandWithTimingTimeoutFileIO
-            ops.timeoutSec cmd stdinFile stdoutFile stderrFile cwd
+            ops.timeoutSec cmd stdinFile stdoutFile stderrFile app.cwd
     with (ms,r) & res in
     logMsg logLevel.info
       (lam. logResMsg (lam. readFile stdoutFile) (lam. readFile stderrFile) r ms);
     res
 
-let runCommand: Options -> String -> String -> Path -> (Float, ExecResult) =
-  lam ops. lam cmd. lam stdin. lam cwd.
+let runCommand: Options -> String -> String -> App -> (Float, ExecResult) =
+  lam ops. lam cmd. lam stdin. lam app.
     let cmd = (strSplit " " cmd) in
-    logMsg logLevel.info (lam. logInitMsg cmd (lam. stdin) cwd ops);
-    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin cwd
+    logMsg logLevel.info (lam. logInitMsg cmd (lam. stdin) app ops (Other ()));
+    match sysRunCommandWithTimingTimeout ops.timeoutSec cmd stdin app.cwd
     with (ms,r) & res in
     logMsg logLevel.info (lam. logResMsg (lam. r.stdout) (lam. r.stderr) r.returncode ms);
     res
 
 -- Like 'runCommand' but only returns the elapsed time.
-let runCommandTime : Options -> String -> String -> Path -> Float =
-  lam ops. lam cmd. lam stdin. lam cwd.
-    match runCommand ops cmd stdin cwd with (ms, _) in ms
+let runCommandTime : Options -> String -> String -> App -> Float =
+  lam ops. lam cmd. lam stdin. lam app.
+    match runCommand ops cmd stdin app with (ms, _) in ms
 
 -- Run one benchmark
 let runBenchmark = -- ... -> BenchmarkResult
@@ -116,7 +136,7 @@ let runBenchmark = -- ... -> BenchmarkResult
     let runOpCmd : Option String -> App -> Option Float = lam cmd. lam app.
       optionMap (lam cmd.
                    let fullCmd = instantiateCmd cmd app in
-                   runCommandTime {ops with timeoutSec = None ()} fullCmd "" app.cwd)
+                   runCommandTime {ops with timeoutSec = None ()} fullCmd "" app)
                 cmd
     in
 
@@ -131,7 +151,8 @@ let runBenchmark = -- ... -> BenchmarkResult
         let appSupportedCmd = findSupportedCommand runtime in
         runOpCmd appSupportedCmd.build_command app;
         let cmd = instantiateCmd appSupportedCmd.command app in
-        match runCommandFileIO ops cmd stdinFile stdoutFile stderrFile app.cwd
+        match runCommandFileIO ops cmd stdinFile stdoutFile stderrFile
+                app (Other ())
         with (_, r) in
         if eqi r 0 then sysDeleteFile stderrFile; stdoutFile
         else sysDeleteFile stdoutFile; stderrFile
@@ -167,18 +188,22 @@ let runBenchmark = -- ... -> BenchmarkResult
 
         let cmd = instantiateCmd appSupportedCmd.command app in
         match timing with Complete () then
-          let run: () -> (Float, ReturnCode, String, String) = lam.
+          let run: (Int -> Iteration) -> Int -> ()
+                   -> (Float, ReturnCode, String, String) = lam f. lam i. lam.
             let stdoutFile = sysTempFileMake () in
             let stderrFile = sysTempFileMake () in
             match runCommandFileIO ops cmd
-                    stdinFile stdoutFile stderrFile app.cwd
+                    stdinFile stdoutFile stderrFile app (f i)
             with (ms, r) in
             (ms, r, stdoutFile, stderrFile)
           in
-          let runMany = lam n. map run (create n (lam. ())) in
+          let runManyWarmup = lam n. mapi (run (lam i. Warmup (addi i 1,n)))
+                                       (create n (lam. ())) in
+          let runMany = lam n. mapi (run (lam i. Bench (addi i 1,n)))
+                                 (create n (lam. ())) in
 
           -- Run warmup (and throw away results)
-          let wress = runMany ops.warmups in
+          let wress = runManyWarmup ops.warmups in
           iter (lam wres. sysDeleteFile wres.2; sysDeleteFile wres.3; ()) wress;
 
           -- Run the benchmark

@@ -155,7 +155,7 @@ let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
           else acc
         ) [] filteredFiles in
 
-      let benchmarks = join (map (extractBenchmarks runtimes p) pbs) in
+      let benchmarks = join (map (extractBenchmarks runtimes (pathAbs p)) pbs) in
       match benchmarks with [] then
         -- This joint PartialBenchmark is used as base in subdirectories
         let pb = foldl (lam pb. lam file.
