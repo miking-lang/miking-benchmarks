@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Run MCMC alignment experiments. Must be run from the root of the repository.
+
+set -o xtrace
+time scripts/run ppl/align \
+  --name experiment-mcmc-c3.toml \
+  --name experiment-mcmc-simple.toml \
+  --name experiment-mcmc.toml \
+  --warmups $1 \
+  --iters $2

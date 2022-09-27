@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# `mi-bench` convenience wrapper for running the benchmark suite in this repository
+# `mi-bench` convenience wrapper for running the benchmark suite in this repository. Must be run from the root of the repository.
 
 # Run benchmarks
 path=$1
