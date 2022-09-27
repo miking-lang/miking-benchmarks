@@ -20,8 +20,8 @@ theta3 = []
 for line in sys.stdin:
     line = re.sub(' +', ' ', line).rsplit(' ', 1)[0].split()
     theta1.append(float(line[0]))
-    theta1.append(float(line[2]))
-    theta1.append(float(line[4]))
+    theta2.append(float(line[2]))
+    theta3.append(float(line[4]))
 
 # Burn some samples
 burn = 0.1
