@@ -31,9 +31,9 @@ del theta2[:burn]
 del theta3[:burn]
 
 # Compute histogram representation and print to stdout
-counts1, bins1 = np.histogram(theta1, bins=50)
-counts2, bins2 = np.histogram(theta2, bins=50)
-counts3, bins3 = np.histogram(theta3, bins=50)
+counts1, bins1 = np.histogram(theta1, bins=50, range=(0,1))
+counts2, bins2 = np.histogram(theta2, bins=50, range=(0,1))
+counts3, bins3 = np.histogram(theta3, bins=50, range=(0,1))
 data=json.dumps({
     "counts1": counts1.tolist(), "bins1": bins1.tolist(),
     "counts2": counts2.tolist(), "bins2": bins2.tolist(),

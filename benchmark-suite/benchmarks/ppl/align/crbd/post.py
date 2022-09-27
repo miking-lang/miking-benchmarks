@@ -27,7 +27,8 @@ burn = int(burn*len(lam))
 del lam[:burn]
 
 # Compute histogram representation and print to stdout
-counts, bins = np.histogram(lam, bins=50)
+counts, bins = np.histogram(lam, bins=50, range=(0,1))
+
 data=json.dumps({
     "mean": statistics.mean(lam),
     "counts": counts.tolist(), "bins": bins.tolist()
