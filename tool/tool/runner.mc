@@ -43,10 +43,13 @@ con Other: () -> Iteration
 let logInitMsg = lam cmd. lam stdin. lam app. lam ops. lam i: Iteration.
   (strJoin "\n"
     (join [ [""]
+    , [join ["file: ", app.fileName]]
+    , [join ["cwd: ", app.cwd]]
+    , [join ["runtime: ", app.runtime]]
+    , map (lam opt. join [opt.name, ": ", opt.contents]) app.options
     , [join ["running command: ", strJoin " " cmd]]
     , if logLevelPrinted logLevel.debug then [join ["stdin: ", (stdin ())]]
       else []
-    , [join ["file: ", app.fileName]]
     , match i with Warmup (i,total) then
         [join ["iteration (warmup): ", int2string i,
                " (out of ", int2string total,")"]]
@@ -54,7 +57,6 @@ let logInitMsg = lam cmd. lam stdin. lam app. lam ops. lam i: Iteration.
         [join ["iteration: ", int2string i,
                " (out of ", int2string total,")"]]
       else []
-    , [join ["cwd: ", app.cwd]]
     , match ops.timeoutSec with Some timeout then
         [join ["timeout: ", float2string timeout, " s"]]
       else []
