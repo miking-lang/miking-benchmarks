@@ -25,3 +25,4 @@ let str = foldl (lam acc. lam e. join [acc,float2string e," "]) str (get theta 1
 let str = foldl (lam acc. lam e. join [acc,float2string e," "]) str (get theta 2) in
 let str = foldl (lam acc. lam e. join [acc,float2string e," "]) str (get phi 0) in
 foldl (lam acc. lam e. join [acc,float2string e," "]) str (get phi 1)
+-- get (get theta 0) 0
