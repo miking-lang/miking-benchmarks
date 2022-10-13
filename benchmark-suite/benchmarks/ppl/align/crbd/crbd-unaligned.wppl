@@ -159,5 +159,5 @@ if (method == 'SMC') {
 }
 else if (method=='MCMC') {
   var dist = Infer({method: method, samples: particles, model: model})
-  // dist
+  // listMean(map(function(x) {return x.value}, dist.samples))
 }
