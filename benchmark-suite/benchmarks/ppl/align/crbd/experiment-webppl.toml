@@ -1,7 +1,9 @@
+timing="complete"
+
 [[app]]
 runtime = "WebPPL"
 argument="crbd-unaligned.wppl"
-options="MCMC 1000"
+options="MCMC 3000000"
 
 [[post]]
 runtime = "id"
