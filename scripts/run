@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# `mi-bench` convenience wrapper for running the benchmark suite in this repository
+# `mi-bench` convenience wrapper for running the benchmark suite in this repository. Must be run from the root of the repository.
 
 # Run benchmarks
 path=$1
@@ -11,7 +11,7 @@ mi-bench \
   --benchmarks benchmark-suite/benchmarks/$path \
   --runtimes benchmark-suite/runtimes \
   --format toml \
-  --log off \
+  --log info \
   "$@"
 
 # Also create JSON output

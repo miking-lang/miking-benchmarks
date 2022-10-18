@@ -38,6 +38,7 @@ let initPartialBench : PartialBenchmark =
   , pre = None ()
   , post = []
   , input = []
+  , warnings = []
   }
 
 -- Convert a partial benchmark into a list of benchmarks, and verify that
@@ -49,6 +50,7 @@ let extractBenchmarks: Map String Runtime -> Path -> PartialBenchmark -> [Benchm
     match pb.timing with Some timing then
       match pb.app with [] then []
       else
+        iter printError pb.warnings;
         let appruns : [String] = map (lam app : App. app.runtime) pb.app in
         let preruns : [String] =
           match pb.pre with Some pre then
@@ -84,9 +86,9 @@ let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
     lam configFile: String.
     lam old: String.
     lam new: String.
-    error (join [ "Overriding ", field, " in file: ", configFile
-                , "\nPrevious definition: ", old
-                , "\nNew definition: ", new])
+    join [ "Overriding ", field, " in file: ", configFile
+         , "\nPrevious definition: ", old
+         , "\nNew definition: ", new]
   in
 
   -- Update a partial benchmark 'pb' with information from 'configFile'.
@@ -98,26 +100,28 @@ let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
       in
       let mergePartials : PartialBenchmark -> PartialBenchmark -> PartialBenchmark =
         lam pb1. lam pb2.
-           let timing =
+           match
              switch (pb1.timing, pb2.timing)
-             case (None (), None ()) then None ()
-             case ((Some t, None ()) | (None (), Some t)) then Some t
+             case (None (), None ()) then (None (),[])
+             case ((Some t, None ()) | (None (), Some t)) then (Some t,[])
              case (Some t1, Some t2) then
-               overrideErr "timing" configFile
-                 (timing2string t1) (timing2string t2)
+               (Some t2,
+                [overrideErr "timing" configFile
+                  (timing2string t1) (timing2string t2)])
              end
-           in
+           with (timing, timingWarnings) in
            let app = concat pb1.app pb2.app in
-           let pre =
+           match
              switch (pb1.pre, pb2.pre)
-             case (None (), None ()) then None ()
-             case ((Some p, None ()) | (None (), Some p)) then Some p
+             case (None (), None ()) then (None (), [])
+             case ((Some p, None ()) | (None (), Some p)) then (Some p, [])
              case (Some p1, Some p2) then
-               overrideErr "pre" configFile
+               (Some p2,
+                [overrideErr "pre" configFile
                  (tomlToString (appToToml p1))
-                 (tomlToString (appToToml p2))
+                 (tomlToString (appToToml p2))])
              end
-           in
+           with (pre, preWarnings) in
            let post = concat pb1.post pb2.post in
            let input = concat pb1.input pb2.input in
            { timing = timing
@@ -125,6 +129,7 @@ let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
            , pre = pre
            , post = post
            , input = input
+           , warnings = join [pb.warnings, timingWarnings, preWarnings]
            }
       in
       mergePartials pb pb2
@@ -150,7 +155,7 @@ let findBenchmarks : Options -> Map String Runtime -> [Benchmark] =
           else acc
         ) [] filteredFiles in
 
-      let benchmarks = join (map (extractBenchmarks runtimes p) pbs) in
+      let benchmarks = join (map (extractBenchmarks runtimes (pathAbs p)) pbs) in
       match benchmarks with [] then
         -- This joint PartialBenchmark is used as base in subdirectories
         let pb = foldl (lam pb. lam file.

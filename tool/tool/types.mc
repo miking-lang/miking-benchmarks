@@ -63,6 +63,7 @@ type PartialBenchmark =
 , pre : Option App
 , post : [App]
 , input : [Input]
+, warnings : [String]
 }
 
 -- A benchmark to run (extracted from a PartialBenchmark)
@@ -241,6 +242,7 @@ let appFromToml : Path -> TomlTable -> App =
       case (None (), None ()) then cwd
       end
     in
+    let cwdApp = pathAbs cwdApp in
     -- Remove all key-values that we have already taken care of
     let m = mapRemove "cwd" m in
     let m = mapRemove "runtime" m in
@@ -327,6 +329,7 @@ let partialBenchmarkFromToml : Path -> TomlTable -> PartialBenchmark =
     , pre = pre
     , post = post
     , input = input
+    , warnings = []
     }
 
 utest

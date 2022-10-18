@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Run importance sampling reference experiments for MCMC alignment experiment.
+# Must be run from the root of the repository.
+
+set -o xtrace
+time scripts/run ppl/align \
+  --name experiment-is.toml \
+  --name experiment-is-simple.toml \
+  --warmups $1 \
+  --iters $2
