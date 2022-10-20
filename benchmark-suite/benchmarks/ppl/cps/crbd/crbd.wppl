@@ -1,0 +1,163 @@
+/**
+ * Constructor for creating a node vertex
+ *
+ * @param v - age
+ * @param l - left node
+ * @param r - right node
+ *
+ * @return - a node
+ */
+var node = function(v,l,r)
+{
+    return {type:'node',left:l,right:r,age:v}
+}
+
+/**
+ * Constructor for creating a leaf vertex
+ *
+ * Note that index starts with 1 in the trees below
+ *
+ * @param v - age
+ *
+ * @return a leaf
+ */
+var leaf = function(v)
+{
+    return {type:'leaf',age:v}
+}
+
+/** Counts the number of leaves in a tree */
+var countLeaves = function( tree )
+{
+    if (tree == undefined) return 0
+
+    if(  tree.type == 'leaf' )
+        return 1
+
+    if ( !tree.right )
+        return countLeaves( tree.left )
+    else
+        return countLeaves( tree.left ) + countLeaves( tree.right )
+}
+var iter = function (n, startTime, branchLength, lambda, mu, rho) {
+    if (n==0) {
+        return true
+    }
+    var eventTime = uniform({a: startTime - branchLength, b: startTime});
+    if(crbdGoesUndetected(eventTime, lambda, mu, rho)) {
+        iter(n-1,startTime,branchLength,lambda,mu,rho)
+    }
+    else {
+        return false
+    }
+}
+
+var crbdGoesUndetected = function (startTime, lambda, mu, rho) {
+    var duration =  exponential({a: mu})
+    if (duration > startTime) {
+    	if (flip(rho)) return false
+    }
+    var branchLength = Math.min(duration, startTime);
+    var n = poisson({mu: lambda*branchLength});
+    iter(n, startTime, branchLength, lambda, mu, rho)
+}
+
+var simBranch = function(n, startTime, stopTime, lambda, mu, rho) {
+    if(n==0) {
+        return;
+    }
+    var currentTime = uniform({a: stopTime, b: startTime});
+    if(crbdGoesUndetected(currentTime, lambda, mu, rho)) {
+        factor(Math.log(2.0));
+        simBranch(n-1,startTime,stopTime,lambda,mu,rho)
+    }
+    else {
+        factor(-Infinity)
+        return;
+    }
+}
+
+var simTree = function(tree,parent,lambda,mu,rho) {
+	var lnProb1 = - mu * ( parent.age - tree.age );
+    var lnProb2 = ( tree.type == 'node' ? Math.log( lambda ) : Math.log(rho) );
+    var startTime = parent.age;
+    var stopTime = tree.age;
+    var n = poisson({mu: lambda*(startTime-stopTime)});
+    simBranch(n,startTime,stopTime,lambda,mu,rho);
+    factor(lnProb1+lnProb2)
+    if ( tree.type == 'node')
+	{
+        simTree(tree.left,tree,lambda,mu,rho);
+        simTree(tree.right,tree, lambda,mu,rho);
+    }
+}
+
+
+
+/**
+ *  Function to compute log(n!)
+ *
+ *  @param n
+ *  @return log(n!)
+ */
+var lnFactorial = function( n )
+{
+    if ( n == 1 )
+        return 0.0
+    else
+        return Math.log(n) + lnFactorial( n - 1 )
+}
+
+
+
+var tree = node(5.0,
+                node(4.862406452197589,
+                    leaf(0.0),
+                    leaf(0.0)),
+                node(2.0866037802290065,
+                    node(1.2350618429801936,
+                        node(0.302169162393619,
+                            leaf(0.0),
+                            leaf(0.0)),
+                        leaf(0.0)),
+                    leaf(0.0)));
+var rho = 1.0
+var myArgs = process.argv.slice(3);
+var method = myArgs[0];
+var obj = {
+  parseInt: parseInt
+}
+var particles = obj.parseInt(myArgs[1], 10);
+
+var model = function()
+{
+    var lambda = gamma({
+        shape: 1.0,
+        scale: 1.0
+    });
+    var mu = gamma({
+    shape: 1.0,
+    scale: 0.5
+    });
+
+    var numLeaves = countLeaves(tree);
+    var corrFactor = ( numLeaves - 1 ) * Math.log( 2.0 ) - lnFactorial( numLeaves );
+    factor( corrFactor );
+    simTree( tree.left,  tree, lambda, mu, rho );
+    simTree( tree.right, tree, lambda, mu, rho );
+    return lambda
+}
+
+
+/**
+ * Inference
+ * tweak the number of particles if you want to */
+
+if (method == 'SMC') {
+  var dist = Infer({method: method , particles: particles, model: model})
+  // dist.normalizationConstant
+}
+else if (method=='MCMC') {
+  var dist = Infer({method: method, samples: particles, model: model})
+  // listMean(map(function(x) {return x.value}, dist.samples))
+}

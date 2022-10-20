@@ -1,0 +1,9 @@
+timing="complete"
+
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="MCMC 3000000"
+
+[[post]]
+runtime = "id"
