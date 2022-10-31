@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import re
+import toml
+import pandas as pd
+#import matplotlib as mpl
+#mpl.rcParams['lines.linewidth'] = 1
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_theme(style="darkgrid")
+
+data = toml.load("output/output.toml")
+rows = []
+
+for benchmark in data['benchmark']:
+    command = benchmark['buildCommand']
+
+    model = None
+    res = re.search(r'\W(\w+)\.mc', command)
+    if res:
+        model = res.group(1).title()
+
+    method = None
+    res = re.search(r'\W\-m mexpr-(\w+)', command)
+    if res:
+        method = res.group(1).title()
+
+    cps = 'Partial'
+    res = re.search(r'\W\-\-cps (\w+)', command)
+    if res:
+        cps = res.group(1).title()
+
+    for ms_run, output in zip(benchmark['results'][0]['ms_run'], benchmark['results'][0]['post'][0]['output']):
+        rows.append({
+            'Model': model,
+            'Method': method,
+            'CPS': cps,
+            'Runtime': ms_run,
+            'LogZ': float(output.rstrip('\n'))
+        })
+
+df = pd.DataFrame(rows)
+
+sns.violinplot(data=df.query("Model=='Crbd'"), x="Method", y="Runtime", hue="CPS", split=True)
+plt.title("Runtime for CRBD")
+plt.savefig("output/crbd_runtime.png", bbox_inches='tight', pad_inches=0)
+plt.savefig("output/crbd_runtime.pgf", bbox_inches='tight', pad_inches=0)
+plt.show()
+
+sns.violinplot(data=df.query("Model=='Crbd'"), x="Method", y="LogZ", hue="CPS", split=True)
+plt.title("Marginal Likelihood for CRBD")
+plt.savefig("output/crbd_logz.png", bbox_inches='tight', pad_inches=0)
+plt.savefig("output/crbd_logz.pgf", bbox_inches='tight', pad_inches=0)
+plt.show()

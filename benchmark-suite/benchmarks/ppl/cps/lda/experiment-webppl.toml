@@ -1,9 +1,0 @@
-timing="complete"
-
-[[app]]
-runtime = "WebPPL"
-argument = "lda.wppl"
-options = "MCMC 100000"
-
-[[post]]
-runtime = "id"
