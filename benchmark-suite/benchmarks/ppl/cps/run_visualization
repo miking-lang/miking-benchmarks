@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_theme(style="darkgrid")
 
-data = toml.load("output/output.toml")
+output_data = toml.load("output/output.toml")
 rows = []
 
-for benchmark in data['benchmark']:
+for benchmark in output_data['benchmark']:
     command = benchmark['buildCommand']
 
     model = None
@@ -31,24 +31,49 @@ for benchmark in data['benchmark']:
         cps = res.group(1).title()
 
     for ms_run, output in zip(benchmark['results'][0]['ms_run'], benchmark['results'][0]['post'][0]['output']):
-        rows.append({
+        row = {
             'Model': model,
             'Method': method,
             'CPS': cps,
             'Runtime': ms_run,
-            'LogZ': float(output.rstrip('\n'))
-        })
+            'LogZ': float('nan')
+        }
+        try:
+            row['LogZ'] = float(output.rstrip('\n'))
+        except ValueError:
+            pass
+        rows.append(row)
 
 df = pd.DataFrame(rows)
 
-sns.violinplot(data=df.query("Model=='Crbd'"), x="Method", y="Runtime", hue="CPS", split=True)
-plt.title("Runtime for CRBD")
-plt.savefig("output/crbd_runtime.png", bbox_inches='tight', pad_inches=0)
-plt.savefig("output/crbd_runtime.pgf", bbox_inches='tight', pad_inches=0)
-plt.show()
+data = df.query("Model=='Crbd'")
+if len(data):
+    plt.figure(figsize=(2*10/2.54, 2*5/2.54))
+    sns.violinplot(data=data, x="Method", y="Runtime", hue="CPS", split=True, inner=None)
+    plt.title("Runtime for CRBD")
+    plt.savefig("output/crbd_runtime.png", bbox_inches='tight', pad_inches=0)
+    plt.savefig("output/crbd_runtime.pgf", bbox_inches='tight', pad_inches=0)
+    plt.show()
 
-sns.violinplot(data=df.query("Model=='Crbd'"), x="Method", y="LogZ", hue="CPS", split=True)
-plt.title("Marginal Likelihood for CRBD")
-plt.savefig("output/crbd_logz.png", bbox_inches='tight', pad_inches=0)
-plt.savefig("output/crbd_logz.pgf", bbox_inches='tight', pad_inches=0)
-plt.show()
+    plt.figure(figsize=(2*10/2.54, 2*5/2.54))
+    sns.violinplot(data=data, x="Method", y="LogZ", hue="CPS", split=True, inner=None)
+    plt.title("Marginal Likelihood for CRBD")
+    plt.savefig("output/crbd_logz.png", bbox_inches='tight', pad_inches=0)
+    plt.savefig("output/crbd_logz.pgf", bbox_inches='tight', pad_inches=0)
+    plt.show()
+
+data = df.query("Model=='Clads2'")
+if len(data):
+    plt.figure(figsize=(2*10/2.54, 2*5/2.54))
+    sns.violinplot(data=data, x="Method", y="Runtime", hue="CPS", split=True, inner=None)
+    plt.title("Runtime for ClaDS2")
+    plt.savefig("output/clads2_runtime.png", bbox_inches='tight', pad_inches=0)
+    plt.savefig("output/clads2_runtime.pgf", bbox_inches='tight', pad_inches=0)
+    plt.show()
+
+    plt.figure(figsize=(2*10/2.54, 2*5/2.54))
+    sns.violinplot(data=data, x="Method", y="LogZ", hue="CPS", split=True, inner=None)
+    plt.title("Marginal Likelihood for ClaDS2")
+    plt.savefig("output/clads2_logz.png", bbox_inches='tight', pad_inches=0)
+    plt.savefig("output/clads2_logz.pgf", bbox_inches='tight', pad_inches=0)
+    plt.show()
