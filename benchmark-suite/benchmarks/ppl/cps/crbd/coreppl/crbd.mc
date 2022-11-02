@@ -14,15 +14,11 @@ recursive let survives = lam tBeg.
     assume (Bernoulli rho)
   else
     if assume (Bernoulli (divf lambda (addf lambda mu))) then
-      -- speciation
       if survives t then
         true
-      else if survives t then
-        true
-      else
-        false
+      else 
+        survives t
     else
-      -- extinction
       false
 in
 

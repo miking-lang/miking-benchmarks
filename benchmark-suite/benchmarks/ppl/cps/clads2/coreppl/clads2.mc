@@ -24,10 +24,8 @@ recursive let survives = lam tBeg. lam multiplier.
         -- Speciation
         if survives t multiplier then
           true
-        else if survives t multiplier then
-          true
         else
-          false
+          survives t multiplier
       else
         -- Extinction
         false
