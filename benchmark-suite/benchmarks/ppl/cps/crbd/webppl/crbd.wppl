@@ -13,7 +13,7 @@ let model = function() {
     // Priors
     let lambda = gamma({shape: 1.0, scale: 1.0})
     let mu = gamma({shape: 1.0, scale: 0.5})
-   
+
     let survives = function(tBeg) {
         let t = tBeg - exponential({a: lambda + mu})
         if (t < 0) {
