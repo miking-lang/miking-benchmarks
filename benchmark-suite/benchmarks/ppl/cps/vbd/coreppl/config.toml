@@ -31,11 +31,11 @@ options = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-lightweight-mcmc --align -p 10000 --cps partial --no-print-samples vbd.mc"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps partial --no-print-samples vbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-lightweight-mcmc --align -p 10000 --cps full --no-print-samples vbd.mc"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps full --no-print-samples vbd.mc"
 options = ""
 
 [[app]]
