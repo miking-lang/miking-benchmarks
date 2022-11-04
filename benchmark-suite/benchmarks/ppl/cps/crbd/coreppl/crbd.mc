@@ -16,7 +16,7 @@ recursive let survives = lam tBeg.
     if assume (Bernoulli (divf lambda (addf lambda mu))) then
       if survives t then
         true
-      else 
+      else
         survives t
     else
       false
