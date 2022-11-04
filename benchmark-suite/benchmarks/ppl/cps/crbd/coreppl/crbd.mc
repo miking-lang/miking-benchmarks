@@ -38,12 +38,12 @@ recursive let walk = lam node. lam parentAge.
   observe 0 (Poisson (mulf mu (subf parentAge nodeAge)));
   match node with Node n then
     observe 0. (Exponential lambda);
-    resample;
+    -- resample;
     walk n.left nodeAge;
     walk n.right nodeAge
   else match node with Leaf _ then
     observe true (Bernoulli rho);
-    resample
+    -- resample
   else never
 in
 
