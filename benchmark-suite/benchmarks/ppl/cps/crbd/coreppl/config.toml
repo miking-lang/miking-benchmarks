@@ -9,9 +9,21 @@ cleanExtra = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-bpf -p 10000 --cps partial --no-print-samples crbd.mc"
+argument = "-m mexpr-importance -p 10000 --cps none --no-print-samples crbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps partial --no-print-samples crbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps full --no-print-samples crbd.mc"
 options = ""
 
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 10000 --cps partial --no-print-samples crbd.mc"
+options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-bpf -p 10000 --cps full --no-print-samples crbd.mc"
@@ -21,8 +33,25 @@ options = ""
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-apf -p 10000 --cps partial --no-print-samples crbd.mc"
 options = ""
-
 [[app]]
 runtime = "CorePPL2MExpr"
 argument = "-m mexpr-apf -p 10000 --cps full --no-print-samples crbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-lightweight-mcmc --align -p 10000 --cps partial --no-print-samples crbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-lightweight-mcmc --align -p 10000 --cps full --no-print-samples crbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh -p 10000 --cps partial --no-print-samples crbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh -p 10000 --cps full --no-print-samples crbd.mc"
 options = ""
