@@ -4,8 +4,8 @@ runtime = "CorePPL2RootPPL"
 argument = "crbd.mc --no-print-samples"
 buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
 options = "10000"
-buildExtra = ""
-cleanExtra = ""
+buildExtra = ":"
+cleanExtra = ":"
 
 [[app]]
 runtime = "CorePPL2MExpr"
