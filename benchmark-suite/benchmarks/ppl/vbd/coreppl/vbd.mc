@@ -128,7 +128,7 @@ recursive let simulate:
 
     -- Recurse
     let tNext: Int = addi t 1 in
-    if eqi (length ys) t then
+    if eqi (length ys) tNext then
       -- We do not return anything here, but simply run the model for
       -- estimating the normalizing constant.
       ()

@@ -1,0 +1,48 @@
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps none --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps partial --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps full --no-print-samples vbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 10000 --cps partial --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 10000 --cps full --no-print-samples vbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 10000 --cps partial --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 10000 --cps full --no-print-samples vbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps partial --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps full --no-print-samples vbd.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh -p 10000 --cps partial --no-print-samples vbd.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh -p 10000 --cps full --no-print-samples vbd.mc"
+options = ""
