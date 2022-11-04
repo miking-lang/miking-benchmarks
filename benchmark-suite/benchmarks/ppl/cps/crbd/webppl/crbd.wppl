@@ -51,5 +51,16 @@ let model = function() {
     return lambda
 }
 
-var dist = Infer({method: 'SMC', particles: 10000, model: model})
-dist.normalizationConstant
+var myArgs = process.argv.slice(3);
+var obj = {
+  parseInt: parseInt
+}
+var method = myArgs[0];
+var particles = obj.parseInt(myArgs[1], 10);
+if (method == 'SMC') {
+  var dist = Infer({method: method, particles: particles, model: model})
+  dist.normalizationConstant
+}
+else if (method=='MCMC') {
+  var dist = Infer({method: method, samples: particles, model: model})
+}

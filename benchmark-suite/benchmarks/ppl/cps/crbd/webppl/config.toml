@@ -1,4 +1,9 @@
 [[app]]
 runtime = "WebPPL"
 argument="crbd.wppl"
-options=""
+options="SMC 10000"
+
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="MCMC 10000"
