@@ -1,0 +1,3 @@
+[[app]]
+runtime = "Anglican"
+options = "--method :pimh --particles 10 10000"

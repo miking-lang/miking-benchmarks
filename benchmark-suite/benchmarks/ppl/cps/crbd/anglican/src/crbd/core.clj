@@ -1,5 +1,9 @@
-(ns crbd
-  (:use [anglican emit runtime]))
+(ns crbd.core
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [clojure.tools.logging :as log])
+  (:use [anglican [core :exclude [-main cli-options parse-options]] emit runtime]
+        clojure.pprint)
+  (:gen-class))
 
 (def^:const node (symbol "node"))
 (def^:const leaf (symbol "leaf"))
@@ -187,17 +191,14 @@
 
   (defm condition [b]
     "WebPPL-like condition function"
-    (if b
-      (factor 0)
-      (factor Double/NEGATIVE_INFINITY)))
+    (if b (factor 0) (factor Double/NEGATIVE_INFINITY)))
 
   (defm count-leaves [tree]
     (case (:type tree)
       node (+ (count-leaves (:left tree)) (count-leaves (:right tree)))
       leaf 1))
 
-  (defm log-factorial [n]
-    (if (= n 1) 0 (+ (log n) (log-factorial (- n 1))))))
+  (defm log-factorial [n] (if (= n 1) 0 (+ (log n) (log-factorial (- n 1))))))
 
 (defquery crbd
   (let [lambda (sample (gamma 1 1))    ;note gamma is parametrized as shape/rate
@@ -219,20 +220,63 @@
                              (+ (log 2) (sim-hidden-speciation t)))
                            0)))
                      score (+ (sim-hidden-speciation parent-age)
-                              (observe* (poisson
-                                         (* mu
-                                            (- parent-age
-                                               (:age tree))))
-                                        0))]
+                              (let [ob (observe*
+                                        (poisson
+                                         (* mu (- parent-age (:age tree)))) 0)]
+                                (do ob)))]
                  (case (:type tree)
                    node (do
-                          (factor (+ score (observe* (exponential lambda) 0)))
-                          (walk (:left tree) (:age tree))
+                          (let [ob (observe* (exponential lambda) 0)]
+                            (do (factor (+ score ob))))
                           (walk (:right tree) (:age tree)))
-                   leaf (factor (+ score (observe* (bernoulli rho) true))))))
+                   leaf (factor (+ score
+                                   (let [ob (observe* (bernoulli rho) 1)]
+                                     (do ob)))))))
         num-leaves (count-leaves tree)]
 
     (factor (- (* (- num-leaves 1) (log 2)) (log-factorial num-leaves)))
     (walk (:left tree) (:age tree))
     (walk (:right tree) (:age tree))
     lambda))
+
+(def cli-options
+  [["-m" "--method METHOD" "Inference method, one of :importance, :pimh, :lmh, or :smc"
+    :default :importance
+    :parse-fn #(case %
+                 ":importance" :importance
+                 ":pimh" :pimh
+                 ":lmh" :lmh
+                 ":smc" :smc)
+    :validate [some? "Must be a known algorithm"]]
+   ["-p" "--particles COUNT" "Number of particles"
+    :default 10
+    :parse-fn #(Integer/parseInt %)
+    :validate [#(< 0 %) "Must be a number greater than 0"]]
+   ["-o" "--output" "Output samples to stdout"]
+   ["-h" "--help"]])
+
+(defn int-or-nil [number-string]
+  (try (Integer/parseInt number-string) (catch Exception e nil)))
+
+(defn parse-args [args] (if (= (count args) 1) (int-or-nil (first args))))
+
+(defn -main [& args]
+  (let [opts (parse-opts args cli-options)
+        nsamples (parse-args (:arguments opts))]
+    (if (some? (:errors opts))
+      (do (println (:errors opts)) (println (:summary opts)) (System/exit 1))
+      (if (not (some? nsamples))
+        (do (println (:summary opts)) (System/exit 1))
+        (let [opts (:options opts)
+              samples (take nsamples
+                            (doquery (:method opts)
+                                     crbd
+                                     nil
+                                     :number-of-particles (:particles opts)))]
+          (do
+            (log/infof
+             "doing inference! options: %s, nsamples: %d" opts nsamples)
+            (if (some? (:output opts))
+              (run! #(printf "%f %f\n" (:result %) (:log-weight %)) samples)
+              (take-last 1 samples)
+              )))))))
