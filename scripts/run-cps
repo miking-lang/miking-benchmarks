@@ -4,4 +4,5 @@ set -o xtrace
 time scripts/run ppl/cps \
   --iters 1 \
   --warmups 0 \
+  --output output.toml \
   --timeout-sec 300
