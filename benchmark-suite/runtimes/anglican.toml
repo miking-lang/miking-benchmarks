@@ -1,7 +1,7 @@
 provides = "Anglican"
 
 [[command]]
-required_executables = ["lein" "java"]
+required_executables = ["lein", "java"]
 build_command = "lein uberjar"
 command = "java -jar target/default+uberjar/*-standalone.jar {options}"
 clean_command = "lein clean"
