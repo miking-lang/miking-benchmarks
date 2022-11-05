@@ -228,6 +228,7 @@
                    node (do
                           (let [ob (observe* (exponential lambda) 0)]
                             (do (factor (+ score ob))))
+                          (walk (:left tree) (:age tree))
                           (walk (:right tree) (:age tree)))
                    leaf (factor (+ score
                                    (let [ob (observe* (bernoulli rho) 1)]
