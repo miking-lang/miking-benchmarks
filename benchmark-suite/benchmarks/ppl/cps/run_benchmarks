@@ -1,8 +1,0 @@
-#!/bin/bash
-
-mi-bench \
-    --benchmarks . \
-    --runtimes ../../../runtimes \
-    --iters 50 \
-    --warmups 0 \
-    --output output/output.toml
