@@ -1,14 +1,14 @@
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps none --no-print-samples lda.mc"
+argument = "-m mexpr-importance -p 10000 --cps none --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps partial --no-print-samples lda.mc"
+argument = "-m mexpr-importance -p 10000 --cps partial --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps full --no-print-samples lda.mc"
+argument = "-m mexpr-importance -p 10000 --cps full --no-early-stop --no-print-samples lda.mc"
 options = ""
 
 [[app]]
