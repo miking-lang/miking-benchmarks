@@ -49,9 +49,9 @@ options = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh -p 10000 --cps partial --no-print-samples crbd.mc"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps partial --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh -p 10000 --cps full --no-print-samples crbd.mc"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps full --no-print-samples crbd.mc"
 options = ""
