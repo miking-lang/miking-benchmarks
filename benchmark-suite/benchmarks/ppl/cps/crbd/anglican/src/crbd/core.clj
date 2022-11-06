@@ -1,75 +1,71 @@
 (ns crbd.core
-  (:require [clojure.tools.cli :refer [parse-opts]]
-            [clojure.tools.logging :as log])
+  (:require [clojure.tools.cli :refer [parse-opts]])
   (:use [anglican [core :exclude [-main cli-options parse-options]] emit runtime]
         clojure.pprint)
   (:gen-class))
 
-(def^:const node (symbol "node"))
-(def^:const leaf (symbol "leaf"))
-
 (def^:const tree
-  {:type node,
-   :left {:type node,
-          :left {:type node,
-                 :left {:type node,
-                        :left {:type leaf, :age 0.0},
-                        :right {:type leaf, :age 0.0},
+  {:type :node,
+   :left {:type :node,
+          :left {:type :node,
+                 :left {:type :node,
+                        :left {:type :leaf, :age 0.0},
+                        :right {:type :leaf, :age 0.0},
                         :age 5.635787971},
-                 :right {:type node,
-                         :left {:type leaf, :age 0.0},
-                         :right {:type node,
-                                 :left {:type leaf, :age 0.0},
-                                 :right {:type node,
-                                         :left {:type leaf, :age 0.0},
-                                         :right {:type leaf, :age 0.0},
+                 :right {:type :node,
+                         :left {:type :leaf, :age 0.0},
+                         :right {:type :node,
+                                 :left {:type :leaf, :age 0.0},
+                                 :right {:type :node,
+                                         :left {:type :leaf, :age 0.0},
+                                         :right {:type :leaf, :age 0.0},
                                          :age 4.788021775},
                                  :age 7.595901077},
                          :age 9.436625313},
                  :age 12.344087935000001},
-          :right {:type node,
-                  :left {:type node,
-                         :left {:type leaf,
+          :right {:type :node,
+                  :left {:type :node,
+                         :left {:type :leaf,
                                 :age 0.0},
-                         :right {:type node,
-                                 :left {:type node,
-                                        :left {:type leaf, :age 0.0},
-                                        :right {:type leaf, :age 0.0},
+                         :right {:type :node,
+                                 :left {:type :node,
+                                        :left {:type :leaf, :age 0.0},
+                                        :right {:type :leaf, :age 0.0},
                                         :age 3.934203877},
-                                 :right {:type node,
-                                         :left {:type node,
-                                                :left {:type leaf, :age 0.0},
-                                                :right {:type leaf, :age 0.0},
+                                 :right {:type :node,
+                                         :left {:type :node,
+                                                :left {:type :leaf, :age 0.0},
+                                                :right {:type :leaf, :age 0.0},
                                                 :age 3.151799953},
-                                         :right {:type node,
-                                                 :left {:type leaf, :age 0.0},
-                                                 :right {:type leaf, :age 0.0},
+                                         :right {:type :node,
+                                                 :left {:type :leaf, :age 0.0},
+                                                 :right {:type :leaf, :age 0.0},
                                                  :age 5.054547857},
                                          :age 6.284896356999999},
                                  :age 7.815689970999999},
                          :age 10.32243059},
-                  :right {:type node,
-                          :left {:type leaf, :age 0.0},
-                          :right {:type node,
-                                  :left {:type node,
-                                         :left {:type leaf, :age 0.0},
-                                         :right {:type node,
-                                                 :left {:type leaf, :age 0.0},
-                                                 :right {:type leaf, :age 0.0},
+                  :right {:type :node,
+                          :left {:type :leaf, :age 0.0},
+                          :right {:type :node,
+                                  :left {:type :node,
+                                         :left {:type :leaf, :age 0.0},
+                                         :right {:type :node,
+                                                 :left {:type :leaf, :age 0.0},
+                                                 :right {:type :leaf, :age 0.0},
                                                  :age 1.519406055},
                                          :age 4.987038163},
-                                  :right {:type node,
-                                          :left {:type leaf, :age 0.0},
-                                          :right {:type node,
-                                                  :left {:type node,
-                                                         :left {:type leaf, :age 0.0},
-                                                         :right {:type leaf, :age 0.0},
+                                  :right {:type :node,
+                                          :left {:type :leaf, :age 0.0},
+                                          :right {:type :node,
+                                                  :left {:type :node,
+                                                         :left {:type :leaf, :age 0.0},
+                                                         :right {:type :leaf, :age 0.0},
                                                          :age 0.6302632958},
-                                                  :right {:type node,
-                                                          :left {:type leaf, :age 0.0},
-                                                          :right {:type node,
-                                                                  :left {:type leaf, :age 0.0},
-                                                                  :right {:type leaf, :age 0.0},
+                                                  :right {:type :node,
+                                                          :left {:type :leaf, :age 0.0},
+                                                          :right {:type :node,
+                                                                  :left {:type :leaf, :age 0.0},
+                                                                  :right {:type :leaf, :age 0.0},
                                                                   :age 1.962579854},
                                                           :age 3.732932004},
                                                   :age 5.5933070698},
@@ -78,86 +74,86 @@
                           :age 10.86835485},
                   :age 12.551924091},
           :age 13.472886809},
-   :right {:type node,
-           :left {:type node,
-                  :left {:type node,
-                         :left {:type leaf, :age 0.0},
-                         :right {:type node,
-                                 :left {:type leaf, :age 0.0},
-                                 :right {:type leaf, :age 0.0},
+   :right {:type :node,
+           :left {:type :node,
+                  :left {:type :node,
+                         :left {:type :leaf, :age 0.0},
+                         :right {:type :node,
+                                 :left {:type :leaf, :age 0.0},
+                                 :right {:type :leaf, :age 0.0},
                                  :age 4.534421013},
                          :age 12.46869821},
-                  :right {:type node,
-                          :left {:type leaf, :age 0.0},
-                          :right {:type node,
-                                  :left {:type leaf, :age 0.0},
-                                  :right {:type node,
-                                          :left {:type leaf, :age 0.0},
-                                          :right {:type node,
-                                                  :left {:type leaf, :age 0.0},
-                                                  :right {:type leaf, :age 0.0},
+                  :right {:type :node,
+                          :left {:type :leaf, :age 0.0},
+                          :right {:type :node,
+                                  :left {:type :leaf, :age 0.0},
+                                  :right {:type :node,
+                                          :left {:type :leaf, :age 0.0},
+                                          :right {:type :node,
+                                                  :left {:type :leaf, :age 0.0},
+                                                  :right {:type :leaf, :age 0.0},
                                                   :age 6.306427821},
                                           :age 9.40050129},
                                   :age 13.85876825},
                           :age 20.68766993},
                   :age 22.82622451},
-           :right {:type node,
-                   :left {:type leaf, :age 0.0},
-                   :right {:type node,
-                           :left {:type node,
-                                  :left {:type leaf, :age 0.0},
-                                  :right {:type node,
-                                          :left {:type leaf, :age 0.0},
-                                          :right {:type node,
-                                                  :left {:type leaf, :age 0.0},
-                                                  :right {:type node,
-                                                          :left {:type leaf, :age 0.0},
-                                                          :right {:type leaf, :age 0.0},
+           :right {:type :node,
+                   :left {:type :leaf, :age 0.0},
+                   :right {:type :node,
+                           :left {:type :node,
+                                  :left {:type :leaf, :age 0.0},
+                                  :right {:type :node,
+                                          :left {:type :leaf, :age 0.0},
+                                          :right {:type :node,
+                                                  :left {:type :leaf, :age 0.0},
+                                                  :right {:type :node,
+                                                          :left {:type :leaf, :age 0.0},
+                                                          :right {:type :leaf, :age 0.0},
                                                           :age 4.220057646},
                                                   :age 8.451051062},
                                           :age 11.54072627},
                                   :age 15.28839572},
-                           :right {:type node,
-                                   :left {:type node,
-                                          :left {:type node,
-                                                 :left {:type leaf, :age 0.0},
-                                                 :right {:type leaf, :age 0.0},
+                           :right {:type :node,
+                                   :left {:type :node,
+                                          :left {:type :node,
+                                                 :left {:type :leaf, :age 0.0},
+                                                 :right {:type :leaf, :age 0.0},
                                                  :age 8.614086751},
-                                          :right {:type node,
-                                                  :left {:type leaf, :age 0.0},
-                                                  :right {:type node,
-                                                          :left {:type leaf, :age 0.0},
-                                                          :right {:type node,
-                                                                  :left {:type leaf, :age 0.0},
-                                                                  :right {:type node,
-                                                                          :left {:type node,
-                                                                                 :left {:type leaf, :age 0.0},
-                                                                                 :right {:type leaf, :age 0.0},
+                                          :right {:type :node,
+                                                  :left {:type :leaf, :age 0.0},
+                                                  :right {:type :node,
+                                                          :left {:type :leaf, :age 0.0},
+                                                          :right {:type :node,
+                                                                  :left {:type :leaf, :age 0.0},
+                                                                  :right {:type :node,
+                                                                          :left {:type :node,
+                                                                                 :left {:type :leaf, :age 0.0},
+                                                                                 :right {:type :leaf, :age 0.0},
                                                                                  :age 0.9841688636},
-                                                                          :right {:type node,
-                                                                                  :left {:type leaf, :age 0.0},
-                                                                                  :right {:type leaf, :age 0.0},
+                                                                          :right {:type :node,
+                                                                                  :left {:type :leaf, :age 0.0},
+                                                                                  :right {:type :leaf, :age 0.0},
                                                                                   :age 1.04896206}, :age 1.7140599232},
                                                                   :age 3.786162534},
                                                           :age 8.788450495},
                                                   :age 11.05846217},
                                           :age 15.008504768},
-                                   :right {:type node,
-                                           :left {:type node,
-                                                  :left {:type leaf, :age 0.0},
-                                                  :right {:type leaf, :age 0.0},
+                                   :right {:type :node,
+                                           :left {:type :node,
+                                                  :left {:type :leaf, :age 0.0},
+                                                  :right {:type :leaf, :age 0.0},
                                                   :age 11.15685875},
-                                           :right {:type node,
-                                                   :left {:type leaf, :age 0.0},
-                                                   :right {:type node,
-                                                           :left {:type leaf, :age 0.0},
-                                                           :right {:type node,
-                                                                   :left {:type leaf, :age 0.0},
-                                                                   :right {:type node,
-                                                                           :left {:type leaf, :age 0.0},
-                                                                           :right {:type node,
-                                                                                   :left {:type leaf, :age 0.0},
-                                                                                   :right {:type leaf, :age 0.0},
+                                           :right {:type :node,
+                                                   :left {:type :leaf, :age 0.0},
+                                                   :right {:type :node,
+                                                           :left {:type :leaf, :age 0.0},
+                                                           :right {:type :node,
+                                                                   :left {:type :leaf, :age 0.0},
+                                                                   :right {:type :node,
+                                                                           :left {:type :leaf, :age 0.0},
+                                                                           :right {:type :node,
+                                                                                   :left {:type :leaf, :age 0.0},
+                                                                                   :right {:type :leaf, :age 0.0},
                                                                                    :age 1.900561313},
                                                                            :age 3.100150132},
                                                                    :age 6.043650727},
@@ -195,8 +191,8 @@
 
   (defm count-leaves [tree]
     (case (:type tree)
-      node (+ (count-leaves (:left tree)) (count-leaves (:right tree)))
-      leaf 1))
+      :node (+ (count-leaves (:left tree)) (count-leaves (:right tree)))
+      :leaf 1))
 
   (defm log-factorial [n] (if (= n 1) 0 (+ (log n) (log-factorial (- n 1))))))
 
@@ -220,19 +216,15 @@
                              (+ (log 2) (sim-hidden-speciation t)))
                            0)))
                      score (+ (sim-hidden-speciation parent-age)
-                              (let [ob (observe*
-                                        (poisson
-                                         (* mu (- parent-age (:age tree)))) 0)]
-                                (do ob)))]
+                              (observe*
+                               (poisson (* mu (- parent-age (:age tree))))
+                               0))]
                  (case (:type tree)
-                   node (do
-                          (let [ob (observe* (exponential lambda) 0)]
-                            (do (factor (+ score ob))))
-                          (walk (:left tree) (:age tree))
-                          (walk (:right tree) (:age tree)))
-                   leaf (factor (+ score
-                                   (let [ob (observe* (bernoulli rho) 1)]
-                                     (do ob)))))))
+                   :node (do
+                           (factor (+ score (observe* (exponential lambda) 0)))
+                           (walk (:left tree) (:age tree))
+                           (walk (:right tree) (:age tree)))
+                   :leaf (factor (+ score (observe* (bernoulli rho) 1))))))
         num-leaves (count-leaves tree)]
 
     (factor (- (* (- num-leaves 1) (log 2)) (log-factorial num-leaves)))
@@ -269,15 +261,14 @@
       (if (not (some? nsamples))
         (do (println (:summary opts)) (System/exit 1))
         (let [opts (:options opts)
-              samples (take nsamples
-                            (doquery (:method opts)
-                                     crbd
-                                     nil
-                                     :number-of-particles (:particles opts)))]
-          (do
-            (log/infof
-             "doing inference! options: %s, nsamples: %d" opts nsamples)
-            (if (some? (:output opts))
-              (run! #(printf "%f %f\n" (:result %) (:log-weight %)) samples)
-              (take-last 1 samples)
-              )))))))
+              samples
+              (doall (take nsamples
+                           (case (:method opts)
+                             (:smc :pimh) (doquery (:method opts)
+                                                   crbd
+                                                   nil
+                                                   :number-of-particles
+                                                   (:particles opts))
+                             (doquery (:method opts) crbd nil))))]
+          (when (some? (:output opts))
+            (run! #(printf "%f %f\n" (:result %) (:log-weight %)) samples)))))))
