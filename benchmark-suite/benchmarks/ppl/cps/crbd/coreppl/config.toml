@@ -31,11 +31,11 @@ options = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 10000 --cps partial --no-print-samples crbd.mc"
+argument = "-m mexpr-apf -p 5000 --cps partial --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 10000 --cps full --no-print-samples crbd.mc"
+argument = "-m mexpr-apf -p 5000 --cps full --no-print-samples crbd.mc"
 options = ""
 
 [[app]]
