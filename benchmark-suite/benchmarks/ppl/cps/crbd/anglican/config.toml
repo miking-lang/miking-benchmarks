@@ -1,0 +1,23 @@
+[[app]]
+runtime = "Anglican"
+options = "--method :importance 1000"
+
+[[app]]
+runtime = "Anglican"
+options = "--method :importance 10000"
+
+[[app]]
+runtime = "Anglican"
+options = "--method :smc --particles 1000 1000"
+
+[[app]]
+runtime = "Anglican"
+options = "--method :smc --particles 10000 10000"
+
+[[app]]
+runtime = "Anglican"
+options = "--method :pimh --particles 100 1000"
+
+[[app]]
+runtime = "Anglican"
+options = "--method :pimh --particles 100 10000"
