@@ -120,8 +120,8 @@
                                                    :drop-invalid false)
                              (doquery (:method opts) crbd nil
                                       :drop-invalid false))))
-              norm-const? (case (:method opts) :smc :importance true
-                                :else false)]
+              norm-const? (case (:method opts) (:smc :importance) true
+                                false)]
           (when norm-const? (println (norm-const (map :log-weight samples))))
           (when (some? (:output opts))
             (run! #(printf "%f %f\n" (:result %) (:log-weight %)) samples)
