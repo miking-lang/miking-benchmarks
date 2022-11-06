@@ -6,3 +6,5 @@ time scripts/run ppl/cps \
   --warmups 0 \
   --output output.toml \
   --timeout-sec 300
+
+build/toml-to-json output.toml > output.json
