@@ -17,7 +17,8 @@ repeati (lam w.
     iteri (lam z. lam e.
         weight (mulf (int2float e)
                   (bernoulliLogPmf (get (get phi z) word.0) true))
-      ) counts
+      ) counts;
+    resample
   ) (length docs);
 
 -- We only compare execution time, and therefore return unit (nothing) as the
