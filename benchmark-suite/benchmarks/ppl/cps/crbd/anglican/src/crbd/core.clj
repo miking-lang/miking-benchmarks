@@ -73,6 +73,13 @@
     (walk (:right tree) (:age tree))
     lambda))
 
+(defn norm-const [weights]
+  (let [max-weight (apply max weights)]
+    (if (= max-weight Double/NEGATIVE_INFINITY)
+      max-weight
+      (let [sum (reduce + (map #(exp (- % max-weight)) weights))]
+        (- (+ max-weight (log sum)) (log (count weights)))))))
+
 (def cli-options
   [["-m" "--method METHOD" "Inference method, one of :importance, :pimh, :lmh, or :smc"
     :default :importance
@@ -112,6 +119,10 @@
                                                    (:particles opts)
                                                    :drop-invalid false)
                              (doquery (:method opts) crbd nil
-                                      :drop-invalid false))))]
+                                      :drop-invalid false))))
+              norm-const? (case (:method opts) :smc :importance true
+                                :else false)]
+          (when norm-const? (println (norm-const (map :log-weight samples))))
           (when (some? (:output opts))
-            (pprint (map #(select-keys % [:result :log-weight]) samples))))))))
+            (run! #(printf "%f %f\n" (:result %) (:log-weight %)) samples)
+            (flush)))))))
