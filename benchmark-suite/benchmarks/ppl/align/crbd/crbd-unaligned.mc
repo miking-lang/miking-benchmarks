@@ -89,7 +89,7 @@ let simTree: Tree -> Tree -> Float -> Float -> Float -> () =
     simBranch n startTime stopTime lambda mu rho;
 
     let w3 = weight (addf lnProb1 lnProb2) in
-    resample; -- This is added automatically by alignment analysis
+    -- resample; -- This is added automatically by alignment analysis
 
     match tree with Node { left = left, right = right } then
       simTree left tree lambda mu rho;
@@ -105,7 +105,7 @@ let numLeaves = countLeaves tree in
 let corrFactor =
   subf (mulf (subf (int2float numLeaves) 1.) (log 2.)) (lnFactorial numLeaves) in
 weight corrFactor;
-resample; -- This is added automatically by alignment analysis
+-- resample; -- This is added automatically by alignment analysis
 
 -- Start of the simulation along the two branches
 (match tree with Node { left = left, right = right } then
