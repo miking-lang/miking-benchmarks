@@ -1,0 +1,92 @@
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 1000 --cps none --no-early-stop --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 1000 --cps partial --no-early-stop --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 1000 --cps full --no-early-stop --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps none --no-early-stop --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps partial --no-early-stop --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-importance -p 10000 --cps full --no-early-stop --no-print-samples clads2.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 1000 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 1000 --cps full --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 10000 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-bpf -p 10000 --cps full --no-print-samples clads2.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 500 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 500 --cps full --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 5000 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-apf -p 5000 --cps full --no-print-samples clads2.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 1000 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 1000 --cps full --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps full --no-print-samples clads2.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 10 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 10 --cps full --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps partial --no-print-samples clads2.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps full --no-print-samples clads2.mc"
+options = ""

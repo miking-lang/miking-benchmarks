@@ -1,0 +1,19 @@
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="SMC 1000"
+
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="SMC 10000"
+
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="MCMC 1000"
+
+[[app]]
+runtime = "WebPPL"
+argument="crbd.wppl"
+options="MCMC 10000"
