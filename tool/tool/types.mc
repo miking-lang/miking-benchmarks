@@ -357,7 +357,8 @@ utest
             options = [ {name = "tag", contents = "tag-post-1"},
                         {name = "argument", contents = "post"}],
             cwd = "path/to/post-1" }],
-  input = []
+  input = [],
+  warnings = []
 }
 
 utest
