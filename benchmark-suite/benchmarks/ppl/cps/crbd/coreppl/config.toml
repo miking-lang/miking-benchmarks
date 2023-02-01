@@ -16,27 +16,27 @@ cleanExtra = ":"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 1000 --cps none --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 1000 --cps none --no-early-stop --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 1000 --cps partial --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 1000 --cps partial --no-early-stop --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 1000 --cps full --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 1000 --cps full --no-early-stop --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps none --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 10000 --cps none --no-early-stop --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps partial --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 10000 --cps partial --no-early-stop --no-print-samples crbd.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance -p 10000 --cps full --no-early-stop --no-print-samples crbd.mc"
+argument = "-m mexpr-is-lw -p 10000 --cps full --no-early-stop --no-print-samples crbd.mc"
 options = ""
 
 [[app]]

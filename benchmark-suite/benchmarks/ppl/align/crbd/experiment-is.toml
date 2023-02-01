@@ -2,7 +2,7 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-importance --cps none crbd-unaligned.mc"
+argument = "-m mexpr-is-lw --cps none crbd-unaligned.mc"
 options = "3000000"
 
 [[post]]
