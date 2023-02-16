@@ -3,37 +3,49 @@ timing="complete"
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample align"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "1000000"
 
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "10000"
 
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "100000"
 
 [[app]]
 runtime = "CorePPL2RootPPL"
 argument = "ssm.mc --no-print-samples --resample likelihood"
-buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1000"
+buildOptions = "-j 32 --ess-threshold 1.0 --stack-size 1500"
+buildExtra = ":"
+cleanExtra = ":"
 options = "1000000"
 
 [[post]]
