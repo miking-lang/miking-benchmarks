@@ -2,12 +2,12 @@ timing="complete"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --align lda-res.mc"
+argument = "-m mcmc-lightweight --align lda-res.mc"
 options = "3000000"
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight lda-res.mc"
+argument = "-m mcmc-lightweight lda-res.mc"
 options = "3000000"
 
 [[post]]

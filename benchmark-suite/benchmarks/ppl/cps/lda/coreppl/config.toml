@@ -1,92 +1,92 @@
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 1000 --cps none --no-early-stop --no-print-samples lda.mc"
+argument = "-m is-lw -p 1000 --cps none --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 1000 --cps partial --no-early-stop --no-print-samples lda.mc"
+argument = "-m is-lw -p 1000 --cps partial --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 1000 --cps full --no-early-stop --no-print-samples lda.mc"
+argument = "-m is-lw -p 1000 --cps full --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 10000 --cps none --no-early-stop --no-print-samples lda.mc"
+argument = "-m is-lw -p 10000 --cps none --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 10000 --cps partial --no-early-stop --no-print-samples lda.mc"
+argument = "-m is-lw -p 10000 --cps partial --no-early-stop --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-is-lw -p 10000 --cps full --no-early-stop --no-print-samples lda.mc"
-options = ""
-
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-bpf -p 1000 --cps partial --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-bpf -p 1000 --cps full --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-bpf -p 10000 --cps partial --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-bpf -p 10000 --cps full --no-print-samples lda.mc"
+argument = "-m is-lw -p 10000 --cps full --no-early-stop --no-print-samples lda.mc"
 options = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 1000 --cps partial --no-print-samples lda.mc"
+argument = "-m smc-bpf -p 1000 --cps partial --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 1000 --cps full --no-print-samples lda.mc"
+argument = "-m smc-bpf -p 1000 --cps full --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 10000 --cps partial --no-print-samples lda.mc"
+argument = "-m smc-bpf -p 10000 --cps partial --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-apf -p 10000 --cps full --no-print-samples lda.mc"
-options = ""
-
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --align -p 1000 --cps partial --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --align -p 1000 --cps full --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps partial --no-print-samples lda.mc"
-options = ""
-[[app]]
-runtime = "CorePPL2MExpr"
-argument = "-m mexpr-mcmc-lightweight --align -p 10000 --cps full --no-print-samples lda.mc"
+argument = "-m smc-bpf -p 10000 --cps full --no-print-samples lda.mc"
 options = ""
 
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 10 --cps partial --no-print-samples lda.mc"
+argument = "-m smc-apf -p 1000 --cps partial --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 10 --cps full --no-print-samples lda.mc"
+argument = "-m smc-apf -p 1000 --cps full --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps partial --no-print-samples lda.mc"
+argument = "-m smc-apf -p 10000 --cps partial --no-print-samples lda.mc"
 options = ""
 [[app]]
 runtime = "CorePPL2MExpr"
-argument = "-m mexpr-pmcmc-pimh --pmcmcParticles 100 -p 100 --cps full --no-print-samples lda.mc"
+argument = "-m smc-apf -p 10000 --cps full --no-print-samples lda.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mcmc-lightweight --align -p 1000 --cps partial --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mcmc-lightweight --align -p 1000 --cps full --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mcmc-lightweight --align -p 10000 --cps partial --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m mcmc-lightweight --align -p 10000 --cps full --no-print-samples lda.mc"
+options = ""
+
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m pmcmc-pimh --pmcmcParticles 100 -p 10 --cps partial --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m pmcmc-pimh --pmcmcParticles 100 -p 10 --cps full --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m pmcmc-pimh --pmcmcParticles 100 -p 100 --cps partial --no-print-samples lda.mc"
+options = ""
+[[app]]
+runtime = "CorePPL2MExpr"
+argument = "-m pmcmc-pimh --pmcmcParticles 100 -p 100 --cps full --no-print-samples lda.mc"
 options = ""
