@@ -142,3 +142,21 @@ run-experiment-align: build/${TOOL_NAME} build/toml-to-json
 		--name experiment-smc.toml
 	mv output.toml $(experiment_align)-output.toml
 	mv output.json $(experiment_align)-output.json
+
+
+#################################################
+## DAE experiments. Temporarily specified here ##
+#################################################
+number_iterations=15
+number_warmups=1
+prefix=A
+
+run-dae: build/${TOOL_NAME}
+	build/${TOOL_NAME} \
+		--benchmarks benchmark-suite/benchmarks/dae \
+		--runtimes benchmark-suite/runtimes \
+		--iters $(number_iterations) \
+		--format toml \
+		--log info \
+		--warmups $(number_warmups) \
+		--output ${prefix}-output-dae.toml

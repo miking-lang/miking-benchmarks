@@ -1,0 +1,7 @@
+provides = "PEADAE"
+
+[[command]]
+required_executables = ["peadae", "mi"]
+build_command = "peadae --output-only-last {arguments} > out.mc && mi compile --output out.exe out.mc"
+command = "./out.exe {options}"
+clean_command = "rm -rf out.mc out.exe"
