@@ -147,9 +147,9 @@ run-experiment-align: build/${TOOL_NAME} build/toml-to-json
 #################################################
 ## DAE experiments. Temporarily specified here ##
 #################################################
-number_iterations=15
-number_warmups=1
-prefix=A
+number_iterations=10
+number_warmups=3
+prefix=C
 
 run-dae: build/${TOOL_NAME}
 	build/${TOOL_NAME} \
