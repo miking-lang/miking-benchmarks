@@ -1,0 +1,26 @@
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac --disable-peval cauer_100.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --disable-peval cauer_100.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac cauer_100.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 0 cauer_100.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 1 cauer_100.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 2 cauer_100.dae"
+
+[[post]]
+runtime = "id"

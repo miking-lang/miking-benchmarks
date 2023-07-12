@@ -1,28 +1,4 @@
 [[app]]
-runtime = "PEADAE"
-arguments = "--cse --numeric-jac --disable-peval cauer_10.dae"
-
-[[app]]
-runtime = "PEADAE"
-arguments = "--cse --disable-peval cauer_10.dae"
-
-[[app]]
-runtime = "PEADAE"
-arguments = "--cse --numeric-jac cauer_10.dae"
-
-[[app]]
-runtime = "PEADAE"
-arguments = "--cse --jac-spec-absolute 0 cauer_10.dae"
-
-[[app]]
-runtime = "PEADAE"
-arguments = "--cse --jac-spec-absolute 1 cauer_10.dae"
-
-[[app]]
-runtime = "PEADAE"
-arguments = "--cse --jac-spec-absolute 2 cauer_10.dae"
-
-[[app]]
 runtime = "PEADAE-SIZE"
 arguments = "--cse --numeric-jac --disable-peval cauer_10.dae"
 

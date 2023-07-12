@@ -149,14 +149,36 @@ run-experiment-align: build/${TOOL_NAME} build/toml-to-json
 #################################################
 number_iterations=10
 number_warmups=3
-prefix=C
+prefix=D
 
-run-dae: build/${TOOL_NAME}
+run-dae: run-dae-sim run-dae-sim-sim run-dae-size
+
+run-dae-sim: build/${TOOL_NAME}
 	build/${TOOL_NAME} \
-		--benchmarks benchmark-suite/benchmarks/dae \
+		--benchmarks benchmark-suite/benchmarks/dae/sim \
 		--runtimes benchmark-suite/runtimes \
 		--iters $(number_iterations) \
 		--format toml \
 		--log info \
 		--warmups $(number_warmups) \
-		--output ${prefix}-output-dae.toml
+		--output ${prefix}-output-dae-sim.toml
+
+run-dae-sim-sim: build/${TOOL_NAME}
+	build/${TOOL_NAME} \
+		--benchmarks benchmark-suite/benchmarks/dae/sim-sim \
+		--runtimes benchmark-suite/runtimes \
+		--iters $(number_iterations) \
+		--format toml \
+		--log info \
+		--warmups $(number_warmups) \
+		--output ${prefix}-output-dae-sim-sim.toml
+
+run-dae-size: build/${TOOL_NAME}
+	build/${TOOL_NAME} \
+		--benchmarks benchmark-suite/benchmarks/dae/size \
+		--runtimes benchmark-suite/runtimes \
+		--iters 1 \
+		--format toml \
+		--log info \
+		--warmups 0 \
+		--output ${prefix}-output-dae-size.toml

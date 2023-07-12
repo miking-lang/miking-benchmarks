@@ -2,6 +2,6 @@ provides = "PEADAE"
 
 [[command]]
 required_executables = ["peadae", "mi"]
-build_command = "peadae --output-only-last {arguments} > out.mc && mi compile --output out.exe out.mc"
-command = "./out.exe --interval 1000 --step-size 1 --rtol 1.e-5 --atol 1.e-7"
+build_command = "peadae {arguments} > out.mc && mi compile --output out.exe out.mc"
+command = "./out.exe {options}"
 clean_command = "rm -rf out.mc out.exe"
