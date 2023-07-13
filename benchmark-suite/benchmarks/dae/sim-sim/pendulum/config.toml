@@ -1,6 +1,6 @@
 [[app]]
 runtime = "PEADAE"
-arguments = "--cse --disable-peval --benchmark-res pendulum.dae"
+arguments = "--cse --benchmark-res --disable-peval pendulum.dae"
 options = "230763"
 
 [[app]]
@@ -26,12 +26,12 @@ options = "230763"
 [[app]]
 runtime = "PEADAE"
 arguments = "--cse --benchmark-jac --disable-peval pendulum.dae"
-options = "230763"
+options = "9737"
 
 [[app]]
 runtime = "PEADAE"
 arguments = "--cse --benchmark-jac --jac-spec-absolute 0 pendulum.dae"
-options = "230763"
+options = "9737"
 
 [[app]]
 runtime = "PEADAE"
