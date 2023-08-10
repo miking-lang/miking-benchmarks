@@ -1,0 +1,42 @@
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --disable-peval cauer_10.dae"
+options = "106541"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 0 cauer_10.dae"
+options = "106541"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 1 cauer_10.dae"
+options = "106541"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 2 cauer_10.dae"
+options = "106541"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --disable-peval cauer_10.dae"
+options = "23"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 0 cauer_10.dae"
+options = "23"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 1 cauer_10.dae"
+options = "23"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 2 cauer_10.dae"
+options = "23"
+
+[[post]]
+runtime = "id"

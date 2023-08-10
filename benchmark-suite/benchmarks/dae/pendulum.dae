@@ -1,0 +1,16 @@
+
+let mul = lam x. lam y. x*y end
+let pow2 = lam x. mul x x end
+variables
+x, vx, y, vy, h : Float
+init
+x = 1.;
+vy' = 0. - 1.
+equations
+vx = x';
+vy = y';
+vx' = mul x h;
+vy' = mul y h - 1.;
+pow2 x + pow2 y = pow2 1.
+output
+{x, vx, vx'}

@@ -1,0 +1,7 @@
+provides = "PEADAE-SIZE"
+
+[[command]]
+required_executables = ["peadae", "mi", "stat"]
+build_command = "peadae {arguments} > out.mc && mi compile --output out.exe out.mc"
+command = "stat -c \"%n %s\" *.mc *.exe"
+clean_command = "rm -rf out.mc out.exe"

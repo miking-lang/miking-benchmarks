@@ -1,0 +1,30 @@
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac --disable-peval pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --disable-peval pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 0 pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 1 pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 2 pendulum.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 3 pendulum.dae"
+
+[[post]]
+runtime = "id"

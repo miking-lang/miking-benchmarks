@@ -1,0 +1,58 @@
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac --disable-peval furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --disable-peval furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --numeric-jac furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 0 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 1 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 2 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 3 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 4 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 5 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 6 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 7 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 8 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 9 furuta.dae"
+
+[[app]]
+runtime = "PEADAE-SIZE"
+arguments = "--cse --jac-spec-absolute 10 furuta.dae"
+
+[[post]]
+runtime = "id"

@@ -1,0 +1,122 @@
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --disable-peval furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 0 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 1 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 2 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 3 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 4 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 5 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 6 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 7 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 8 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 9 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-res --jac-spec-absolute 10 furuta.dae"
+options = "103953"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --disable-peval furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 0 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 1 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 2 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 3 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 4 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 5 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 6 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 7 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 8 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 9 furuta.dae"
+options = "3971"
+
+[[app]]
+runtime = "PEADAE"
+arguments = "--cse --benchmark-jac --jac-spec-absolute 10 furuta.dae"
+options = "3971"
+
+[[post]]
+runtime = "id"
